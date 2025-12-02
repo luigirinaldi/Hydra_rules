@@ -6,8 +6,10 @@ import json
 
 # --- Settings ---
 filename = sys.argv[1] if len(sys.argv) > 1 else "gen.cpp.inc"
-mw_output = "hydra_rules_mw"
-other_output = "hydra_rules_normal"
+mw_output = "hydra_rules_multi_width"
+other_output = "hydra_rules_single_width"
+select_mw_out = mw_output + "/select"
+default_mw_out = mw_output + "/default"
 # ---------------
 
 pattern = re.compile(r'/\*([\s\S]*?)\*/', re.DOTALL)
@@ -18,15 +20,16 @@ with open(filename, "r", encoding="utf-8") as f:
 
 comments = pattern.findall(content)
 
-shutil.rmtree(mw_output)
-shutil.rmtree(other_output)
+for d in [mw_output, other_output]:
+    if os.path.isdir(d):
+        shutil.rmtree(d)
 
-os.makedirs(mw_output, exist_ok=True)
-os.makedirs(other_output, exist_ok=True)
+for d in [other_output, select_mw_out, default_mw_out]:
+    os.makedirs(d)
 
 print(f"Found {len(comments)} comment blocks.")
 
-num_rw, num_mw = (0,0)
+num_rw, num_mw, num_mw_select = (0,0, 0)
 
 for block in comments:
     block = block.strip()
@@ -57,7 +60,11 @@ for block in comments:
     
     if is_mw:
         num_mw += 1
-    output_dir = mw_output if is_mw else other_output
+    output_dir = default_mw_out if is_mw else other_output
+
+    if "select" in bottom:
+        num_mw_select += 1
+        output_dir = select_mw_out
 
     # Output filenames (both in same directory)
     ir_file = os.path.join(output_dir, f"opt_{opt_num}.ir")
@@ -97,4 +104,4 @@ for block in comments:
         json.dump(rule_data, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
-print(f"Found {num_rw} rewrites, {num_mw} multi width ones")
+print(f"Found {num_rw} rewrites, {num_mw} multi width ones.\n{num_mw - num_mw_select} multi width without select (ite), {num_mw_select} with")
