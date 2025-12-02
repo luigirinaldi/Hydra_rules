@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "C5 & (v0 & C4)",
+  "rhs": "v0 & (C4 & (C5 & @db))"
+}

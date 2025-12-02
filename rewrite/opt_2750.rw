@@ -1,3 +1,0 @@
-trunc((zext(v0) | zext(newvar1)))
-  =>
-v0 | newvar1

@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "(v0 & C3 (knownBits=11111111xxxxxxxxxxxxxxxxxxxxxxxx)) >>l C4 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxx11xxx)",
+  "rhs": "v0 >>l C4"
+}

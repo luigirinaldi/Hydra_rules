@@ -1,0 +1,5 @@
+{
+  "precondition": "(C6 - C7) == 1",
+  "lhs": "let var0 = (v0 & 1);\nselect (var0 != 0) C6 C7",
+  "rhs": "C7 + var0"
+}

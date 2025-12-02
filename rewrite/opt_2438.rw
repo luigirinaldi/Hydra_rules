@@ -1,3 +1,0 @@
-zext((C1 & trunc(v0)))
-  =>
-v0 & zext(C1)

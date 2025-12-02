@@ -1,7 +1,0 @@
-Opt : 814
-%v0:i32 = var (range=[1,2)) ; v0
-%symconst_1:i32 = var ; symconst_1
-%2:i32 = and %v0, %symconst_1
-infer %2
-%3:i32 = and 1:i32, %symconst_1
-result %3

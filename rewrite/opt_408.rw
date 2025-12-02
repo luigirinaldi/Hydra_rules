@@ -1,3 +1,0 @@
-C3 * zext(~~((newvar0 & 1) != 0))
-  =>
-C3 * (newvar0 & 1)

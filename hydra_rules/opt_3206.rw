@@ -1,0 +1,5 @@
+{
+  "precondition": "let var0 = width(C4);\nC4 == (var0 - 1) && \nwidth(v0) == 32 && \nvar0 == 32",
+  "lhs": "let var1 = (v0 >>l C4);\nvar1 != 0",
+  "rhs": "let var2 = (C4 + 0x7FFFFFE0);\nvar2 <u v0"
+}

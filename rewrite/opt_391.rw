@@ -1,3 +1,0 @@
-(newvar0 - C1) * 0xFF
-  =>
-C1 - newvar0

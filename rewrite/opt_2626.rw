@@ -1,3 +1,0 @@
-zext(zext(v0))
-  =>
-zext(v0)

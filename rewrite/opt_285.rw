@@ -1,5 +1,0 @@
-C1 == zext(C2)
-  |= 
-trunc((C1 + newvar4)) - C2
-  =>
-trunc(newvar4)

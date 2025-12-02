@@ -1,7 +1,0 @@
-Opt : 320
-%v0:i32 = var ; v0
-%newvar0:i32 = var ; newvar0
-%2:i32 = add %v0, %newvar0
-%3:i32 = subnsw %2, %newvar0
-infer %3
-result %v0

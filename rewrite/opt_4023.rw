@@ -1,7 +1,0 @@
-symconst_1.k0 <<=1 @db
-  |= 
-let var1 = (C1 & newvar3);
-let var0 = newvar1 | var1;
-var0
-  =>
-newvar1

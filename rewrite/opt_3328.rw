@@ -1,3 +1,0 @@
-(newvar0 %s 2) != 0
-  =>
-trunc(newvar0)

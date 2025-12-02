@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "sext((select newvar1 C1 C2))",
+  "rhs": "select newvar1 sext(C1) sext(C2)"
+}

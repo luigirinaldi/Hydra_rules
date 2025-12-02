@@ -1,0 +1,13 @@
+Opt : 2720
+%symconst_1:i4 = var ; symconst_1
+%newvar0:i4 = var ; newvar0
+%2:i4 = add %symconst_1, %newvar0
+%3:i4 = subnsw %2, %symconst_1
+%4:i8 = sext %3
+infer %4
+%5:i8 = sext %newvar0
+result %5
+
+sext(((C1 + newvar0) -nsw C1))
+  =>
+sext(newvar0)

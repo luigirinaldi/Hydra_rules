@@ -1,3 +1,0 @@
-sext((newvar0 + 0))
-  =>
-sext(newvar0)

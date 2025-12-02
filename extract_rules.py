@@ -1,11 +1,11 @@
 import re
 import os
 import sys
+import json
 
 # --- Settings ---
 filename = sys.argv[1] if len(sys.argv) > 1 else "gen.cpp.inc"
-comments_dir_ir = "hydra_ir"
-comments_dir_rw = "rewrite"
+output_dir = "hydra_rules"
 # ---------------
 
 pattern = re.compile(r'/\*([\s\S]*?)\*/', re.DOTALL)
@@ -16,8 +16,7 @@ with open(filename, "r", encoding="utf-8") as f:
 
 comments = pattern.findall(content)
 
-os.makedirs(comments_dir_ir, exist_ok=True)
-os.makedirs(comments_dir_rw, exist_ok=True)
+os.makedirs(output_dir, exist_ok=True)
 
 print(f"Found {len(comments)} comment blocks.")
 
@@ -41,15 +40,42 @@ for block in comments:
 
     opt_num = m.group(1)
 
-    # Output filenames
-    ir_file = os.path.join(comments_dir_ir, f"opt_{opt_num}.ir")
-    rw_file = os.path.join(comments_dir_rw, f"opt_{opt_num}.rw")
+    # Output filenames (both in same directory)
+    ir_file = os.path.join(output_dir, f"opt_{opt_num}.ir")
+    rw_file = os.path.join(output_dir, f"opt_{opt_num}.rw")
 
+    # Write entire original block to .ir file
     with open(ir_file, "w", encoding="utf-8") as f:
-        f.write(top + "\n")
+        f.write(block + "\n")
 
+    # Parse the rewrite rule structure for .rw file
+    rule_data: dict[str, str | None] = {
+        "precondition": None,
+        "lhs": None,
+        "rhs": None
+    }
+
+    # Check if there's a guard/precondition (format: [guard] |= [rest])
+    if "|=" in bottom:
+        guard_parts = bottom.split("|=", 1)
+        rule_data["precondition"] = guard_parts[0].strip()
+        remaining = guard_parts[1].strip()
+    else:
+        remaining = bottom
+
+    # Parse LHS and RHS (format: [lhs] => [rhs])
+    if "=>" in remaining:
+        arrow_parts = remaining.split("=>", 1)
+        rule_data["lhs"] = arrow_parts[0].strip()
+        rule_data["rhs"] = arrow_parts[1].strip()
+    else:
+        # If no arrow, store everything as LHS
+        rule_data["lhs"] = remaining.strip()
+
+    # Write parsed rule to .rw file as JSON
     with open(rw_file, "w", encoding="utf-8") as f:
-        f.write(bottom + "\n")
+        json.dump(rule_data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
     # print(f"Saved: {ir_file}")
     # print(f"Saved: {rw_file}")

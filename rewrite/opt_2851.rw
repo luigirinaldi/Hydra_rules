@@ -1,5 +1,0 @@
-(0 <u C1) & (C1 <u zext(width(v0)))
-  |= 
-trunc((zext(v0) >>l C1))
-  =>
-v0 >>l trunc(C1)

@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "v0 + 0",
+  "rhs": "v0"
+}

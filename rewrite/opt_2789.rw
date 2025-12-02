@@ -1,3 +1,0 @@
-trunc((C1 | zext(newvar2)))
-  =>
-newvar2 | trunc(C1)

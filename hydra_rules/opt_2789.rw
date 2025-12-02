@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "trunc((C1 | zext(newvar2)))",
+  "rhs": "newvar2 | trunc(C1)"
+}

@@ -1,6 +1,0 @@
-symconst_1.k1 <<=1 @db
-  |= 
-let var0 = C1 | newvar0;
-var0
-  =>
-C1

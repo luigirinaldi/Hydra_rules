@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "newvar0 (knownBits=0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) /s C1 (powerOfTwo)",
+  "rhs": "newvar0 >>a logb(C1)"
+}

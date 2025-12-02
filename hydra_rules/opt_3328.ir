@@ -1,0 +1,11 @@
+Opt : 3328
+%newvar0:i64 = var ; newvar0
+%1:i64 = srem %newvar0, 2:i64
+%2:i1 = ne 0:i64, %1
+infer %2
+%3:i1 = trunc %newvar0
+result %3
+
+(newvar0 %s 2) != 0
+  =>
+trunc(newvar0)

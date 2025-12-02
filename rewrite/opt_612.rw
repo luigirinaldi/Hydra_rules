@@ -1,6 +1,0 @@
-symconst_3.k1 <<=1 C5
-  |= 
-let var0 = (C3 & newvar0);
-C5 & var0
-  =>
-C5 & newvar0

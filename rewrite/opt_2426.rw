@@ -1,5 +1,0 @@
-C2 != C1
-  |= 
-zext((C1 != (select newvar1 C2 C1)))
-  =>
-zext(newvar1)

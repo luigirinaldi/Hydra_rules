@@ -1,0 +1,10 @@
+Opt : 3368
+%newvar0:i8 = var ; newvar0
+%1:i1 = ne %newvar0, %newvar0
+infer %1
+%2:i1 = ne 0:i8, 0:i8
+result %2
+
+newvar0 != newvar0
+  =>
+0 != 0

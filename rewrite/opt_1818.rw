@@ -1,3 +1,0 @@
-select (zext(newvar0) != 0) newvar5 0
-  =>
-select newvar0 newvar5 0

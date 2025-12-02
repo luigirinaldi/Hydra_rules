@@ -1,3 +1,0 @@
-(newvar0 - newvar5) == 0
-  =>
-newvar5 == newvar0

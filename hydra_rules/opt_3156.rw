@@ -1,0 +1,5 @@
+{
+  "precondition": "width(C5 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxx11010)) == 32 && \nwidth(v0) == 32",
+  "lhs": "let var1 = (v0 & 0x1C000000);\nlet var0 = (var1 >>l C5);\nvar0 == 7",
+  "rhs": "var1 == 0x1C000000"
+}

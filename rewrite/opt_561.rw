@@ -1,3 +1,0 @@
-newvar0 (knownBits=0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) /s C1 (powerOfTwo)
-  =>
-newvar0 >>a logb(C1)

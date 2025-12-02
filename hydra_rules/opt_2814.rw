@@ -1,0 +1,5 @@
+{
+  "precondition": "C1 == (C2 ^ sext(1))",
+  "lhs": "trunc((C2 | (C1 & zext(v0))))",
+  "rhs": "v0 | trunc(C2)"
+}

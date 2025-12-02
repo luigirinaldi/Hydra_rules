@@ -1,3 +1,0 @@
-zext(zext((v2 & C1 (nonNegative))))
-  =>
-sext((v2 & C1))

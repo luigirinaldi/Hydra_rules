@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "0 - zext(newvar0)",
+  "rhs": "sext(newvar0)"
+}

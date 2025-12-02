@@ -1,3 +1,0 @@
-(v1 & C3) | (select ((v1 & C2 (powerOfTwo)) != 0) C2 0)
-  =>
-v1 & (C3 | C2)

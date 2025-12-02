@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "zext((zext((v0 & 1)) != 0))",
+  "rhs": "v0 & 1"
+}

@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "0 - (v0 - C2)",
+  "rhs": "C2 - v0"
+}

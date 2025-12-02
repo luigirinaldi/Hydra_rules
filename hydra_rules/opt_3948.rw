@@ -1,0 +1,5 @@
+{
+  "precondition": "((C2 | v0.k0) | ~@db) == 0xFFFFFFFFFFFFFFFF",
+  "lhs": "let var0 = v0 & C2;\nvar0",
+  "rhs": "v0\n\n{\nllvm::Value *x0 = nullptr, *x5 = nullptr, *x3 = nullptr, *x4 = nullptr, *x2 = nullptr, *x1 = nullptr;\nif (util::filter(F, 3948) && match(I, m_c_And(m_Value(x5), m_Constant(&x2)))) {\n\nif (util::symk0bind(x5, x3, B) && util::symdb(DB, I, x1, B) && \nutil::dc(DT, I, x5) && util::dc(DT, I, x1) &&\n(or_(or_(util::V(x3), util::V(x2)), \nflip(util::V(x1)))).isAllOnesValue()) {\n\n  auto ret = x5;\nif (util::check_width(ret, I)) {\n  St.hit(3948, 1);\n  return ret;\n\n}\n}\n}}"
+}

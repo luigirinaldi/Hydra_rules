@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "0 - (C2 + newvar1)",
+  "rhs": "(0 - C2) - newvar1"
+}

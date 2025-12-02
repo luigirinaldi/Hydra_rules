@@ -1,3 +1,0 @@
-newvar5 * (1 << newvar2)
-  =>
-newvar5 << newvar2

@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "~(C1 == (v0 & C1))",
+  "rhs": "(v0 & C1) <u C1"
+}

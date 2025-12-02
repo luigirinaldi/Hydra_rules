@@ -1,3 +1,0 @@
-(zext(v0) ^ zext(newvar52)) != 0
-  =>
-v0 ^ newvar52

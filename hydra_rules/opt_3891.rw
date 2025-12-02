@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "zext(v3) <=s zext(v6)",
+  "rhs": "v3 <=u v6"
+}

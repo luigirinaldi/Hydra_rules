@@ -1,6 +1,0 @@
-((symconst_1.k1 | newvar0.k0) | ~@db) == 0xFFFFFFFF
-  |= 
-let var0 = C1 | newvar0;
-var0
-  =>
-C1

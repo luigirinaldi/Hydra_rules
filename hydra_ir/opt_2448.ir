@@ -1,9 +1,0 @@
-Opt : 2448
-%v2:i2 = var ; v2
-%symconst_1:i2 = var (nonNegative) ; symconst_1
-%2:i2 = and %v2, %symconst_1
-%3:i4 = zext %2
-%4:i8 = zext %3
-infer %4
-%5:i8 = sext %2
-result %5

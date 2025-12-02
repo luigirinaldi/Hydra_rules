@@ -1,9 +1,0 @@
-Opt : 2721
-%v0:i4 = var ; v0
-%symconst_1:i4 = var ; symconst_1
-%2:i4 = add %v0, %symconst_1
-%3:i4 = subnsw %2, %symconst_1
-%4:i8 = sext %3
-infer %4
-%5:i8 = sext %v0
-result %5

@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "newvar2 * 1",
+  "rhs": "newvar2"
+}

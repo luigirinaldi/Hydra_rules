@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "C3 ^ (select newvar1 C1 C2)",
+  "rhs": "select newvar1 (C3 ^ C1) (C3 ^ C2)"
+}

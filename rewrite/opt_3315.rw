@@ -1,3 +1,0 @@
-zext(v0) != zext(trunc(zext(newvar5)))
-  =>
-v0 ^ newvar5

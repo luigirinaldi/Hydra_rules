@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "newvar0 + (v10 - newvar0)",
+  "rhs": "v10"
+}

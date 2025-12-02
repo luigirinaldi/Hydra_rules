@@ -1,3 +1,0 @@
-zext(((zext(newvar2) | zext(newvar7)) != 0))
-  =>
-trunc((zext(newvar2) | zext(newvar7)))

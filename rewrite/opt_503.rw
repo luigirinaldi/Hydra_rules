@@ -1,3 +1,0 @@
-v0 /u C1 (powerOfTwo)
-  =>
-v0 >>l logb(C1)

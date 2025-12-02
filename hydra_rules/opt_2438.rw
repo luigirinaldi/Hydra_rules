@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "zext((C1 & trunc(v0)))",
+  "rhs": "v0 & zext(C1)"
+}

@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "~(newvar0 <u v4)",
+  "rhs": "v4 <=u newvar0"
+}

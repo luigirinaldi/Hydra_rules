@@ -1,3 +1,0 @@
-select ((newvar0 & 1) != 0) C3 0
-  =>
-C3 * (newvar0 & 1)

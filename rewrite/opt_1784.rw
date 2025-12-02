@@ -1,3 +1,0 @@
-select ((newvar0 & 2) != 0) 2 0
-  =>
-newvar0 & 2

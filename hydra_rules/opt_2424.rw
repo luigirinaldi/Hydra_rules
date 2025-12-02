@@ -1,0 +1,5 @@
+{
+  "precondition": "C2 <u width(v0)",
+  "lhs": "let var0 = (v0 & C2);\nzext(~(var0 != 0))",
+  "rhs": "(C2 + (1 - C2)) >>a var0"
+}

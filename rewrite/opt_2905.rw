@@ -1,3 +1,0 @@
-trunc(((C1 + sext(v0)) -nsw C2))
-  =>
-v0 + trunc((C1 - C2))

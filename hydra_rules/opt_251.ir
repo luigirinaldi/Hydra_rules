@@ -1,0 +1,12 @@
+Opt : 251
+%v0:i64 = var ; v0
+%v1:i64 = var ; v1
+%2:i64 = sub %v0, %v1
+%3:i64 = sub 0:i64, %2
+infer %3
+%4:i64 = sub %v1, %v0
+result %4
+
+0 - (v0 - v1)
+  =>
+v1 - v0

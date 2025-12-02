@@ -1,0 +1,5 @@
+{
+  "precondition": "C2 != C1",
+  "lhs": "zext((C1 != (select newvar1 C2 C1)))",
+  "rhs": "zext(newvar1)"
+}

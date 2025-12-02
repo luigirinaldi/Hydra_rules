@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "zext(zext(v0))",
+  "rhs": "zext(v0)"
+}

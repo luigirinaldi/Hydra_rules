@@ -1,3 +1,0 @@
-zext(v3) <=s zext(v6)
-  =>
-v3 <=u v6

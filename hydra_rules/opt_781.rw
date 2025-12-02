@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "C2 & (select v0 0 C2)",
+  "rhs": "select v0 0 C2"
+}

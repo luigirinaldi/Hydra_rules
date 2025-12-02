@@ -1,3 +1,0 @@
-sext((select newvar1 C1 C2))
-  =>
-select newvar1 sext(C1) sext(C2)

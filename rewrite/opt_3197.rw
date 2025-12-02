@@ -1,5 +1,0 @@
-C2 != C1
-  |= 
-C1 != (select newvar1 C2 C1)
-  =>
-newvar1

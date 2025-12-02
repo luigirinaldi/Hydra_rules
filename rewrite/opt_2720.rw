@@ -1,3 +1,0 @@
-sext(((C1 + newvar0) -nsw C1))
-  =>
-sext(newvar0)

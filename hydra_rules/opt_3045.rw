@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "zext(newvar1) == zext(~newvar0)",
+  "rhs": "newvar1 ^ newvar0"
+}

@@ -1,3 +1,0 @@
-(v0 + newvar0) -nsw newvar0
-  =>
-v0

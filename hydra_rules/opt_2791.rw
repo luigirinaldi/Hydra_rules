@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "trunc((C3 | (select newvar0 C1 C2)))",
+  "rhs": "select newvar0 trunc((C3 | (select 1 C1 C2))) trunc((C3 | (select 0 C1 C2)))"
+}

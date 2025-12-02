@@ -1,0 +1,13 @@
+Opt : 326
+%v0:i8 = var ; v0
+%1:i8 = sub 0:i8, %v0
+%symconst_2:i8 = var ; symconst_2
+%3:i8 = subnsw %1, %symconst_2
+infer %3
+%4:i8 = sub 0:i8, %symconst_2
+%5:i8 = sub %4, %v0
+result %5
+
+(0 - v0) -nsw C2
+  =>
+(0 - C2) - v0
