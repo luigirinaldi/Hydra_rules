@@ -1,0 +1,3 @@
+trunc((C1 - zext(v0)))
+  =>
+trunc(C1) - v0

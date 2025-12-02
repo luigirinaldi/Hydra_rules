@@ -1,0 +1,3 @@
+zext(v5) <s zext(v0)
+  =>
+v5 <u v0

@@ -1,0 +1,8 @@
+Opt : 3697
+%v0:i32 = var ; v0
+%v1:i32 = var ; v1
+%2:i32 = subnsw %v0, %v1
+%3:i1 = slt %2, 0:i32
+infer %3
+%4:i1 = slt %v0, %v1
+result %4

@@ -1,0 +1,3 @@
+0 - zext(newvar0)
+  =>
+sext(newvar0)

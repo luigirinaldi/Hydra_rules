@@ -1,0 +1,9 @@
+width(C5 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxx000000)) == 32 && 
+width(newvar0) == 32 && 
+width(C4 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxx11xxxx)) == 32
+  |= 
+let var1 = (C4 & newvar0);
+let var0 = (C5 + var1);
+var0 & 48
+  =>
+newvar0 & 48

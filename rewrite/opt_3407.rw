@@ -1,0 +1,5 @@
+C2 <u C1
+  |= 
+(select newvar1 C1 C2) != (select newvar4 C1 C2)
+  =>
+newvar4 ^ newvar1

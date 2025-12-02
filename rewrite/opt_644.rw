@@ -1,0 +1,8 @@
+width(C1 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxx11111111)) == 32 && 
+width(v0) == 8 && 
+let var0 = zext(v0);
+width(var0) == 32
+  |= 
+C1 & var0
+  =>
+var0

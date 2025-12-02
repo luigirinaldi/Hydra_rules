@@ -1,0 +1,11 @@
+Opt : 1243
+%symconst_1:i16 = var ; symconst_1
+%symconst_2:i16 = var ; symconst_2
+%2:i1 = ne %symconst_1, %symconst_2
+pc %2 1:i1
+%newvar0:i1 = var ; newvar0
+%4:i16 = select %newvar0, %symconst_1, %symconst_2
+%5:i1 = ne %symconst_1, %4
+%6:i1 = xor 1:i1, %5
+infer %6
+result %newvar0

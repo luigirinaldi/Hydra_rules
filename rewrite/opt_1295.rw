@@ -1,0 +1,3 @@
+~(newvar2 & 0xFFFFFFFFFFFFFFFF)
+  =>
+0xFFFFFFFFFFFFFFFF - newvar2

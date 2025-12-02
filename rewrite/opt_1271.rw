@@ -1,0 +1,3 @@
+~(v0 (knownBits=0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) == 0)
+  =>
+0 <s v0

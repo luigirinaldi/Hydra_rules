@@ -1,0 +1,15 @@
+width(C4 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxx111111)) == 32 && 
+width(newvar4) == 32 && 
+width(C2 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxxx1111)) == 32 && 
+width(C1 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx1xx)) == 32 && 
+width(v0) == 8 && 
+let var0 = zext(v0);
+width(var0) == 32
+  |= 
+let var2 = (newvar4 & 48);
+let var4 = (var0 >>a C1);
+let var3 = (C2 & var4);
+let var1 = (var2 | var3);
+C4 & var1
+  =>
+var2 + var4

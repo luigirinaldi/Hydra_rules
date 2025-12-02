@@ -1,0 +1,5 @@
+C9 <u C8
+  |= 
+select (C9 != (select newvar1 C8 C9)) C3 C7
+  =>
+select newvar1 C3 C7

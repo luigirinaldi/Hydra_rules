@@ -1,0 +1,3 @@
+zext((zext(newvar0) != 0))
+  =>
+zext(newvar0)

@@ -1,0 +1,3 @@
+((select newvar0 1 0) ^ zext(newvar5)) != 0
+  =>
+newvar5 ^ newvar0

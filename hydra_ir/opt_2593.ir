@@ -1,0 +1,9 @@
+Opt : 2593
+%newvar6:i32 = var ; newvar6
+%1:i32 = and 1:i32, %newvar6
+%2:i1 = ne 0:i32, %1
+%3:i32 = select %2, 1:i32, 0:i32
+%4:i8 = trunc %3
+%5:i32 = zext %4
+infer %5
+result %1

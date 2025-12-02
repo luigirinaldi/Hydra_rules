@@ -1,0 +1,5 @@
+Opt : 625
+%newvar0:i16 = var ; newvar0
+%1:i16 = and 65535:i16, %newvar0
+infer %1
+result %newvar0

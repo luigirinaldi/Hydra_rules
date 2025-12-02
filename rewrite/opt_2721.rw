@@ -1,0 +1,3 @@
+sext(((v0 + C1) -nsw C1))
+  =>
+sext(v0)

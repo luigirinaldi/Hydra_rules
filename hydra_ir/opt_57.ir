@@ -1,0 +1,7 @@
+Opt : 57
+%newvar0:i32 = var ; newvar0
+%v10:i32 = var ; v10
+%2:i32 = sub %v10, %newvar0
+%3:i32 = add %newvar0, %2
+infer %3
+result %v10

@@ -1,0 +1,3 @@
+trunc(trunc(newvar0))
+  =>
+trunc(newvar0)

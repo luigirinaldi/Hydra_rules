@@ -1,0 +1,3 @@
+trunc((zext(v4) - zext(v1)))
+  =>
+v4 - v1

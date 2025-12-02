@@ -1,0 +1,16 @@
+Opt : 644
+%symconst_1:i32 = var (knownBits=xxxxxxxxxxxxxxxxxxxxxxxx11111111) ; symconst_1
+%1:i32 = width %symconst_1
+%2:i1 = eq 32:i32, %1
+pc %2 1:i1
+%v0:i8 = var ; v0
+%4:i8 = width %v0
+%5:i1 = eq 8:i8, %4
+pc %5 1:i1
+%6:i32 = zext %v0
+%7:i32 = width %6
+%8:i1 = eq 32:i32, %7
+pc %8 1:i1
+%9:i32 = and %symconst_1, %6
+infer %9
+result %6

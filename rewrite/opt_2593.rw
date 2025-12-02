@@ -1,0 +1,3 @@
+zext(trunc((select ((newvar6 & 1) != 0) 1 0)))
+  =>
+newvar6 & 1

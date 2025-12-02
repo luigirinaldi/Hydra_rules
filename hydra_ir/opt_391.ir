@@ -1,0 +1,8 @@
+Opt : 391
+%newvar0:i8 = var ; newvar0
+%symconst_1:i8 = var ; symconst_1
+%2:i8 = sub %newvar0, %symconst_1
+%3:i8 = mul 255:i8, %2
+infer %3
+%4:i8 = sub %symconst_1, %newvar0
+result %4

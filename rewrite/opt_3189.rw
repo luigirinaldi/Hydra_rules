@@ -1,0 +1,5 @@
+C6 <u C5
+  |= 
+C6 != (select ((newvar0 & 1) != 0) C5 C6)
+  =>
+trunc(newvar0)

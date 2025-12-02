@@ -1,0 +1,3 @@
+trunc((v3 & 0xFFFFFFFF))
+  =>
+trunc(v3)

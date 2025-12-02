@@ -1,0 +1,3 @@
+trunc((C1 + zext(newvar1)))
+  =>
+newvar1 + trunc(C1)

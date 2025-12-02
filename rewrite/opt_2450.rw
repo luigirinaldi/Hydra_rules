@@ -1,0 +1,3 @@
+zext(~(zext(v0) != 0))
+  =>
+zext(1) - zext(v0)

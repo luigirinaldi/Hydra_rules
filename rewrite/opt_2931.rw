@@ -1,0 +1,5 @@
+(0 <u C1) & (C1 <=u zext(width(v1)))
+  |= 
+C1 == zext(v1)
+  =>
+v1 == trunc(C1)

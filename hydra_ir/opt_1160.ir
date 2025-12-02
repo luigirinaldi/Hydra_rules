@@ -1,0 +1,13 @@
+Opt : 1160
+%v1:i8 = var ; v1
+%symconst_3:i8 = var ; symconst_3
+%2:i8 = and %v1, %symconst_3
+%symconst_2:i8 = var (powerOfTwo) ; symconst_2
+%4:i8 = and %v1, %symconst_2
+%5:i1 = ne 0:i8, %4
+%6:i8 = select %5, %symconst_2, 0:i8
+%7:i8 = or %2, %6
+infer %7
+%8:i8 = or %symconst_3, %symconst_2
+%9:i8 = and %v1, %8
+result %9

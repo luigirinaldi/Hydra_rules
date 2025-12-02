@@ -1,0 +1,18 @@
+C2 <<=1 @db
+  |= 
+v0 & C2
+  =>
+v0
+
+{
+llvm::Value *x0 = nullptr, *x3 = nullptr, *x2 = nullptr, *x1 = nullptr, *x4 = nullptr;
+if (util::filter(F, 3940) && match(I, m_c_And(m_Constant(&x3), m_Value(x4)))) {
+if (util::symdb(DB, I, x2, B) && util::dc(DT, I, x4) && util::dc(DT, I, x2) && util::symk1test(x3, x2)) {
+  auto ret = x4;
+if (util::check_width(ret, I)) {
+  St.hit(3940, 1);
+  return ret;
+
+}
+}
+}}

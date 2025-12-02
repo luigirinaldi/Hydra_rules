@@ -1,0 +1,3 @@
+newvar0 %u C1 (powerOfTwo)
+  =>
+newvar0 & (C1 - 1)

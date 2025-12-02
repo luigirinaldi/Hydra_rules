@@ -1,0 +1,3 @@
+sext(sext(v0))
+  =>
+sext(v0)

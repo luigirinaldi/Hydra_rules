@@ -1,0 +1,3 @@
+trunc((sext(v0) & sext(v2)))
+  =>
+v2 & v0

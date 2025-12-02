@@ -1,0 +1,8 @@
+Opt : 389
+%symconst_1:i8 = var ; symconst_1
+%newvar1:i8 = var ; newvar1
+%2:i8 = sdivexact %newvar1, %symconst_1
+%3:i8 = mul %symconst_1, %2
+infer %3
+%4:i8 = freeze %newvar1
+result %4

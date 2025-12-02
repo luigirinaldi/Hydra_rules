@@ -1,0 +1,5 @@
+C1 <=u ((1 << zext(width(newvar1))) - 1)
+  |= 
+~(C1 != zext(newvar1))
+  =>
+newvar1 == trunc(C1)

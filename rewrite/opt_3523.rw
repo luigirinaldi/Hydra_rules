@@ -1,0 +1,5 @@
+C1 <=u ((1 << zext(width(v0))) - 1)
+  |= 
+zext(v0) <u C1
+  =>
+v0 <u trunc(C1)

@@ -1,0 +1,17 @@
+Opt : 2791
+%symconst_3:i32 = var ; symconst_3
+%newvar0:i1 = var ; newvar0
+%symconst_1:i32 = var ; symconst_1
+%symconst_2:i32 = var ; symconst_2
+%4:i32 = select %newvar0, %symconst_1, %symconst_2
+%5:i32 = or %symconst_3, %4
+%6:i8 = trunc %5
+infer %6
+%7:i32 = select 1:i1, %symconst_1, %symconst_2
+%8:i32 = or %symconst_3, %7
+%9:i8 = trunc %8
+%10:i32 = select 0:i1, %symconst_1, %symconst_2
+%11:i32 = or %symconst_3, %10
+%12:i8 = trunc %11
+%13:i8 = select %newvar0, %9, %12
+result %13

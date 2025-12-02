@@ -1,0 +1,3 @@
+newvar0 + (v10 - newvar0)
+  =>
+v10

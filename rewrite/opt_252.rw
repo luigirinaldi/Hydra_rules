@@ -1,0 +1,3 @@
+0 - (C2 + newvar1)
+  =>
+(0 - C2) - newvar1

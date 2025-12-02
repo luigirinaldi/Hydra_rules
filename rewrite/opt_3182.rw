@@ -1,0 +1,7 @@
+newvar0.k0 <<=1 C4
+  |= 
+let var0 = (C4 & newvar0);
+C1 != var0
+  =>
+let var1 = (C1 - 1);
+var1 <u C1

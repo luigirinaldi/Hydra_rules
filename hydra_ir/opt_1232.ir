@@ -1,0 +1,12 @@
+Opt : 1232
+%symconst_3:i8 = var ; symconst_3
+%newvar1:i1 = var ; newvar1
+%symconst_1:i8 = var ; symconst_1
+%symconst_2:i8 = var ; symconst_2
+%4:i8 = select %newvar1, %symconst_1, %symconst_2
+%5:i8 = xor %symconst_3, %4
+infer %5
+%6:i8 = xor %symconst_3, %symconst_1
+%7:i8 = xor %symconst_3, %symconst_2
+%8:i8 = select %newvar1, %6, %7
+result %8

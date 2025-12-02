@@ -1,0 +1,10 @@
+Opt : 3197
+%symconst_1:i32 = var ; symconst_1
+%symconst_2:i32 = var ; symconst_2
+%2:i1 = ne %symconst_1, %symconst_2
+pc %2 1:i1
+%newvar1:i1 = var ; newvar1
+%4:i32 = select %newvar1, %symconst_2, %symconst_1
+%5:i1 = ne %symconst_1, %4
+infer %5
+result %newvar1

@@ -1,0 +1,3 @@
+C2 & (select v0 0 C2)
+  =>
+select v0 0 C2

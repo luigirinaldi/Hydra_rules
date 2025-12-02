@@ -1,0 +1,18 @@
+Opt : 540
+%symconst_1:i32 = var (powerOfTwo) ; symconst_1
+%1:i32 = width %symconst_1
+%2:i1 = eq 32:i32, %1
+pc %2 1:i1
+%v0:i8 = var ; v0
+%4:i8 = width %v0
+%5:i1 = eq 8:i8, %4
+pc %5 1:i1
+%6:i32 = zext %v0
+%7:i32 = width %6
+%8:i1 = eq 32:i32, %7
+pc %8 1:i1
+%9:i32 = sdiv %6, %symconst_1
+infer %9
+%10:i32 = logb %symconst_1
+%11:i32 = ashr %6, %10
+result %11

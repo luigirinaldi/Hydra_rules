@@ -1,0 +1,10 @@
+@db == zext(symconst_1.k1)
+  |= 
+let var3 = (C1 & newvar0);
+let var2 = zext(var3);
+let var1 = trunc(var2);
+let var0 = zext(var1);
+var0
+  =>
+let var4 = sext(newvar0);
+var4

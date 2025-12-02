@@ -1,0 +1,3 @@
+trunc((zext(v0) & zext(v2)))
+  =>
+v2 & v0

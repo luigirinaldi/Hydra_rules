@@ -1,0 +1,3 @@
+trunc((sext(v0) - C1))
+  =>
+v0 + trunc((0 - C1))
