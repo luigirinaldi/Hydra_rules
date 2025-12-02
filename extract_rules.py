@@ -4,8 +4,182 @@ import os
 import shutil
 import sys
 import json
+from dataclasses import dataclass
+from typing import Union
 
-from llvmlite import binding as llvm
+
+@dataclass
+class Constant:
+    value: int
+    width: int
+
+
+@dataclass
+class Op:
+    op: str
+    children: list[Union["Op", Constant, str]]  # str for variable references
+    width: int
+
+
+@dataclass
+class Variable:
+    name: str
+    width: int
+
+
+def parse_width(type_str: str) -> int:
+    """Parse width from type string like 'i8' or 'i32'."""
+    if type_str.startswith("i"):
+        return int(type_str[1:])
+    raise ValueError(f"Unknown type: {type_str}")
+
+
+def parse_operand(operand: str, definitions: dict) -> Union[Op, Constant, str]:
+    """Parse an operand which can be a reference, constant, or variable."""
+    operand = operand.strip()
+    
+    # Check for constant like "0:i8" or "1:i1"
+    if ":" in operand and not operand.startswith("%"):
+        value_part, type_part = operand.split(":")
+        return Constant(value=int(value_part), width=parse_width(type_part))
+    
+    # Check for reference like "%symconst_2" or "%v0"
+    if operand.startswith("%"):
+        ref_name = operand[1:].split(":")[0]  # Remove % and any type annotation
+        if ref_name in definitions:
+            return definitions[ref_name]
+        return ref_name  # Return as string reference if not yet defined
+    
+    # Try to parse as plain integer (shouldn't happen often)
+    try:
+        return Constant(value=int(operand), width=0)
+    except ValueError:
+        return operand
+
+
+def parse_souper(text: str) -> dict:
+    """
+    Parse Souper IR text and return a dictionary with the AST.
+    Returns dict with 'infer' and 'result' keys containing the respective expressions.
+    """
+    definitions: dict[str, Union[Op, Constant, Variable]] = {}
+    result = {"infer": None, "result": None, "pc": []}
+    
+    for line in text.strip().split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        
+        # Remove comments
+        if ";" in line:
+            line = line.split(";")[0].strip()
+        
+        # Remove (hasExternalUses) annotations
+        if "(hasExternalUses)" in line:
+            line = line.replace("(hasExternalUses)", "").strip()
+        
+        if not line:
+            continue
+        print(line)
+        
+        # Handle 'infer %name'
+        if line.startswith("infer "):
+            ref = line[6:].strip()
+            if ref.startswith("%"):
+                ref_name = ref[1:]
+                assert ref_name in definitions
+                result["infer"] = definitions[ref_name]
+            else:
+                raise ValueError("shouldn't be here")
+        
+        # Handle 'result %name'
+        elif line.startswith("result "):
+            ref = line[7:].strip()
+            if ref.startswith("%"):
+                ref_name = ref[1:]
+                assert ref_name in definitions
+                result["result"] = definitions[ref_name]
+            else:
+                # results is a constant
+                result["result"] = parse_operand(ref, definitions)
+
+        # Handle 'pc %name value'
+        elif line.startswith("pc "):
+            parts = line[3:].strip().split()
+            if len(parts) >= 2:
+                cond = parse_operand(parts[0], definitions)
+                val = parse_operand(parts[1], definitions)
+                result["pc"].append({"condition": cond, "value": val})
+            else:
+                raise ValueError("shouldn't be here")
+        # Handle assignments: %name:type = op args...
+        elif "=" in line:
+            left, right = line.split("=", 1)
+            left = left.strip()
+            right = right.strip()
+            
+            # Parse the left side: %name:type
+            if left.startswith("%"):
+                left = left[1:]  # Remove %
+            name, type_str = left.split(":")
+            width = parse_width(type_str)
+            
+            # Parse the right side
+            parts = right.split()
+            op_name = parts[0]
+            
+            if op_name == "var":
+                # Variable declaration
+                definitions[name] = Variable(name=name, width=width)
+            else:
+                # Operation with arguments
+                args = parts[1:]
+                children = []
+                for arg in args:
+                    # Handle comma-separated args (shouldn't happen in Souper but just in case)
+                    arg = arg.rstrip(",")
+                    children.append(parse_operand(arg, definitions))
+                
+                definitions[name] = Op(op=op_name, children=children, width=width)
+        else:
+            print(line)
+            raise ValueError("reached the end of the function?")
+            
+    
+    return result
+
+def ast_to_dict(node: Union[Op, Constant, Variable, str, None]) -> Union[dict, None]:
+    """Convert AST nodes to plain dictionaries for easier inspection."""
+    if node is None:
+        return None
+    if isinstance(node, str):
+        return {"ref": node}
+    if isinstance(node, Constant):
+        return {"type": "constant", "value": node.value, "width": node.width}
+    if isinstance(node, Variable):
+        return {"type": "variable", "name": node.name, "width": node.width}
+    if isinstance(node, Op):
+        return {
+            "type": "op",
+            "op": node.op,
+            "width": node.width,
+            "children": [ast_to_dict(c) for c in node.children],
+        }
+    return None
+
+
+def parse_souper_to_dict(text: str) -> dict:
+    """Parse Souper IR and return plain dictionaries."""
+    result = parse_souper(text)
+    return {
+        "infer": ast_to_dict(result["infer"]),
+        "result": ast_to_dict(result["result"]),
+        "pc": [
+            {"condition": ast_to_dict(pc["condition"]), "value": ast_to_dict(pc["value"])}
+            for pc in result["pc"]
+        ],
+    }
+
 
 def extract_width_annotations(ir_text: str):
     """
@@ -112,8 +286,16 @@ for block in comments:
         print("⚠ Warning: cannot find Opt number in block, skipping:")
         print(first_line)
         continue
+    opt_num = m.group(1)
 
     rewrite_ir = top.replace(first_line, '')
+
+    # try:
+    parsed = parse_souper(rewrite_ir)
+    print(parsed['result'])
+    # except ValueError:
+    #     print(f"{opt_num} failed: {block}")
+    #     continue
 
     res = extract_width_annotations(rewrite_ir)
     # print(res)
@@ -124,7 +306,6 @@ for block in comments:
     in_bw1 = all([w == '1' for w in var_widths])
     out_bw1 = all([w == '1' for w in [rw_widths['lhs'], rw_widths['rhs']]])
 
-    opt_num = m.group(1)
     is_mw = any([cond in bottom for cond in ["zext", "sext", "trunc"]])
 
     res = re.search(r"(width\([^)]*\)\s+==\s+(\S+))", bottom)
