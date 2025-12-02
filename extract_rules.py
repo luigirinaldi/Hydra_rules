@@ -1,3 +1,4 @@
+from collections import defaultdict
 import re
 import os
 import shutil
@@ -69,14 +70,8 @@ def extract_width_annotations(ir_text: str):
 
 # --- Settings ---
 filename = sys.argv[1] if len(sys.argv) > 1 else "gen.cpp.inc"
-mw_output = "hydra_rules_multi_width"
-other_output = "hydra_rules_single_width"
-select_mw_out = mw_output + "/select"
-in_1_out_1 = mw_output + "/in_out_1"
-in_1_out_mw = mw_output + "/in_1"
-in_mw_out_1 = mw_output + "/out_1"
-default_mw_out = mw_output + "/default"
-# ---------------
+base_output = "hydra_rules"
+
 
 pattern = re.compile(r"/\*([\s\S]*?)\*/", re.DOTALL)
 
@@ -86,16 +81,19 @@ with open(filename, "r", encoding="utf-8") as f:
 
 comments = pattern.findall(content)
 
-for d in [mw_output, other_output]:
-    if os.path.isdir(d):
-        shutil.rmtree(d)
+# Clean up existing output directories
+if os.path.isdir(base_output):
+    shutil.rmtree(base_output)
 
-for d in [other_output, select_mw_out, default_mw_out, in_1_out_1, in_1_out_mw, in_mw_out_1]:
-    os.makedirs(d)
 
 print(f"Found {len(comments)} comment blocks.")
 
-num_rw, num_mw, num_mw_select, in1, out1, in_out_1 = (0, 0, 0, 0, 0, 0)
+# Initialize counters for each category
+num_rw = 0
+
+# Type: dict with 'mw' -> defaultdict of category lists, 'sw' -> list
+mw_output: defaultdict[str, list[tuple[str, str, dict]]] = defaultdict(list)
+sw_output: list[tuple[str, str, dict]] = []
 
 for block in comments:
     block = block.strip()
@@ -136,42 +134,6 @@ for block in comments:
         )
         is_mw = False
 
-    if is_mw:
-        # print(opt_num)
-        # print(in_bw1, out_bw1)
-        # print(var_widths)
-        # print(rw_widths)
-        # print(sym_vars)
-        num_mw += 1
-        if "select" in bottom:
-            num_mw_select += 1
-            output_dir = select_mw_out
-        else:
-            match (in_bw1, out_bw1):
-                case True, True : 
-                    output_dir = in_1_out_1
-                    in_out_1 += 1
-                case True, False : 
-                    output_dir = in_1_out_mw
-                    in1 +=1
-                case False, True : 
-                    output_dir = in_mw_out_1
-                    out1 +=1
-                case False, False :
-                    output_dir = default_mw_out
-
-    else:
-        output_dir = other_output
-
-
-    # Output filenames (both in same directory)
-    ir_file = os.path.join(output_dir, f"opt_{opt_num}.ir")
-    rw_file = os.path.join(output_dir, f"opt_{opt_num}.rw")
-
-    # Write entire original block to .ir file
-    with open(ir_file, "w", encoding="utf-8") as f:
-        f.write(block + "\n")
-
     # Parse the rewrite rule structure for .rw file
     rule_data: dict[str, str | None] = {"precondition": None, "lhs": None, "rhs": None}
 
@@ -193,12 +155,75 @@ for block in comments:
         continue
 
     num_rw += 1
-    # Write parsed rule to .rw file as JSON
+    out_tuple = (opt_num, block, rule_data)
+    if is_mw:
+        match (in_bw1, out_bw1):
+            case True, True:
+                category = "inout1"
+            case True, False:
+                category = "in1"
+            case False, True:
+                category = "out1"
+            case False, False:
+                if "select" in bottom:
+                    category = 'select'
+                elif "sext" in bottom:
+                    category = 'sext'
+                else:
+                    category = "default"
+        mw_output[category].append(out_tuple)
+    else:
+        sw_output.append(out_tuple)
+
+print(f"Found {num_rw} rewrites")
+
+num_mw = sum([len(d) for d in mw_output.values()])
+num_sw = len(sw_output)
+
+print(f"{num_mw} multiwidth ones, {num_sw} single width")
+
+for k, v in mw_output.items():
+    print(f"{k}: {len(v)}")
+
+# Create output directories and write files
+print("\nWriting output files...")
+
+# Create single-width directory and files
+sw_dir = os.path.join(base_output, "single_width")
+os.makedirs(sw_dir, exist_ok=True)
+
+for opt_num, block_str, rule_data in sw_output:
+    # Write .ir file with the block
+    ir_file = os.path.join(sw_dir, f"opt_{opt_num}.ir")
+    with open(ir_file, "w", encoding="utf-8") as f:
+        f.write(block_str + "\n")
+
+    # Write .rw file with the rule_data JSON
+    rw_file = os.path.join(sw_dir, f"opt_{opt_num}.rw")
     with open(rw_file, "w", encoding="utf-8") as f:
         json.dump(rule_data, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
-print(
-    f"Found {num_rw} rewrites, {num_mw} multi width ones.\n{num_mw - num_mw_select} multi width without select (ite), {num_mw_select} with"
-)
-print(f"{in1} with 1-bit input variables, {out1} with a 1-bit output, {in_out_1} with 1-bit in 1-bit out, {num_mw-num_mw_select-in1-out1-in_out_1} interesting cases?")
+print(f"Wrote {len(sw_output)} single-width rules to {sw_dir}")
+
+# Create multi-width directories and files
+mw_base_dir = os.path.join(base_output, "multi_width")
+
+for category, rules in mw_output.items():
+    category_dir = os.path.join(mw_base_dir, category)
+    os.makedirs(category_dir, exist_ok=True)
+
+    for opt_num, block_str, rule_data in rules:
+        # Write .ir file with the block
+        ir_file = os.path.join(category_dir, f"opt_{opt_num}.ir")
+        with open(ir_file, "w", encoding="utf-8") as f:
+            f.write(block_str + "\n")
+
+        # Write .rw file with the rule_data JSON
+        rw_file = os.path.join(category_dir, f"opt_{opt_num}.rw")
+        with open(rw_file, "w", encoding="utf-8") as f:
+            json.dump(rule_data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+
+    print(f"Wrote {len(rules)} multi-width '{category}' rules to {category_dir}")
+
