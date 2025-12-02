@@ -1,0 +1,29 @@
+Opt : 3206
+%symconst_4:i32 = var ; symconst_4
+%1:i32 = width %symconst_4
+%2:i32 = sub %1, 1:i32
+%3:i1 = eq %symconst_4, %2
+pc %3 1:i1
+%v0:i32 = var ; v0
+%5:i32 = width %v0
+%6:i1 = eq 32:i32, %5
+pc %6 1:i1
+%7:i1 = eq 32:i32, %1
+pc %7 1:i1
+%8:i32 = lshr %v0, %symconst_4
+%9:i1 = ne 0:i32, %8
+infer %9
+%10:i32 = add 2147483616:i32, %symconst_4
+%11:i1 = ult %10, %v0
+result %11
+
+let var0 = width(C4);
+C4 == (var0 - 1) && 
+width(v0) == 32 && 
+var0 == 32
+  |= 
+let var1 = (v0 >>l C4);
+var1 != 0
+  =>
+let var2 = (C4 + 0x7FFFFFE0);
+var2 <u v0

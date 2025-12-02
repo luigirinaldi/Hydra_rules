@@ -1,0 +1,12 @@
+Opt : 67
+%symconst_2:i8 = var ; symconst_2
+%v0:i8 = var ; v0
+%2:i8 = sdiv %v0, 1:i8
+%3:i8 = add %symconst_2, %2
+infer %3
+%4:i8 = add %symconst_2, %v0
+result %4
+
+C2 + (v0 /s 1)
+  =>
+v0 + C2

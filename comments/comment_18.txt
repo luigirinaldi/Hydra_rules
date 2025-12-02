@@ -1,0 +1,12 @@
+Opt : 1250
+%newvar0:i8 = var ; newvar0
+%symconst_1:i8 = var ; symconst_1
+%2:i1 = ne %newvar0, %symconst_1
+%3:i1 = xor 1:i1, %2
+infer %3
+%4:i1 = eq %newvar0, %symconst_1
+result %4
+
+~(C1 != newvar0)
+  =>
+C1 == newvar0

@@ -1,0 +1,12 @@
+Opt : 503
+%v0:i16 = var ; v0
+%symconst_1:i16 = var (powerOfTwo) ; symconst_1
+%2:i16 = udiv %v0, %symconst_1
+infer %2
+%3:i16 = logb %symconst_1
+%4:i16 = lshr %v0, %3
+result %4
+
+v0 /u C1 (powerOfTwo)
+  =>
+v0 >>l logb(C1)

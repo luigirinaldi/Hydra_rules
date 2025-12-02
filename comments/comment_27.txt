@@ -1,0 +1,12 @@
+Opt : 3487
+%newvar0:i16 = var ; newvar0
+%1:i16 = and 1:i16, %newvar0
+%2:i32 = zext %1
+%3:i1 = ne 0:i32, %2
+infer %3
+%4:i1 = trunc %newvar0
+result %4
+
+zext((newvar0 & 1)) != 0
+  =>
+trunc(newvar0)

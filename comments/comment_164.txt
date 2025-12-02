@@ -1,0 +1,18 @@
+Opt : 3056
+%symconst_2:i8 = var ; symconst_2
+%symconst_1:i8 = var ; symconst_1
+%2:i8 = mul 2:i8, %symconst_1
+%3:i1 = eq %symconst_2, %2
+pc %3 1:i1
+%v1:i8 = var ; v1
+%5:i8 = add %symconst_1, %v1
+%6:i1 = eq %symconst_2, %5
+infer %6
+%7:i1 = eq %symconst_1, %v1
+result %7
+
+C2 == (C1 * 2)
+  |= 
+C2 == (v1 + C1)
+  =>
+v1 == C1
