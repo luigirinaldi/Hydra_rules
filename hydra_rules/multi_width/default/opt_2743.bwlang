@@ -1,5 +1,5 @@
 {
   "precondition": null,
-  "lhs": "(bw r (bw q (bw p newvar0)))",
+  "lhs": "(bw p (bw q (bw p newvar0)))",
   "rhs": "(bw p newvar0)"
 }

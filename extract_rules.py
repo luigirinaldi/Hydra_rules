@@ -220,7 +220,7 @@ def souper_to_bwlang(node: GenericAst, definitions: dict[str, PVar], width_condi
                     width_conditions.append(Op("<", [childs_p[0].width, new_w], 0))
                     return POp('bw', childs_p, new_w)
                 case _:
-                    raise ValueError("Ahhhh")
+                    raise ValueError(f"Uknown op: {op}")
         case Variable(name, _width):
             if name not in definitions:
                 # fresh width variable
@@ -253,11 +253,27 @@ def bwlang_to_string(node: POp | PConst | PVar ) -> str:
         case _:
             raise ValueError("String conversion never should reach here")
 
+def update_p_widths(node: POp | PConst | PVar | Op, old_w : str, new_w : str) -> POp | PConst | PVar | Op:
+    match node:
+        case POp(op, childs, width):
+            out_width = new_w if width == old_w else width
+            return POp(op, [update_p_widths(c, old_w, new_w) for c in childs], out_width)
+        case PConst(value, width):
+            out_width = new_w if width == old_w else width
+            return PConst(value, out_width)
+        case PVar(name, width):
+            out_width = new_w if width == old_w else width
+            return PVar(name, out_width)
+        case Op(op, childs, _width):
+            # this is the special case for an operation (abused to represent the inferred conditions on the widths)
+            # Assuming that the childs are string representing widths
+            return Op(op, [new_w if c == old_w else c for c in childs], _width)
+
 def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[POp | PConst | PVar | None, POp | PConst | PVar, POp | PConst | PVar]:
     parsed_souper = parse_souper(souper_ir)
     
     widths = []
-    width_conditions = []
+    width_conditions: list[Op] = []
     var_defs = {}
     precondition = None
     if len(pc:=parsed_souper['pc']) > 0:
@@ -266,7 +282,28 @@ def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[POp | PConst | PVar | None, PO
     lhs = souper_to_bwlang(parsed_souper['infer'], var_defs, width_conditions, widths)
     rhs = souper_to_bwlang(parsed_souper['result'], var_defs, width_conditions, widths)
 
-    print(width_conditions)
+    width_conditions.append(Op('=', [lhs.width, rhs.width], -1))
+
+    print("generated width conds:", width_conditions)
+
+    new_conditions = []
+    
+    while len(width_conditions) > 0:
+        cond = width_conditions.pop()
+        match cond.op:
+            case '=':
+                assert len(cond.children) == 2 
+                old_width, new_width = cond.children
+                width_conditions = [update_p_widths(wc, old_width, new_width) for wc in width_conditions]
+                lhs = update_p_widths(lhs, old_width, new_width)
+                rhs = update_p_widths(rhs, old_width, new_width)
+                precondition = update_p_widths(precondition, old_width, new_width) if precondition else None
+            case '>' | '<':
+                new_conditions.append(cond)
+            case _:
+                raise ValueError(f"Condition unkown: {cond.op}")
+
+    print("new conditions on widths:", new_conditions)
 
     return precondition, lhs, rhs
 

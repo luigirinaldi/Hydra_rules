@@ -1,5 +1,5 @@
 {
   "precondition": null,
-  "lhs": "(bw s (bw p (+ (bw p symconst_1) (bw r (bw q newvar1)))))",
-  "rhs": "(bw q (+ (bw q newvar1) (bw t (bw p symconst_1))))"
+  "lhs": "(bw t (bw r (+ (bw r symconst_1) (bw r (bw t newvar1)))))",
+  "rhs": "(bw t (+ (bw t newvar1) (bw t (bw r symconst_1))))"
 }
