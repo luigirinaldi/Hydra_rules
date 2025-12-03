@@ -1,5 +1,0 @@
-{
-  "lhs": "var0 /s C1",
-  "rhs": "let var1 = logb(C1);\nvar0 >>a var1",
-  "precondition": "width(C1 (powerOfTwo)) == 32 && \nwidth(v0) == 8 && \nlet var0 = zext(v0);\nwidth(var0) == 32"
-}

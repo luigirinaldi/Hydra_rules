@@ -2,8 +2,8 @@
   "lhs": "(bw t (bw r (* (bw r symconst_1) (bw r (bw t v0)))))",
   "rhs": "(bw t (* (bw t v0) (bw t (bw r symconst_1))))",
   "preconditions": [
-    "(> r t)",
-    "(< t r)"
+    "(< t r)",
+    "(> r t)"
   ],
   "name": "hydra_opt_2837"
 }

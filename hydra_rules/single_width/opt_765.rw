@@ -1,5 +1,0 @@
-{
-  "lhs": "let var1 = (C4 & newvar0);\nlet var0 = (C5 + var1);\nvar0 & 48",
-  "rhs": "newvar0 & 48",
-  "precondition": "width(C5 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxx000000)) == 32 && \nwidth(newvar0) == 32 && \nwidth(C4 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxx11xxxx)) == 32"
-}

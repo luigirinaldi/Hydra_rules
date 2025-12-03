@@ -1,5 +1,0 @@
-{
-  "lhs": "let var3 = (v0 & 0xFF0000);\nlet var2 = (var3 >>l C2);\nlet var5 = (v0 & C3);\nlet var4 = (var5 >>l C4);\nlet var1 = (var2 | var4);\nlet var7 = (v0 & 0xFF00);\nlet var6 = (var7 << C2);\nlet var0 = (var1 | var6);\nlet var9 = (v0 & C6);\nlet var8 = (var9 << C4);\nvar0 | var8",
-  "rhs": "bswap(v0)",
-  "precondition": "width(C4 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxx11000)) == 32 && \nwidth(v0) == 32 && \nwidth(C6 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxx11111111)) == 32 && \nwidth(C2 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxx01000)) == 32 && \nwidth(C3 (knownBits=11111111xxxxxxxxxxxxxxxxxxxxxxxx)) == 32"
-}

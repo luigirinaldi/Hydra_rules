@@ -462,6 +462,7 @@ print(f"Found {len(comments)} comment blocks.")
 
 # Initialize counters for each category
 num_rw = 0
+num_nonparametric = 0
 
 # Type: dict with 'mw' -> defaultdict of category lists, 'sw' -> list
 mw_output: defaultdict[str, list[tuple[str, str, dict]]] = defaultdict(list)
@@ -502,9 +503,10 @@ for block in comments:
     res = re.search(r"(width\([^)]*\)\s+==\s+(\S+))", bottom)
     if res and res.group(2).isdigit():
         print(
-            "Found width condition on multibw opt:", opt_num, ", cond: ", res.group(1)
+            f"Non parametric opt {opt_num}.", "Found width condition: ", res.group(1)
         )
-        is_mw = False
+        num_nonparametric += 1
+        continue
 
     # Parse the rewrite rule structure for .rw file
     rule_data: dict[str, str | None] = {"lhs": None, "rhs": None}
@@ -528,6 +530,7 @@ for block in comments:
 
     num_rw += 1
     out_tuple = (opt_num, block, rule_data)
+    
     if is_mw:
         match (in_bw1, out_bw1):
             case True, True:
@@ -577,7 +580,7 @@ print(f"Found {num_rw} rewrites")
 num_mw = sum([len(d) for d in mw_output.values()])
 num_sw = len(sw_output)
 
-print(f"{num_mw} multiwidth ones, {num_sw} single width")
+print(f"{num_mw} multiwidth ones, {num_sw} single width, {num_nonparametric} non-parametric")
 
 for k, v in mw_output.items():
     print(f"{k}: {len(v)}")

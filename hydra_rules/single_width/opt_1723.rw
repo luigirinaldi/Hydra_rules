@@ -1,5 +1,0 @@
-{
-  "lhs": "let var1 = (newvar0 & 1);\nlet var0 = (var1 != 0);\nselect var0 C7 C8",
-  "rhs": "C8 << var1",
-  "precondition": "C7 == (C8 * 2) && \nwidth(C7) == 32 && \nwidth(C8) == 32 && \nwidth(newvar0) == 32"
-}
