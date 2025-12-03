@@ -1,7 +1,7 @@
 {
   "preconditions": [
-    "(< u r)",
-    "(> r u)"
+    "(> r u)",
+    "(< u r)"
   ],
   "lhs": "(bw u (bw r (<< (bw r (bw u v0)) (bw r symconst_1))))",
   "rhs": "(bw u (* (bw u v0) (bw u (bw r (<< (bw r 1) (bw r symconst_1))))))",

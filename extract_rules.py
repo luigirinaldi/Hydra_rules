@@ -204,11 +204,15 @@ def souper_to_parametric(
                 "sub",
                 "mul",
                 "urem",
+                "srem",
+                "sdiv",
+                "udiv",
                 "and",
                 "xor",
                 "or",
                 "shl",
-                "shr",
+                "ashr",
+                "lshr",
                 "ashr",
                 "ult",
                 "slt",
@@ -218,6 +222,8 @@ def souper_to_parametric(
                 "sgt",
                 "uge",
                 "sge",
+                "eq",
+                "ne",
             ]
             match op:
                 case op if op in SUPPORTED_BINOPS:
@@ -628,6 +634,7 @@ for block in comments:
 
     except ValueError as e:
         print("Failed to parametrise:", opt_num, e)
+        # continue
 
     out_tuple: tuple[str, str, dict, None | str] = (opt_num, block, bwlang_out, pbv_out)
 
@@ -665,39 +672,43 @@ info_out = {}
 for k, v in mw_output.items():
     info_out[k] = (
         len(v),
-        len([val for val in v if val[2] != {}]), # bwlang
-        len([val for val in v if val[3] is not None]), # pbv
+        len([val for val in v if val[2] != {}]),  # bwlang
+        len([val for val in v if val[3] is not None]),  # pbv
     )
 
-info_out['multiwidth'] = (
+info_out["multiwidth"] = (
     sum([len(d) for d in mw_output.values()]),
     sum([info_out[k][1] for k in mw_output]),
-    sum([info_out[k][2] for k in mw_output])
-    )
+    sum([info_out[k][2] for k in mw_output]),
+)
 
-info_out['singlewidth'] = (
-        len(sw_output),
-        len([val for val in sw_output if val[2] != {}]), # bwlang
-        len([val for val in sw_output if val[3] is not None]), # pbv
-    )
+info_out["singlewidth"] = (
+    len(sw_output),
+    len([val for val in sw_output if val[2] != {}]),  # bwlang
+    len([val for val in sw_output if val[3] is not None]),  # pbv
+)
 
 max_k_len = max([len(k) for k in info_out])
 
 # Calculate max width needed for each column
-max_total = max(max(len(str(v[0])) for v in info_out.values()), len('total'))
-max_bwlang = max(max(len(str(v[1])) for v in info_out.values()), len('bwlang'))
-max_pbv = max(max(len(str(v[2])) for v in info_out.values()), len('pbv'))
+max_total = max(max(len(str(v[0])) for v in info_out.values()), len("total"))
+max_bwlang = max(max(len(str(v[1])) for v in info_out.values()), len("bwlang"))
+max_pbv = max(max(len(str(v[2])) for v in info_out.values()), len("pbv"))
 
 # Print header
-print(f"{'':>{max_k_len}}  {'total':>{max_total}}  {'bwlang':>{max_bwlang}}  {'pbv':>{max_pbv}}")
+print(
+    f"{'':>{max_k_len}}  {'total':>{max_total}}  {'bwlang':>{max_bwlang}}  {'pbv':>{max_pbv}}"
+)
 
 # Print separator bar
 total_width = max_k_len + 2 + max_total + 2 + max_bwlang + 2 + max_pbv
-print('-' * total_width)
+print("-" * total_width)
 
 # Print data rows
 for k, v in info_out.items():
-    print(f"{k:>{max_k_len}}  {v[0]:>{max_total}}  {v[1]:>{max_bwlang}}  {v[2]:>{max_pbv}}")
+    print(
+        f"{k:>{max_k_len}}  {v[0]:>{max_total}}  {v[1]:>{max_bwlang}}  {v[2]:>{max_pbv}}"
+    )
 
 # Create output directories and write files
 print("\nWriting output files...")
