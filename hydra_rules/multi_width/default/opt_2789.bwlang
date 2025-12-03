@@ -1,0 +1,9 @@
+{
+  "lhs": "(bw t (bw r (or (bw r symconst_1) (bw r (bw t newvar2)))))",
+  "rhs": "(bw t (or (bw t newvar2) (bw t (bw r symconst_1))))",
+  "preconditions": [
+    "(> r t)",
+    "(< t r)"
+  ],
+  "name": "hydra_opt_2789"
+}

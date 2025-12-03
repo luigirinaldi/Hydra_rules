@@ -192,6 +192,9 @@ def souper_to_bwlang(node: GenericAst, definitions: dict[str, PVar], width_condi
                 'mul': '*',
                 'and': 'and',
                 'xor': 'xor',
+                'or': 'or',
+                'shl': '<<',
+                'shr': '>>',
             }
             match op:
                 case op if op in BINOP_MAPPING:
@@ -219,6 +222,11 @@ def souper_to_bwlang(node: GenericAst, definitions: dict[str, PVar], width_condi
                     new_w = make_fresh_width(widths)
                     width_conditions.append(Op("<", [childs_p[0].width, new_w], 0))
                     return POp('bw', childs_p, new_w)
+                case 'width':
+                    # extracting the width of a variable/expression
+                    # make it into a separate variable of width of the width
+                    assert len(childs_p) == 1
+                    return PVar(childs_p[0].width, childs_p[0].width)
                 case _:
                     raise ValueError(f"Uknown op: {op}")
         case Variable(name, _width):
@@ -496,6 +504,7 @@ for block in comments:
                         rule_data["name"] = f"hydra_opt_{opt_num}"
                     except ValueError as e:
                         print("Failed to translate:", opt_num, e)
+                        mw_output["default"].append((opt_num, block, {}))
                         continue
                     category = "default"
         mw_output[category].append(out_tuple)
@@ -551,10 +560,11 @@ for category, rules in mw_output.items():
             rw_file = os.path.join(category_dir, f"opt_{opt_num}.bwlang")
         else:
             rw_file = os.path.join(category_dir, f"opt_{opt_num}.rw")
-            
-        with open(rw_file, "w", encoding="utf-8") as f:
-            json.dump(rule_data, f, indent=2, ensure_ascii=False)
-            f.write("\n")
+        
+        if rule_data != {}:
+            with open(rw_file, "w", encoding="utf-8") as f:
+                json.dump(rule_data, f, indent=2, ensure_ascii=False)
+                f.write("\n")
 
-    print(f"Wrote {len(rules)} multi-width '{category}' rules to {category_dir}")
+    print(f"Wrote {len([r for r in rules if r[2] != {}])} multi-width '{category}' rules to {category_dir}")
 

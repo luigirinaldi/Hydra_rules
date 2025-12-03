@@ -3,8 +3,8 @@
   "rhs": "(bw s (bw p v0))",
   "preconditions": [
     "(< p s)",
-    "(< p q)",
-    "(> q s)"
+    "(> q s)",
+    "(< p q)"
   ],
   "name": "hydra_opt_2824"
 }

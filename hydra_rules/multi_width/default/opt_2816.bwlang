@@ -2,9 +2,9 @@
   "lhs": "(bw s (bw q (bw p newvar1)))",
   "rhs": "(bw s (bw p newvar1))",
   "preconditions": [
+    "(> q s)",
     "(> p s)",
-    "(< p q)",
-    "(> q s)"
+    "(< p q)"
   ],
   "name": "hydra_opt_2816"
 }
