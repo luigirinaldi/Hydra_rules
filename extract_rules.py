@@ -19,28 +19,32 @@ class Op:
     op: str
     children: list[Union["Op", Constant, str]]  # str for variable references
     width: int
+
+
 @dataclass
 class Variable:
     name: str
     width: int
+
 
 @dataclass
 class PConst:
     value: int
     width: str
 
+
 @dataclass
 class PVar:
     name: str
     width: str
+
+
 @dataclass
 class POp:
     # parametric operation
     op: str
     children: list[Union["POp", PConst, PVar]]  # str for variable references
-    width: str # parametric width
-
-
+    width: str  # parametric width
 
 
 type GenericAst = Union[Op, Constant]
@@ -53,22 +57,24 @@ def parse_width(type_str: str) -> int:
     raise ValueError(f"Unknown type: {type_str}")
 
 
-def parse_operand(operand: str, definitions: dict[str, Op | Variable]) -> Op | Variable | Constant:
+def parse_operand(
+    operand: str, definitions: dict[str, Op | Variable]
+) -> Op | Variable | Constant:
     """Parse an operand which can be a reference, constant, or variable."""
     operand = operand.strip()
-    
+
     # Check for constant like "0:i8" or "1:i1"
     if ":" in operand and not operand.startswith("%"):
         value_part, type_part = operand.split(":")
         return Constant(value=int(value_part), width=parse_width(type_part))
-    
+
     # Check for reference like "%symconst_2" or "%v0"
     if operand.startswith("%"):
         ref_name = operand[1:].split(":")[0]  # Remove % and any type annotation
         assert ref_name in definitions
         return definitions[ref_name]
     else:
-        raise ValueError('Should neve get here')
+        raise ValueError("Should neve get here")
 
 
 def parse_souper(text: str) -> dict[str, GenericAst]:
@@ -78,23 +84,23 @@ def parse_souper(text: str) -> dict[str, GenericAst]:
     """
     definitions: dict[str, Union[Op, Variable]] = {}
     result = {"infer": None, "result": None, "pc": []}
-    
+
     for line in text.strip().split("\n"):
         line = line.strip()
         if not line:
             continue
-        
+
         # Remove comments
         if ";" in line:
             line = line.split(";")[0].strip()
-        
+
         # Remove (hasExternalUses) annotations
         if "(hasExternalUses)" in line:
             line = line.replace("(hasExternalUses)", "").strip()
-        
+
         if not line:
             continue
-        
+
         # Handle 'infer %name'
         if line.startswith("infer "):
             ref = line[6:].strip()
@@ -104,7 +110,7 @@ def parse_souper(text: str) -> dict[str, GenericAst]:
                 result["infer"] = definitions[ref_name]
             else:
                 raise ValueError("shouldn't be here")
-        
+
         # Handle 'result %name'
         elif line.startswith("result "):
             ref = line[7:].strip()
@@ -130,17 +136,17 @@ def parse_souper(text: str) -> dict[str, GenericAst]:
             left, right = line.split("=", 1)
             left = left.strip()
             right = right.strip()
-            
+
             # Parse the left side: %name:type
             if left.startswith("%"):
                 left = left[1:]  # Remove %
             name, type_str = left.split(":")
             width = parse_width(type_str)
-            
+
             # Parse the right side
             parts = right.split()
             op_name = parts[0]
-            
+
             if op_name == "var":
                 # Variable declaration
                 definitions[name] = Variable(name=name, width=width)
@@ -152,30 +158,36 @@ def parse_souper(text: str) -> dict[str, GenericAst]:
                     # Handle comma-separated args (shouldn't happen in Souper but just in case)
                     arg = arg.rstrip(",")
                     children.append(parse_operand(arg, definitions))
-                
+
                 definitions[name] = Op(op=op_name, children=children, width=width)
         else:
             print(line)
             raise ValueError("reached the end of the function?")
-            
-    
+
     return result
+
 
 def make_fresh_width(existing_widths: list[str]) -> str:
     if len(existing_widths) > 0:
         candidate = existing_widths[-1][0]
     else:
-        existing_widths.append('p')
+        existing_widths.append("p")
         return existing_widths[-1]
     while candidate in existing_widths:
-        if candidate[-1] == 'z':
-            candidate += 'a'
+        if candidate[-1] == "z":
+            candidate += "a"
         candidate = chr((ord(candidate) + 1 - 97) % 26 + 97)
     existing_widths.append(candidate)
     return candidate
 
+
 # Convert a generic AST capturing the souper/llvm semantics into a bwlang AST
-def souper_to_bwlang(node: GenericAst, definitions: dict[str, PVar], width_conditions: list[Op], widths: list[str] ) -> POp | PConst | PVar:
+def souper_to_parametric(
+    node: GenericAst,
+    definitions: dict[str, PVar],
+    width_conditions: list[Op],
+    widths: list[str],
+) -> POp | PConst | PVar:
     # Essentially inside of this function the specific bitwidths still presnet inside of the souper ir
     # need to be parametrised, and some conditions needs to be introduced to ensure the definition
     # is still sound, for ex. %a:iP = zext 3:iQ implies that Q < P
@@ -183,46 +195,45 @@ def souper_to_bwlang(node: GenericAst, definitions: dict[str, PVar], width_condi
     match node:
         case Op(op, childs, _width):
             # print(op)
-            new_op = None
-            w_out = None
-            childs_p = [souper_to_bwlang(c, definitions, width_conditions, widths) for c in childs]
-            BINOP_MAPPING = {
-                'add': '+',
-                'sub': '-',
-                'mul': '*',
-                'and': 'and',
-                'xor': 'xor',
-                'or': 'or',
-                'shl': '<<',
-                'shr': '>>',
-            }
+            childs_p = [
+                souper_to_parametric(c, definitions, width_conditions, widths)
+                for c in childs
+            ]
+            SUPPORTED_BINOPS = [
+                "add",
+                "sub",
+                "mul",
+                "and",
+                "xor",
+                "or",
+                "shl",
+                "shr",
+            ]
             match op:
-                case op if op in BINOP_MAPPING:
+                case op if op in SUPPORTED_BINOPS:
                     # print('hello')
-                    new_op = BINOP_MAPPING[op]
                     assert len(childs_p) == 2
                     w_out = childs_p[0].width
                     if (w_1 := childs_p[1].width) != w_out:
                         # abuse the Op class
                         width_conditions.append(Op("=", [w_out, w_1], 0))
-                    assert new_op is not None
                     assert w_out is not None
-                    return POp(new_op, childs_p, w_out)
-                case 'trunc':
+                    return POp(op, childs_p, w_out)
+                case "trunc":
                     # a:i? = trunc %some_other_var
                     # the outgoing width must be smaller
                     assert len(childs_p) == 1
                     new_w = make_fresh_width(widths)
                     width_conditions.append(Op(">", [childs_p[0].width, new_w], 0))
-                    return POp('bw', childs_p, new_w)
-                case 'zext':
+                    return POp("trunc", childs_p, new_w)
+                case "zext":
                     # %new_var:i(w_1) = zext %some_other_var
                     # outgoing will have a new fresh width, strictly larger than the original
                     assert len(childs_p) == 1
                     new_w = make_fresh_width(widths)
                     width_conditions.append(Op("<", [childs_p[0].width, new_w], 0))
-                    return POp('bw', childs_p, new_w)
-                case 'width':
+                    return POp("zext", childs_p, new_w)
+                case "width":
                     # extracting the width of a variable/expression
                     # make it into a separate variable of width of the width
                     assert len(childs_p) == 1
@@ -245,15 +256,29 @@ def souper_to_bwlang(node: GenericAst, definitions: dict[str, PVar], width_condi
             print(node)
             raise ValueError("Shouldn't reach here")
 
-def bwlang_to_string(node: POp | PConst | PVar | Op ) -> str:
+
+def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
+    # Essentially perform desugaring from the parametric language into bwlang
+    BINOP_MAPPING = {
+        "add": "+",
+        "sub": "-",
+        "mul": "*",
+        "and": "and",
+        "xor": "xor",
+        "or": "or",
+        "shl": "<<",
+        "shr": ">>",
+    }
     match node:
         case POp(op, childs, width):
-            childs_str = [bwlang_to_string(c) for c in childs]
-            if op == 'bw':
-                assert len(childs_str) == 1
-                return f"(bw {width} {childs_str[0]})"
-            else:
-                return f"(bw {width} ({op} {' '.join(childs_str)}))"
+            childs_str = [parametric_to_bwlang_string(c) for c in childs]
+            match op:
+                case "trunc" | "zext":
+                    # both of these are essentially just applying the mod operation
+                    assert len(childs) == 1
+                    return f"(bw {width} {childs_str[0]})"
+                case op if op in BINOP_MAPPING:
+                    return f"(bw {width} ({BINOP_MAPPING[op]} {' '.join(childs_str)}))"
         case PVar(name, width):
             return f"(bw {width} {name})"
         case PConst(value, width):
@@ -265,11 +290,16 @@ def bwlang_to_string(node: POp | PConst | PVar | Op ) -> str:
             print(node)
             raise ValueError("String conversion never should reach here")
 
-def update_p_widths(node: POp | PConst | PVar | Op, old_w : str, new_w : str) -> POp | PConst | PVar | Op:
+
+def update_p_widths(
+    node: POp | PConst | PVar | Op, old_w: str, new_w: str
+) -> POp | PConst | PVar | Op:
     match node:
         case POp(op, childs, width):
             out_width = new_w if width == old_w else width
-            return POp(op, [update_p_widths(c, old_w, new_w) for c in childs], out_width)
+            return POp(
+                op, [update_p_widths(c, old_w, new_w) for c in childs], out_width
+            )
         case PConst(value, width):
             out_width = new_w if width == old_w else width
             return PConst(value, out_width)
@@ -281,37 +311,58 @@ def update_p_widths(node: POp | PConst | PVar | Op, old_w : str, new_w : str) ->
             # Assuming that the childs are string representing widths
             return Op(op, [new_w if c == old_w else c for c in childs], _width)
 
-def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[list[POp | PConst | PVar | Op] | None, POp | PConst | PVar, POp | PConst | PVar]:
+
+def rewrite_ir_to_bwlang(
+    souper_ir: str,
+) -> tuple[
+    list[POp | PConst | PVar | Op] | None, POp | PConst | PVar, POp | PConst | PVar
+]:
     parsed_souper = parse_souper(souper_ir)
-    
+
     widths = []
     width_conditions: list[Op] = []
     var_defs = {}
     precondition = None
-    if len(pc:=parsed_souper['pc']) > 0:
-        precondition = souper_to_bwlang(pc[0]['condition'], var_defs, width_conditions, widths)
-    
-    lhs = souper_to_bwlang(parsed_souper['infer'], var_defs, width_conditions, widths)
-    rhs = souper_to_bwlang(parsed_souper['result'], var_defs, width_conditions, widths)
+    if len(pc := parsed_souper["pc"]) > 0:
+        precondition = souper_to_parametric(
+            pc[0]["condition"], var_defs, width_conditions, widths
+        )
 
-    width_conditions.append(Op('=', [lhs.width, rhs.width], -1))
+    lhs = souper_to_parametric(
+        parsed_souper["infer"], var_defs, width_conditions, widths
+    )
+    rhs = souper_to_parametric(
+        parsed_souper["result"], var_defs, width_conditions, widths
+    )
+
+    width_conditions.append(Op("=", [lhs.width, rhs.width], -1))
 
     # print("generated width conds:", width_conditions)
 
     new_conditions: list[Op | POp | PConst | PVar] = []
-    
+
+    # some of the width conditions enforce same width for two width variables
+    # perform the replacement below
     while len(width_conditions) > 0:
         cond = width_conditions.pop()
         match cond.op:
-            case '=':
-                assert len(cond.children) == 2 
+            case "=":
+                assert len(cond.children) == 2
                 old_width, new_width = cond.children
-                width_conditions = [update_p_widths(wc, old_width, new_width) for wc in width_conditions]
-                new_conditions = [update_p_widths(wc, old_width, new_width) for wc in new_conditions]
+                width_conditions = [
+                    update_p_widths(wc, old_width, new_width) for wc in width_conditions
+                ]
+                new_conditions = [
+                    update_p_widths(wc, old_width, new_width) for wc in new_conditions
+                ]
                 lhs = update_p_widths(lhs, old_width, new_width)
                 rhs = update_p_widths(rhs, old_width, new_width)
-                precondition = update_p_widths(precondition, old_width, new_width) if precondition else None
-            case '>' | '<':
+                precondition = (
+                    update_p_widths(precondition, old_width, new_width)
+                    if precondition
+                    else None
+                )
+            case ">" | "<":
                 new_conditions.append(cond)
             case _:
                 raise ValueError(f"Condition unkown: {cond.op}")
@@ -320,6 +371,7 @@ def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[list[POp | PConst | PVar | Op]
         new_conditions.append(precondition)
 
     return new_conditions, lhs, rhs
+
 
 def extract_width_annotations(ir_text: str):
     """
@@ -334,7 +386,7 @@ def extract_width_annotations(ir_text: str):
         - width_map: Dictionary mapping variable names to their width expressions
     """
     width_map: dict[str, str] = {}
-    lines = ir_text.split('\n')
+    lines = ir_text.split("\n")
     cleaned_lines = []
 
     precond_var, lhs_var, rhs_w = (None, None, None)
@@ -343,44 +395,50 @@ def extract_width_annotations(ir_text: str):
     ssa_vars = []
 
     for line in lines:
-        if line == '':
+        if line == "":
             continue
-        width_match = re.match(r'^\s*(%\w+):i(\d+)\s+=\s+(.+?)(?:\s*;.*)?$', line)
+        width_match = re.match(r"^\s*(%\w+):i(\d+)\s+=\s+(.+?)(?:\s*;.*)?$", line)
 
         if width_match:
             width_var = width_match.group(1)  # e.g., %2
             width_val = width_match.group(2).strip()
             width_map[width_var] = width_val
-            if ' var ' in line:
+            if " var " in line:
                 symbolic_vars.append(width_var)
             ssa_vars.append(width_var)
-            cleaned_lines.append(line.replace(f':i{width_val}', ''))
-        elif 'pc' in line:
-            if '1:i1' not in line:
+            cleaned_lines.append(line.replace(f":i{width_val}", ""))
+        elif "pc" in line:
+            if "1:i1" not in line:
                 raise ValueError("missing 1:i1")
-            precond_var = line.replace('pc', '').replace('1:i1', '').strip()
-        elif 'infer' in line:
-            lhs_var = line.replace('infer', '').strip()
+            precond_var = line.replace("pc", "").replace("1:i1", "").strip()
+        elif "infer" in line:
+            lhs_var = line.replace("infer", "").strip()
             assert lhs_var in ssa_vars, f"unkown {lhs_var}"
-        elif 'result' in line:
-            rhs_var = line.replace('result', '').strip()
+        elif "result" in line:
+            rhs_var = line.replace("result", "").strip()
             if rhs_var not in ssa_vars:
                 # This is the case where the rhs is a constant
-                const_match = re.match(r'(\d+):i\d+', rhs_var)
-                assert const_match is not None, f"{rhs_var} not a constant, don't know what it is"
+                const_match = re.match(r"(\d+):i\d+", rhs_var)
+                assert const_match is not None, (
+                    f"{rhs_var} not a constant, don't know what it is"
+                )
                 rhs_w = const_match.group(1)
             else:
                 rhs_w = width_map[rhs_var]
         else:
             print(line)
-            raise ValueError('aaah')
+            raise ValueError("aaah")
 
     assert lhs_var is not None
     assert rhs_w is not None
 
-
-    rw_widths = {'pc': width_map[precond_var] if precond_var else None, 'lhs': width_map[lhs_var], 'rhs': rhs_w}
+    rw_widths = {
+        "pc": width_map[precond_var] if precond_var else None,
+        "lhs": width_map[lhs_var],
+        "rhs": rhs_w,
+    }
     return rw_widths, width_map, symbolic_vars, ssa_vars
+
 
 # --- Settings ---
 filename = sys.argv[1] if len(sys.argv) > 1 else "gen.cpp.inc"
@@ -428,7 +486,7 @@ for block in comments:
         continue
     opt_num = m.group(1)
 
-    rewrite_ir = top.replace(first_line, '')
+    rewrite_ir = top.replace(first_line, "")
 
     res = extract_width_annotations(rewrite_ir)
     # print(res)
@@ -436,8 +494,8 @@ for block in comments:
 
     var_widths = [bw_map[var] for var in sym_vars]
 
-    in_bw1 = all([w == '1' for w in var_widths])
-    out_bw1 = all([w == '1' for w in [rw_widths['lhs'], rw_widths['rhs']]])
+    in_bw1 = all([w == "1" for w in var_widths])
+    out_bw1 = all([w == "1" for w in [rw_widths["lhs"], rw_widths["rhs"]]])
 
     is_mw = any([cond in bottom for cond in ["zext", "sext", "trunc"]])
 
@@ -480,25 +538,28 @@ for block in comments:
                 category = "out1"
             case False, False:
                 if "select" in bottom:
-                    category = 'select'
+                    category = "select"
                 elif "sext" in bottom:
-                    category = 'sext'
+                    category = "sext"
                 else:
-
                     try:
                         cond, lhs, rhs = rewrite_ir_to_bwlang(rewrite_ir)
                         print(f"Succesfull converted {opt_num} to bwlang")
                         cond_str = None
                         # if cond:
                         #     cond_str = bwlang_to_string(cond)
-                            # print(cond_str)
-                            # print("  |=")
-                        lhs_str = bwlang_to_string(lhs)
-                        rhs_str = bwlang_to_string(rhs)
+                        # print(cond_str)
+                        # print("  |=")
+                        lhs_str = parametric_to_bwlang_string(lhs)
+                        rhs_str = parametric_to_bwlang_string(rhs)
                         # print(lhs_str)
                         # print("  =>")
                         # print(rhs_str)
-                        rule_data["preconditions"] = [*set([bwlang_to_string(c) for c in cond])] if cond else []
+                        rule_data["preconditions"] = (
+                            [*set([parametric_to_bwlang_string(c) for c in cond])]
+                            if cond
+                            else []
+                        )
                         rule_data["lhs"] = lhs_str
                         rule_data["rhs"] = rhs_str
                         rule_data["name"] = f"hydra_opt_{opt_num}"
@@ -556,15 +617,16 @@ for category, rules in mw_output.items():
             f.write(block_str + "\n")
 
         # Write .rw file with the rule_data JSON
-        if category == 'default':
+        if category == "default":
             rw_file = os.path.join(category_dir, f"opt_{opt_num}.bwlang")
         else:
             rw_file = os.path.join(category_dir, f"opt_{opt_num}.rw")
-        
+
         if rule_data != {}:
             with open(rw_file, "w", encoding="utf-8") as f:
                 json.dump(rule_data, f, indent=2, ensure_ascii=False)
                 f.write("\n")
 
-    print(f"Wrote {len([r for r in rules if r[2] != {}])} multi-width '{category}' rules to {category_dir}")
-
+    print(
+        f"Wrote {len([r for r in rules if r[2] != {}])} multi-width '{category}' rules to {category_dir}"
+    )
