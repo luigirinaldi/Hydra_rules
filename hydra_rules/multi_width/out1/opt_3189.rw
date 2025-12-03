@@ -1,5 +1,5 @@
 {
-  "precondition": "C6 <u C5",
   "lhs": "C6 != (select ((newvar0 & 1) != 0) C5 C6)",
-  "rhs": "trunc(newvar0)"
+  "rhs": "trunc(newvar0)",
+  "precondition": "C6 <u C5"
 }

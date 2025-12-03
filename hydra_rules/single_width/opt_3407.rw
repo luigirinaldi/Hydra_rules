@@ -1,5 +1,5 @@
 {
-  "precondition": "C2 <u C1",
   "lhs": "(select newvar1 C1 C2) != (select newvar4 C1 C2)",
-  "rhs": "newvar4 ^ newvar1"
+  "rhs": "newvar4 ^ newvar1",
+  "precondition": "C2 <u C1"
 }

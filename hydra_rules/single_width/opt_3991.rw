@@ -1,5 +1,5 @@
 {
-  "precondition": "@db <<=0 C3",
   "lhs": "v0 & C3",
-  "rhs": "0"
+  "rhs": "0",
+  "precondition": "@db <<=0 C3"
 }

@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "sext(sext(v0))",
   "rhs": "sext(v0)"
 }

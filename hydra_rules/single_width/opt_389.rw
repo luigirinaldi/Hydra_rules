@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "C1 * (newvar1 sdivexact C1)",
   "rhs": "freeze(newvar1)"
 }

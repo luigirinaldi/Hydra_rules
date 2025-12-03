@@ -1,5 +1,5 @@
 {
-  "precondition": "width(C1 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxx11111111)) == 32 && \nwidth(v0) == 8 && \nlet var0 = zext(v0);\nwidth(var0) == 32",
   "lhs": "C1 & var0",
-  "rhs": "var0"
+  "rhs": "var0",
+  "precondition": "width(C1 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxx11111111)) == 32 && \nwidth(v0) == 8 && \nlet var0 = zext(v0);\nwidth(var0) == 32"
 }

@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "v0 (knownBits=0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx) %s C1 (powerOfTwo)",
   "rhs": "v0 & (C1 - 1)"
 }

@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "(v0 %u 2) != 0",
   "rhs": "trunc(v0)"
 }

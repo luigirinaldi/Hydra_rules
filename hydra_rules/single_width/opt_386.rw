@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "newvar5 * (1 << newvar2)",
   "rhs": "newvar5 << newvar2"
 }

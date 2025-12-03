@@ -1,5 +1,5 @@
 {
-  "precondition": "C1 <=u ((1 << zext(width(v0))) - 1)",
   "lhs": "zext(v0) <u C1",
-  "rhs": "v0 <u trunc(C1)"
+  "rhs": "v0 <u trunc(C1)",
+  "precondition": "C1 <=u ((1 << zext(width(v0))) - 1)"
 }

@@ -1,5 +1,5 @@
 {
-  "precondition": "C7 == (@db >>l C8)",
   "lhs": "(C7 & newvar0) << C8",
-  "rhs": "newvar0 * (1 << C8)"
+  "rhs": "newvar0 * (1 << C8)",
+  "precondition": "C7 == (@db >>l C8)"
 }

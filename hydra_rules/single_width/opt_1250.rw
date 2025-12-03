@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "~(C1 != newvar0)",
   "rhs": "C1 == newvar0"
 }

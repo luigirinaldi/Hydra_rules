@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "~v0 + 1",
   "rhs": "v0 * 0xFFFFFFFFFFFFFFFF"
 }

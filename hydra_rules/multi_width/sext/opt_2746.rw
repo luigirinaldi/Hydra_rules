@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "trunc(sext(v0))",
   "rhs": "v0"
 }

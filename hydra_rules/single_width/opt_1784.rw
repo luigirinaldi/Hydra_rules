@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "select ((newvar0 & 2) != 0) 2 0",
   "rhs": "newvar0 & 2"
 }

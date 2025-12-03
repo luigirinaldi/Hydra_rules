@@ -1,5 +1,5 @@
 {
-  "precondition": "width(v0) == 32",
   "lhs": "select (v0 <s 0) 1 0",
-  "rhs": "v0 >>l 31"
+  "rhs": "v0 >>l 31",
+  "precondition": "width(v0) == 32"
 }

@@ -1,5 +1,9 @@
 {
-  "precondition": null,
   "lhs": "(bw p (bw q (bw p newvar0)))",
-  "rhs": "(bw p newvar0)"
+  "rhs": "(bw p newvar0)",
+  "preconditions": [
+    "(> q p)",
+    "(< p q)"
+  ],
+  "name": "hydra_opt_2743"
 }

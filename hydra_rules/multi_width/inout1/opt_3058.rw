@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "zext(v0) == 0",
   "rhs": "~v0"
 }

@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "zext(trunc((select ((newvar6 & 1) != 0) 1 0)))",
   "rhs": "newvar6 & 1"
 }

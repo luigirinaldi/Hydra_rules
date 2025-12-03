@@ -1,5 +1,9 @@
 {
-  "precondition": null,
   "lhs": "(bw r (bw s (+ (bw s (bw r v0)) (bw s (bw r v3)))))",
-  "rhs": "(bw r (+ (bw r v0) (bw r v3)))"
+  "rhs": "(bw r (+ (bw r v0) (bw r v3)))",
+  "preconditions": [
+    "(< r s)",
+    "(> s r)"
+  ],
+  "name": "hydra_opt_2793"
 }

@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "zext(((zext(newvar2) | zext(newvar7)) != 0))",
   "rhs": "trunc((zext(newvar2) | zext(newvar7)))"
 }

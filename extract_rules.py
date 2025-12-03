@@ -237,7 +237,7 @@ def souper_to_bwlang(node: GenericAst, definitions: dict[str, PVar], width_condi
             print(node)
             raise ValueError("Shouldn't reach here")
 
-def bwlang_to_string(node: POp | PConst | PVar ) -> str:
+def bwlang_to_string(node: POp | PConst | PVar | Op ) -> str:
     match node:
         case POp(op, childs, width):
             childs_str = [bwlang_to_string(c) for c in childs]
@@ -250,7 +250,11 @@ def bwlang_to_string(node: POp | PConst | PVar ) -> str:
             return f"(bw {width} {name})"
         case PConst(value, width):
             return f"(bw {width} {value})"
+        case Op(op, childs, _width):
+            # meta operation on the widths
+            return f"({op} {' '.join([c for c in childs])})"
         case _:
+            print(node)
             raise ValueError("String conversion never should reach here")
 
 def update_p_widths(node: POp | PConst | PVar | Op, old_w : str, new_w : str) -> POp | PConst | PVar | Op:
@@ -269,7 +273,7 @@ def update_p_widths(node: POp | PConst | PVar | Op, old_w : str, new_w : str) ->
             # Assuming that the childs are string representing widths
             return Op(op, [new_w if c == old_w else c for c in childs], _width)
 
-def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[POp | PConst | PVar | None, POp | PConst | PVar, POp | PConst | PVar]:
+def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[list[POp | PConst | PVar | Op] | None, POp | PConst | PVar, POp | PConst | PVar]:
     parsed_souper = parse_souper(souper_ir)
     
     widths = []
@@ -284,9 +288,9 @@ def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[POp | PConst | PVar | None, PO
 
     width_conditions.append(Op('=', [lhs.width, rhs.width], -1))
 
-    print("generated width conds:", width_conditions)
+    # print("generated width conds:", width_conditions)
 
-    new_conditions = []
+    new_conditions: list[Op | POp | PConst | PVar] = []
     
     while len(width_conditions) > 0:
         cond = width_conditions.pop()
@@ -295,6 +299,7 @@ def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[POp | PConst | PVar | None, PO
                 assert len(cond.children) == 2 
                 old_width, new_width = cond.children
                 width_conditions = [update_p_widths(wc, old_width, new_width) for wc in width_conditions]
+                new_conditions = [update_p_widths(wc, old_width, new_width) for wc in new_conditions]
                 lhs = update_p_widths(lhs, old_width, new_width)
                 rhs = update_p_widths(rhs, old_width, new_width)
                 precondition = update_p_widths(precondition, old_width, new_width) if precondition else None
@@ -303,9 +308,10 @@ def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[POp | PConst | PVar | None, PO
             case _:
                 raise ValueError(f"Condition unkown: {cond.op}")
 
-    print("new conditions on widths:", new_conditions)
+    if precondition:
+        new_conditions.append(precondition)
 
-    return precondition, lhs, rhs
+    return new_conditions, lhs, rhs
 
 def extract_width_annotations(ir_text: str):
     """
@@ -435,7 +441,7 @@ for block in comments:
         is_mw = False
 
     # Parse the rewrite rule structure for .rw file
-    rule_data: dict[str, str | None] = {"precondition": None, "lhs": None, "rhs": None}
+    rule_data: dict[str, str | None] = {"lhs": None, "rhs": None}
 
     # Check if there's a guard/precondition (format: [guard] |= [rest])
     if "|=" in bottom:
@@ -475,8 +481,8 @@ for block in comments:
                         cond, lhs, rhs = rewrite_ir_to_bwlang(rewrite_ir)
                         print(f"Succesfull converted {opt_num} to bwlang")
                         cond_str = None
-                        if cond:
-                            cond_str = bwlang_to_string(cond)
+                        # if cond:
+                        #     cond_str = bwlang_to_string(cond)
                             # print(cond_str)
                             # print("  |=")
                         lhs_str = bwlang_to_string(lhs)
@@ -484,9 +490,10 @@ for block in comments:
                         # print(lhs_str)
                         # print("  =>")
                         # print(rhs_str)
-                        rule_data["precondition"] = cond_str
+                        rule_data["preconditions"] = [*set([bwlang_to_string(c) for c in cond])] if cond else []
                         rule_data["lhs"] = lhs_str
                         rule_data["rhs"] = rhs_str
+                        rule_data["name"] = f"hydra_opt_{opt_num}"
                     except ValueError as e:
                         print("Failed to translate:", opt_num, e)
                         continue

@@ -1,5 +1,5 @@
 {
-  "precondition": "@db == zext(symconst_1.k1)",
   "lhs": "let var1 = (C1 & newvar0);\nlet var0 = zext(var1);\nvar0",
-  "rhs": "let var2 = sext(newvar0);\nvar2"
+  "rhs": "let var2 = sext(newvar0);\nvar2",
+  "precondition": "@db == zext(symconst_1.k1)"
 }

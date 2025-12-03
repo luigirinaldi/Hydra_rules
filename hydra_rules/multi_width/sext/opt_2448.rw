@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "zext(zext((v2 & C1 (nonNegative))))",
   "rhs": "sext((v2 & C1))"
 }

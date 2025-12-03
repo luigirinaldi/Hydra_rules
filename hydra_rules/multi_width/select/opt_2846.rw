@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "trunc((C3 ^ (select newvar1 C1 C2)))",
   "rhs": "select newvar1 trunc((C3 ^ C1)) trunc((C3 ^ C2))"
 }

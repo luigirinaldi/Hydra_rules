@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "(newvar0 - C1) * 0xFF",
   "rhs": "C1 - newvar0"
 }

@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "~(newvar2 & 0xFFFFFFFFFFFFFFFF)",
   "rhs": "0xFFFFFFFFFFFFFFFF - newvar2"
 }

@@ -1,5 +1,8 @@
 {
-  "precondition": null,
   "lhs": "(bw s (bw q (and (bw q 4294967295) (bw q v3))))",
-  "rhs": "(bw s (bw q v3))"
+  "rhs": "(bw s (bw q v3))",
+  "preconditions": [
+    "(> q s)"
+  ],
+  "name": "hydra_opt_2784"
 }

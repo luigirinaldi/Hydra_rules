@@ -1,5 +1,5 @@
 {
-  "precondition": "width(C4 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxx111111)) == 32 && \nwidth(newvar4) == 32 && \nwidth(C2 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxxx1111)) == 32 && \nwidth(C1 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx1xx)) == 32 && \nwidth(v0) == 8 && \nlet var0 = zext(v0);\nwidth(var0) == 32",
   "lhs": "let var2 = (newvar4 & 48);\nlet var4 = (var0 >>a C1);\nlet var3 = (C2 & var4);\nlet var1 = (var2 | var3);\nC4 & var1",
-  "rhs": "var2 + var4"
+  "rhs": "var2 + var4",
+  "precondition": "width(C4 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxx111111)) == 32 && \nwidth(newvar4) == 32 && \nwidth(C2 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxxx1111)) == 32 && \nwidth(C1 (knownBits=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx1xx)) == 32 && \nwidth(v0) == 8 && \nlet var0 = zext(v0);\nwidth(var0) == 32"
 }

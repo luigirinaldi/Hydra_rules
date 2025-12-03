@@ -1,5 +1,4 @@
 {
-  "precondition": null,
   "lhs": "(v0 & C2) | (C1 & (v0 & C3))",
   "rhs": "v0 & (C2 | (C3 & C1))"
 }
