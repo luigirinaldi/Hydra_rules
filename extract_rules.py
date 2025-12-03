@@ -203,11 +203,21 @@ def souper_to_parametric(
                 "add",
                 "sub",
                 "mul",
+                "urem",
                 "and",
                 "xor",
                 "or",
                 "shl",
                 "shr",
+                "ashr",
+                "ult",
+                "slt",
+                "ule",
+                "sle",
+                "ugt",
+                "sgt",
+                "uge",
+                "sge",
             ]
             match op:
                 case op if op in SUPPORTED_BINOPS:
@@ -226,13 +236,13 @@ def souper_to_parametric(
                     new_w = make_fresh_width(widths)
                     width_conditions.append(Op(">", [childs_p[0].width, new_w], 0))
                     return POp("trunc", childs_p, new_w)
-                case "zext":
+                case "zext" | "sext" as ext:
                     # %new_var:i(w_1) = zext %some_other_var
                     # outgoing will have a new fresh width, strictly larger than the original
                     assert len(childs_p) == 1
                     new_w = make_fresh_width(widths)
                     width_conditions.append(Op("<", [childs_p[0].width, new_w], 0))
-                    return POp("zext", childs_p, new_w)
+                    return POp(ext, childs_p, new_w)
                 case "width":
                     # extracting the width of a variable/expression
                     # make it into a separate variable of width of the width
@@ -293,6 +303,41 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
             raise ValueError("String conversion never should reach here")
 
 
+def parametric_to_pbv_string(node: POp | PConst | PVar) -> str:
+    BINOP_MAPPING = {
+        "add": "bvadd",
+        "sub": "bvsub",
+        "mul": "bvmul",
+        "rem": "bvurem",
+        "udiv": "bvudiv",
+        "and": "bvand",
+        "xor": "bvxor",
+        "or": "bvor",
+        "shl": "bvshl",
+        "shr": "bvlshr",
+        "ashr": "bvlshr",
+    }
+    match node:
+        case POp(op, childs, width):
+            childs_str = [parametric_to_pbv_string(c) for c in childs]
+            match op:
+                case "trunc" | "zext":
+                    # both of these are essentially just applying the mod operation
+                    assert False
+                case op if op in BINOP_MAPPING:
+                    return f"({BINOP_MAPPING[op]} {' '.join(childs_str)}))"
+                case _:
+                    raise ValueError("pbv_to_string unkown op:", op)
+
+        case PVar(name, width):
+            return name
+        case PConst(value, width):
+            return f"(int_to_pbv {width} {value})"
+        case _:
+            print(node)
+            raise ValueError("String conversion never should reach here")
+
+
 def parametric_to_pbv(
     rewrite_in: tuple[
         tuple[
@@ -304,8 +349,32 @@ def parametric_to_pbv(
         list[str],
     ],
 ) -> str:
-    (cond, lhs, rhs), var_defs, widths = parametrised
-    
+    (cond, lhs, rhs), var_defs, widths = rewrite_in
+
+    output = "(set-logic ALL)\n"
+    output += "\n".join([f"(declare-const {w} Int)" for w in widths])
+    output += "\n"
+    output += "\n".join(
+        [
+            f"(declare-fun {var.name} () (_ BitVec {var.width}))"
+            for _n, var in var_defs.items()
+        ]
+    )
+    output += "\n"
+
+    # todo add preconditions
+    lhs_str = parametric_to_pbv_string(lhs)
+    rhs_str = parametric_to_pbv_string(rhs)
+
+    output += f"""
+(assert (distinct 
+    {lhs_str}
+    {rhs_str}
+))
+(check-sat)
+"""
+
+    return output
 
 
 def update_p_widths(
@@ -383,11 +452,13 @@ def parametrise_ir(
                     if precondition
                     else None
                 )
+                widths = [new_width if w == old_width else w for w in widths]
             case ">" | "<":
                 new_conditions.append(cond)
             case _:
                 raise ValueError(f"Condition unkown: {cond.op}")
 
+    widths = [*set(widths)]
     if precondition:
         new_conditions.append(precondition)
 
@@ -486,8 +557,8 @@ num_rw = 0
 num_nonparametric = 0
 
 # Type: dict with 'mw' -> defaultdict of category lists, 'sw' -> list
-mw_output: defaultdict[str, list[tuple[str, str, dict]]] = defaultdict(list)
-sw_output: list[tuple[str, str, dict]] = []
+mw_output: defaultdict[str, list[tuple[str, str, dict, str]]] = defaultdict(list)
+sw_output: list[tuple[str, str, dict, str]] = []
 
 for block in comments:
     block = block.strip()
@@ -529,9 +600,8 @@ for block in comments:
 
     # Parse the rewrite rule structure for .rw file
     bwlang_out = {}
-
+    pbv_out = None
     num_rw += 1
-    out_tuple = (opt_num, block, bwlang_out)
 
     try:
         parametrised = parametrise_ir(rewrite_ir)
@@ -549,8 +619,17 @@ for block in comments:
             bwlang_out["name"] = f"hydra_opt_{opt_num}"
         except ValueError as e:
             print("Failed to translate to bwlang:", opt_num, e)
+
+        try:
+            pbv_out = parametric_to_pbv(parametrised)
+            print(f"Succesfull converted {opt_num} to pbv")
+        except:
+            print(f"Failed to convert {opt_num} to pbv")
+
     except ValueError as e:
         print("Failed to parametrise:", opt_num, e)
+
+    out_tuple: tuple[str, str, dict, None | str] = (opt_num, block, bwlang_out, pbv_out)
 
     if is_mw:
         match (in_bw1, out_bw1):
@@ -580,8 +659,45 @@ print(
     f"{num_mw} multiwidth ones, {num_sw} single width, {num_nonparametric} non-parametric"
 )
 
+info_out = {}
+
+
 for k, v in mw_output.items():
-    print(f"{k}: {len(v)}")
+    info_out[k] = (
+        len(v),
+        len([val for val in v if val[2] != {}]), # bwlang
+        len([val for val in v if val[3] is not None]), # pbv
+    )
+
+info_out['multiwidth'] = (
+    sum([len(d) for d in mw_output.values()]),
+    sum([info_out[k][1] for k in mw_output]),
+    sum([info_out[k][2] for k in mw_output])
+    )
+
+info_out['singlewidth'] = (
+        len(sw_output),
+        len([val for val in sw_output if val[2] != {}]), # bwlang
+        len([val for val in sw_output if val[3] is not None]), # pbv
+    )
+
+max_k_len = max([len(k) for k in info_out])
+
+# Calculate max width needed for each column
+max_total = max(max(len(str(v[0])) for v in info_out.values()), len('total'))
+max_bwlang = max(max(len(str(v[1])) for v in info_out.values()), len('bwlang'))
+max_pbv = max(max(len(str(v[2])) for v in info_out.values()), len('pbv'))
+
+# Print header
+print(f"{'':>{max_k_len}}  {'total':>{max_total}}  {'bwlang':>{max_bwlang}}  {'pbv':>{max_pbv}}")
+
+# Print separator bar
+total_width = max_k_len + 2 + max_total + 2 + max_bwlang + 2 + max_pbv
+print('-' * total_width)
+
+# Print data rows
+for k, v in info_out.items():
+    print(f"{k:>{max_k_len}}  {v[0]:>{max_total}}  {v[1]:>{max_bwlang}}  {v[2]:>{max_pbv}}")
 
 # Create output directories and write files
 print("\nWriting output files...")
@@ -590,7 +706,7 @@ print("\nWriting output files...")
 sw_dir = os.path.join(base_output, "single_width")
 os.makedirs(sw_dir, exist_ok=True)
 
-for opt_num, block_str, bwlang_out in sw_output:
+for opt_num, block_str, bwlang_out, pbv in sw_output:
     # Write .ir file with the block
     ir_file = os.path.join(sw_dir, f"opt_{opt_num}.ir")
     with open(ir_file, "w", encoding="utf-8") as f:
@@ -603,7 +719,7 @@ for opt_num, block_str, bwlang_out in sw_output:
             json.dump(bwlang_out, f, indent=2, ensure_ascii=False)
             f.write("\n")
 
-print(f"Wrote {len([r for r in sw_output if r[2] != {}])} single-width rules to {sw_dir}")
+# print(f"Wrote {len([r for r in sw_output if r[2] != {}])} single-width rules to {sw_dir}")
 
 # Create multi-width directories and files
 mw_base_dir = os.path.join(base_output, "multi_width")
@@ -612,7 +728,7 @@ for category, rules in mw_output.items():
     category_dir = os.path.join(mw_base_dir, category)
     os.makedirs(category_dir, exist_ok=True)
 
-    for opt_num, block_str, bwlang_out in rules:
+    for opt_num, block_str, bwlang_out, pbv in rules:
         # Write .ir file with the block
         ir_file = os.path.join(category_dir, f"opt_{opt_num}.ir")
         with open(ir_file, "w", encoding="utf-8") as f:
@@ -626,6 +742,6 @@ for category, rules in mw_output.items():
                 json.dump(bwlang_out, f, indent=2, ensure_ascii=False)
                 f.write("\n")
 
-    print(
-        f"Wrote {len([r for r in rules if r[2] != {}])} multi-width '{category}' rules to {category_dir}"
-    )
+    # print(
+    #     f"Wrote {len([r for r in rules if r[2] != {}])} multi-width '{category}' rules to {category_dir}"
+    # )
