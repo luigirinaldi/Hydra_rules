@@ -1,5 +1,0 @@
-{
-  "precondition": null,
-  "lhs": "trunc((v3 & 0xFFFFFFFF))",
-  "rhs": "trunc(v3)"
-}

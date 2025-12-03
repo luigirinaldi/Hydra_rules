@@ -1,5 +1,0 @@
-{
-  "precondition": null,
-  "lhs": "zext(((v0 & 1) == 0))",
-  "rhs": "1 - (v0 & 1)"
-}

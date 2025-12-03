@@ -19,12 +19,31 @@ class Op:
     op: str
     children: list[Union["Op", Constant, str]]  # str for variable references
     width: int
-
-
 @dataclass
 class Variable:
     name: str
     width: int
+
+@dataclass
+class PConst:
+    value: int
+    width: str
+
+@dataclass
+class PVar:
+    name: str
+    width: str
+@dataclass
+class POp:
+    # parametric operation
+    op: str
+    children: list[Union["POp", PConst, PVar]]  # str for variable references
+    width: str # parametric width
+
+
+
+
+type GenericAst = Union[Op, Constant]
 
 
 def parse_width(type_str: str) -> int:
@@ -34,7 +53,7 @@ def parse_width(type_str: str) -> int:
     raise ValueError(f"Unknown type: {type_str}")
 
 
-def parse_operand(operand: str, definitions: dict) -> Union[Op, Constant, str]:
+def parse_operand(operand: str, definitions: dict[str, Op | Variable]) -> Op | Variable | Constant:
     """Parse an operand which can be a reference, constant, or variable."""
     operand = operand.strip()
     
@@ -46,23 +65,18 @@ def parse_operand(operand: str, definitions: dict) -> Union[Op, Constant, str]:
     # Check for reference like "%symconst_2" or "%v0"
     if operand.startswith("%"):
         ref_name = operand[1:].split(":")[0]  # Remove % and any type annotation
-        if ref_name in definitions:
-            return definitions[ref_name]
-        return ref_name  # Return as string reference if not yet defined
-    
-    # Try to parse as plain integer (shouldn't happen often)
-    try:
-        return Constant(value=int(operand), width=0)
-    except ValueError:
-        return operand
+        assert ref_name in definitions
+        return definitions[ref_name]
+    else:
+        raise ValueError('Should neve get here')
 
 
-def parse_souper(text: str) -> dict:
+def parse_souper(text: str) -> dict[str, GenericAst]:
     """
     Parse Souper IR text and return a dictionary with the AST.
     Returns dict with 'infer' and 'result' keys containing the respective expressions.
     """
-    definitions: dict[str, Union[Op, Constant, Variable]] = {}
+    definitions: dict[str, Union[Op, Variable]] = {}
     result = {"infer": None, "result": None, "pc": []}
     
     for line in text.strip().split("\n"):
@@ -80,7 +94,6 @@ def parse_souper(text: str) -> dict:
         
         if not line:
             continue
-        print(line)
         
         # Handle 'infer %name'
         if line.startswith("infer "):
@@ -100,7 +113,7 @@ def parse_souper(text: str) -> dict:
                 assert ref_name in definitions
                 result["result"] = definitions[ref_name]
             else:
-                # results is a constant
+                # result is a constant
                 result["result"] = parse_operand(ref, definitions)
 
         # Handle 'pc %name value'
@@ -148,38 +161,114 @@ def parse_souper(text: str) -> dict:
     
     return result
 
-def ast_to_dict(node: Union[Op, Constant, Variable, str, None]) -> Union[dict, None]:
-    """Convert AST nodes to plain dictionaries for easier inspection."""
-    if node is None:
-        return None
-    if isinstance(node, str):
-        return {"ref": node}
-    if isinstance(node, Constant):
-        return {"type": "constant", "value": node.value, "width": node.width}
-    if isinstance(node, Variable):
-        return {"type": "variable", "name": node.name, "width": node.width}
-    if isinstance(node, Op):
-        return {
-            "type": "op",
-            "op": node.op,
-            "width": node.width,
-            "children": [ast_to_dict(c) for c in node.children],
-        }
-    return None
+def make_fresh_width(existing_widths: list[str]) -> str:
+    if len(existing_widths) > 0:
+        candidate = existing_widths[-1][0]
+    else:
+        existing_widths.append('p')
+        return existing_widths[-1]
+    while candidate in existing_widths:
+        if candidate[-1] == 'z':
+            candidate += 'a'
+        candidate = chr((ord(candidate) + 1 - 97) % 26 + 97)
+    existing_widths.append(candidate)
+    return candidate
 
+# Convert a generic AST capturing the souper/llvm semantics into a bwlang AST
+def souper_to_bwlang(node: GenericAst, definitions: dict[str, PVar], width_conditions: list[Op], widths: list[str] ) -> POp | PConst | PVar:
+    # Essentially inside of this function the specific bitwidths still presnet inside of the souper ir
+    # need to be parametrised, and some conditions needs to be introduced to ensure the definition
+    # is still sound, for ex. %a:iP = zext 3:iQ implies that Q < P
+    # print(node)
+    match node:
+        case Op(op, childs, _width):
+            # print(op)
+            new_op = None
+            w_out = None
+            childs_p = [souper_to_bwlang(c, definitions, width_conditions, widths) for c in childs]
+            BINOP_MAPPING = {
+                'add': '+',
+                'sub': '-',
+                'mul': '*',
+                'and': 'and',
+                'xor': 'xor',
+            }
+            match op:
+                case op if op in BINOP_MAPPING:
+                    # print('hello')
+                    new_op = BINOP_MAPPING[op]
+                    assert len(childs_p) == 2
+                    w_out = childs_p[0].width
+                    if (w_1 := childs_p[1].width) != w_out:
+                        # abuse the Op class
+                        width_conditions.append(Op("=", [w_out, w_1], 0))
+                    assert new_op is not None
+                    assert w_out is not None
+                    return POp(new_op, childs_p, w_out)
+                case 'trunc':
+                    # a:i? = trunc %some_other_var
+                    # the outgoing width must be smaller
+                    assert len(childs_p) == 1
+                    new_w = make_fresh_width(widths)
+                    width_conditions.append(Op(">", [childs_p[0].width, new_w], 0))
+                    return POp('bw', childs_p, new_w)
+                case 'zext':
+                    # %new_var:i(w_1) = zext %some_other_var
+                    # outgoing will have a new fresh width, strictly larger than the original
+                    assert len(childs_p) == 1
+                    new_w = make_fresh_width(widths)
+                    width_conditions.append(Op("<", [childs_p[0].width, new_w], 0))
+                    return POp('bw', childs_p, new_w)
+                case _:
+                    raise ValueError("Ahhhh")
+        case Variable(name, _width):
+            if name not in definitions:
+                # fresh width variable
+                new_w = make_fresh_width(widths)
+                new_var = PVar(name, new_w)
+                definitions[name] = new_var
+                return new_var
+            else:
+                return definitions[name]
+        case Constant(value, _width):
+            new_width = make_fresh_width(widths)
+            return PConst(value, new_width)
+        case _:
+            print(node)
+            raise ValueError("Shouldn't reach here")
 
-def parse_souper_to_dict(text: str) -> dict:
-    """Parse Souper IR and return plain dictionaries."""
-    result = parse_souper(text)
-    return {
-        "infer": ast_to_dict(result["infer"]),
-        "result": ast_to_dict(result["result"]),
-        "pc": [
-            {"condition": ast_to_dict(pc["condition"]), "value": ast_to_dict(pc["value"])}
-            for pc in result["pc"]
-        ],
-    }
+def bwlang_to_string(node: POp | PConst | PVar ) -> str:
+    match node:
+        case POp(op, childs, width):
+            childs_str = [bwlang_to_string(c) for c in childs]
+            if op == 'bw':
+                assert len(childs_str) == 1
+                return f"(bw {width} {childs_str[0]})"
+            else:
+                return f"(bw {width} ({op} {' '.join(childs_str)}))"
+        case PVar(name, width):
+            return f"(bw {width} {name})"
+        case PConst(value, width):
+            return f"(bw {width} {value})"
+        case _:
+            raise ValueError("String conversion never should reach here")
 
+def rewrite_ir_to_bwlang(souper_ir: str) -> tuple[POp | PConst | PVar | None, POp | PConst | PVar, POp | PConst | PVar]:
+    parsed_souper = parse_souper(souper_ir)
+    
+    widths = []
+    width_conditions = []
+    var_defs = {}
+    precondition = None
+    if len(pc:=parsed_souper['pc']) > 0:
+        precondition = souper_to_bwlang(pc[0]['condition'], var_defs, width_conditions, widths)
+    
+    lhs = souper_to_bwlang(parsed_souper['infer'], var_defs, width_conditions, widths)
+    rhs = souper_to_bwlang(parsed_souper['result'], var_defs, width_conditions, widths)
+
+    print(width_conditions)
+
+    return precondition, lhs, rhs
 
 def extract_width_annotations(ir_text: str):
     """
@@ -290,13 +379,6 @@ for block in comments:
 
     rewrite_ir = top.replace(first_line, '')
 
-    # try:
-    parsed = parse_souper(rewrite_ir)
-    print(parsed['result'])
-    # except ValueError:
-    #     print(f"{opt_num} failed: {block}")
-    #     continue
-
     res = extract_width_annotations(rewrite_ir)
     # print(res)
     rw_widths, bw_map, sym_vars, all_vars = res
@@ -351,6 +433,26 @@ for block in comments:
                 elif "sext" in bottom:
                     category = 'sext'
                 else:
+
+                    try:
+                        cond, lhs, rhs = rewrite_ir_to_bwlang(rewrite_ir)
+                        print(f"Succesfull converted {opt_num} to bwlang")
+                        cond_str = None
+                        if cond:
+                            cond_str = bwlang_to_string(cond)
+                            # print(cond_str)
+                            # print("  |=")
+                        lhs_str = bwlang_to_string(lhs)
+                        rhs_str = bwlang_to_string(rhs)
+                        # print(lhs_str)
+                        # print("  =>")
+                        # print(rhs_str)
+                        rule_data["precondition"] = cond_str
+                        rule_data["lhs"] = lhs_str
+                        rule_data["rhs"] = rhs_str
+                    except ValueError as e:
+                        print("Failed to translate:", opt_num, e)
+                        continue
                     category = "default"
         mw_output[category].append(out_tuple)
     else:
@@ -401,7 +503,11 @@ for category, rules in mw_output.items():
             f.write(block_str + "\n")
 
         # Write .rw file with the rule_data JSON
-        rw_file = os.path.join(category_dir, f"opt_{opt_num}.rw")
+        if category == 'default':
+            rw_file = os.path.join(category_dir, f"opt_{opt_num}.bwlang")
+        else:
+            rw_file = os.path.join(category_dir, f"opt_{opt_num}.rw")
+            
         with open(rw_file, "w", encoding="utf-8") as f:
             json.dump(rule_data, f, indent=2, ensure_ascii=False)
             f.write("\n")

@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "(bw r (bw p (and (bw p 4294967295) (bw q v3))))",
+  "rhs": "(bw s (bw q v3))"
+}

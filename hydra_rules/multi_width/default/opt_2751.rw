@@ -1,5 +1,0 @@
-{
-  "precondition": null,
-  "lhs": "trunc((zext(v4) - zext(v1)))",
-  "rhs": "v4 - v1"
-}

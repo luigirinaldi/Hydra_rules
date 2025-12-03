@@ -1,0 +1,5 @@
+{
+  "precondition": null,
+  "lhs": "(bw t (bw q (- (bw q (bw p v4)) (bw s (bw r v1)))))",
+  "rhs": "(bw p (- (bw p v4) (bw r v1)))"
+}

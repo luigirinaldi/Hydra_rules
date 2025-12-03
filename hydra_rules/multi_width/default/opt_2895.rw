@@ -1,5 +1,0 @@
-{
-  "precondition": null,
-  "lhs": "trunc(trunc(newvar0))",
-  "rhs": "trunc(newvar0)"
-}

@@ -1,5 +1,0 @@
-{
-  "precondition": "C1 == zext(C2)",
-  "lhs": "trunc((C1 + newvar4)) - C2",
-  "rhs": "trunc(newvar4)"
-}
