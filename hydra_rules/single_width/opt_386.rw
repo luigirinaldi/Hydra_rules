@@ -1,4 +1,6 @@
 {
-  "lhs": "newvar5 * (1 << newvar2)",
-  "rhs": "newvar5 << newvar2"
+  "preconditions": [],
+  "lhs": "(bw q (* (bw q newvar5) (bw q (<< (bw q 1) (bw q newvar2)))))",
+  "rhs": "(bw q (<< (bw q newvar5) (bw q newvar2)))",
+  "name": "hydra_opt_386"
 }

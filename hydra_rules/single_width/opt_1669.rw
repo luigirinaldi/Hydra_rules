@@ -1,4 +1,1 @@
-{
-  "lhs": "select ((v0 & (1 << newvar0)) != 0) 1 0",
-  "rhs": "(v0 & (1 << newvar0)) >>l newvar0"
-}
+{}

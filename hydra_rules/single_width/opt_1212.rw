@@ -1,5 +1,1 @@
-{
-  "lhs": "~(C1 != (select (C1 != newvar0) C2 C1))",
-  "rhs": "C1 == newvar0",
-  "precondition": "C2 != C1"
-}
+{}

@@ -1,5 +1,1 @@
-{
-  "lhs": "let var0 = (C4 & newvar0);\nC1 != var0",
-  "rhs": "let var1 = (C1 - 1);\nvar1 <u C1",
-  "precondition": "newvar0.k0 <<=1 C4"
-}
+{}

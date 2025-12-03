@@ -1,9 +1,9 @@
 {
+  "preconditions": [
+    "(< u r)",
+    "(> r u)"
+  ],
   "lhs": "(bw u (bw r (<< (bw r (bw u v0)) (bw r symconst_1))))",
   "rhs": "(bw u (* (bw u v0) (bw u (bw r (<< (bw r 1) (bw r symconst_1))))))",
-  "preconditions": [
-    "(> r u)",
-    "(< u r)"
-  ],
   "name": "hydra_opt_2889"
 }

@@ -1,4 +1,0 @@
-{
-  "lhs": "zext(v0) != zext(trunc(zext(newvar5)))",
-  "rhs": "v0 ^ newvar5"
-}

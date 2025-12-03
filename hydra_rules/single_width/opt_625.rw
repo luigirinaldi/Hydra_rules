@@ -1,4 +1,6 @@
 {
-  "lhs": "newvar0 & 0xFFFF",
-  "rhs": "newvar0"
+  "preconditions": [],
+  "lhs": "(bw q (and (bw q 65535) (bw q newvar0)))",
+  "rhs": "(bw q newvar0)",
+  "name": "hydra_opt_625"
 }

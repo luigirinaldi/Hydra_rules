@@ -1,4 +1,1 @@
-{
-  "lhs": "v0 /u C1 (powerOfTwo)",
-  "rhs": "v0 >>l logb(C1)"
-}
+{}

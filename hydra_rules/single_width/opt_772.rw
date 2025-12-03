@@ -1,5 +1,1 @@
-{
-  "lhs": "C3 & newvar0",
-  "rhs": "0",
-  "precondition": "newvar0.k0 <<=1 C3"
-}
+{}

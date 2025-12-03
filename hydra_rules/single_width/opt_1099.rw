@@ -1,4 +1,1 @@
-{
-  "lhs": "C3 | (select newvar5 C1 0)",
-  "rhs": "select newvar5 (C3 | C1) C3"
-}
+{}

@@ -1,4 +1,0 @@
-{
-  "lhs": "sext(((C1 + newvar0) -nsw C1))",
-  "rhs": "sext(newvar0)"
-}

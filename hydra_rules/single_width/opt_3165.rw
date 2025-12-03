@@ -1,4 +1,1 @@
-{
-  "lhs": "(newvar0 - newvar5) == 0",
-  "rhs": "newvar5 == newvar0"
-}
+{}

@@ -1,4 +1,0 @@
-{
-  "lhs": "(zext(newvar2) | zext(~newvar1)) != 0",
-  "rhs": "newvar1 <=u newvar2"
-}

@@ -1,4 +1,6 @@
 {
-  "lhs": "(v0 + C1) - C2",
-  "rhs": "v0 + (C1 - C2)"
+  "preconditions": [],
+  "lhs": "(bw r (- (bw r (+ (bw r v0) (bw r symconst_1))) (bw r symconst_2)))",
+  "rhs": "(bw r (+ (bw r v0) (bw r (- (bw r symconst_1) (bw r symconst_2)))))",
+  "name": "hydra_opt_293"
 }

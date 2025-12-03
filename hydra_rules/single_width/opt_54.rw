@@ -1,4 +1,6 @@
 {
-  "lhs": "C2 + (C3 + (v0 + C1))",
-  "rhs": "v0 + (C3 + (C2 + C1))"
+  "preconditions": [],
+  "lhs": "(bw s (+ (bw s symconst_2) (bw s (+ (bw s symconst_3) (bw s (+ (bw s v0) (bw s symconst_1)))))))",
+  "rhs": "(bw s (+ (bw s v0) (bw s (+ (bw s symconst_3) (bw s (+ (bw s symconst_2) (bw s symconst_1)))))))",
+  "name": "hydra_opt_54"
 }

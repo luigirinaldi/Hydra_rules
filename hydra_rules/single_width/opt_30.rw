@@ -1,4 +1,6 @@
 {
-  "lhs": "~v0 + 1",
-  "rhs": "v0 * 0xFFFFFFFFFFFFFFFF"
+  "preconditions": [],
+  "lhs": "(bw q (+ (bw q 1) (bw q (xor (bw q 18446744073709551615) (bw q v0)))))",
+  "rhs": "(bw q (* (bw q 18446744073709551615) (bw q v0)))",
+  "name": "hydra_opt_30"
 }

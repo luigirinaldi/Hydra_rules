@@ -1,4 +1,0 @@
-{
-  "lhs": "trunc((sext(v0) ^ sext(v2)))",
-  "rhs": "v2 ^ v0"
-}

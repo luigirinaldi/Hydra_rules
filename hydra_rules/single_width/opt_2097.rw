@@ -1,4 +1,1 @@
-{
-  "lhs": "select ((newvar0 & 1) != 0) C3 0",
-  "rhs": "C3 * (newvar0 & 1)"
-}
+{}

@@ -1,4 +1,1 @@
-{
-  "lhs": "newvar0 %u C1 (powerOfTwo)",
-  "rhs": "newvar0 & (C1 - 1)"
-}
+{}

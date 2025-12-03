@@ -1,4 +1,6 @@
 {
-  "lhs": "(v0 - C2) + 0xFF",
-  "rhs": "v0 + ~C2"
+  "preconditions": [],
+  "lhs": "(bw r (+ (bw r 255) (bw r (- (bw r v0) (bw r symconst_2)))))",
+  "rhs": "(bw r (+ (bw r v0) (bw r (xor (bw r 255) (bw r symconst_2)))))",
+  "name": "hydra_opt_64"
 }

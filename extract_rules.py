@@ -279,6 +279,8 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
                     return f"(bw {width} {childs_str[0]})"
                 case op if op in BINOP_MAPPING:
                     return f"(bw {width} ({BINOP_MAPPING[op]} {' '.join(childs_str)}))"
+                case _:
+                    raise ValueError("Bwlang_to_string unkown op:", op)
         case PVar(name, width):
             return f"(bw {width} {name})"
         case PConst(value, width):
@@ -312,7 +314,7 @@ def update_p_widths(
             return Op(op, [new_w if c == old_w else c for c in childs], _width)
 
 
-def rewrite_ir_to_bwlang(
+def parametrise_ir(
     souper_ir: str,
 ) -> tuple[
     list[POp | PConst | PVar | Op] | None, POp | PConst | PVar, POp | PConst | PVar
@@ -509,28 +511,32 @@ for block in comments:
         continue
 
     # Parse the rewrite rule structure for .rw file
-    rule_data: dict[str, str | None] = {"lhs": None, "rhs": None}
-
-    # Check if there's a guard/precondition (format: [guard] |= [rest])
-    if "|=" in bottom:
-        guard_parts = bottom.split("|=", 1)
-        rule_data["precondition"] = guard_parts[0].strip()
-        remaining = guard_parts[1].strip()
-    else:
-        remaining = bottom
-
-    # Parse LHS and RHS (format: [lhs] => [rhs])
-    if "=>" in remaining:
-        arrow_parts = remaining.split("=>", 1)
-        rule_data["lhs"] = arrow_parts[0].strip()
-        rule_data["rhs"] = arrow_parts[1].strip()
-    else:
-        print("⚠ Warning: cannot find => in rewrite, skipping:", opt_num)
-        continue
+    bwlang_out = {}
 
     num_rw += 1
-    out_tuple = (opt_num, block, rule_data)
+    out_tuple = (opt_num, block, bwlang_out)
     
+    try:
+        parametrised = parametrise_ir(rewrite_ir)
+        print(f"Succesfull parametrised {opt_num}")
+        try:
+            cond, lhs, rhs = parametrised
+            print(f"Succesfull converted {opt_num} to bwlang")
+            lhs_str = parametric_to_bwlang_string(lhs)
+            rhs_str = parametric_to_bwlang_string(rhs)
+            bwlang_out["preconditions"] = (
+                [*set([parametric_to_bwlang_string(c) for c in cond])]
+                if cond
+                else []
+            )
+            bwlang_out["lhs"] = lhs_str
+            bwlang_out["rhs"] = rhs_str
+            bwlang_out["name"] = f"hydra_opt_{opt_num}"
+        except ValueError as e:
+            print("Failed to translate to bwlang:", opt_num, e)
+    except ValueError as e:
+        print("Failed to parametrise:", opt_num, e)
+
     if is_mw:
         match (in_bw1, out_bw1):
             case True, True:
@@ -545,31 +551,6 @@ for block in comments:
                 elif "sext" in bottom:
                     category = "sext"
                 else:
-                    try:
-                        cond, lhs, rhs = rewrite_ir_to_bwlang(rewrite_ir)
-                        print(f"Succesfull converted {opt_num} to bwlang")
-                        cond_str = None
-                        # if cond:
-                        #     cond_str = bwlang_to_string(cond)
-                        # print(cond_str)
-                        # print("  |=")
-                        lhs_str = parametric_to_bwlang_string(lhs)
-                        rhs_str = parametric_to_bwlang_string(rhs)
-                        # print(lhs_str)
-                        # print("  =>")
-                        # print(rhs_str)
-                        rule_data["preconditions"] = (
-                            [*set([parametric_to_bwlang_string(c) for c in cond])]
-                            if cond
-                            else []
-                        )
-                        rule_data["lhs"] = lhs_str
-                        rule_data["rhs"] = rhs_str
-                        rule_data["name"] = f"hydra_opt_{opt_num}"
-                    except ValueError as e:
-                        print("Failed to translate:", opt_num, e)
-                        mw_output["default"].append((opt_num, block, {}))
-                        continue
                     category = "default"
         mw_output[category].append(out_tuple)
     else:
@@ -592,7 +573,7 @@ print("\nWriting output files...")
 sw_dir = os.path.join(base_output, "single_width")
 os.makedirs(sw_dir, exist_ok=True)
 
-for opt_num, block_str, rule_data in sw_output:
+for opt_num, block_str, bwlang_out in sw_output:
     # Write .ir file with the block
     ir_file = os.path.join(sw_dir, f"opt_{opt_num}.ir")
     with open(ir_file, "w", encoding="utf-8") as f:
@@ -601,7 +582,7 @@ for opt_num, block_str, rule_data in sw_output:
     # Write .rw file with the rule_data JSON
     rw_file = os.path.join(sw_dir, f"opt_{opt_num}.rw")
     with open(rw_file, "w", encoding="utf-8") as f:
-        json.dump(rule_data, f, indent=2, ensure_ascii=False)
+        json.dump(bwlang_out, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
 print(f"Wrote {len(sw_output)} single-width rules to {sw_dir}")
@@ -613,21 +594,18 @@ for category, rules in mw_output.items():
     category_dir = os.path.join(mw_base_dir, category)
     os.makedirs(category_dir, exist_ok=True)
 
-    for opt_num, block_str, rule_data in rules:
+    for opt_num, block_str, bwlang_out in rules:
         # Write .ir file with the block
         ir_file = os.path.join(category_dir, f"opt_{opt_num}.ir")
         with open(ir_file, "w", encoding="utf-8") as f:
             f.write(block_str + "\n")
 
         # Write .rw file with the rule_data JSON
-        if category == "default":
-            rw_file = os.path.join(category_dir, f"opt_{opt_num}.bwlang")
-        else:
-            rw_file = os.path.join(category_dir, f"opt_{opt_num}.rw")
+        rw_file = os.path.join(category_dir, f"opt_{opt_num}.bwlang")
 
-        if rule_data != {}:
+        if bwlang_out != {}:
             with open(rw_file, "w", encoding="utf-8") as f:
-                json.dump(rule_data, f, indent=2, ensure_ascii=False)
+                json.dump(bwlang_out, f, indent=2, ensure_ascii=False)
                 f.write("\n")
 
     print(

@@ -1,5 +1,1 @@
-{
-  "lhs": "let var0 = C1 | newvar0;\nvar0",
-  "rhs": "C1",
-  "precondition": "symconst_1.k1 <<=1 @db"
-}
+{}

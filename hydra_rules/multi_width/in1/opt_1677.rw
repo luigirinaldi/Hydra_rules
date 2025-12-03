@@ -1,4 +1,0 @@
-{
-  "lhs": "select newvar3 1 0",
-  "rhs": "zext(newvar3)"
-}

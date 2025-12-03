@@ -1,4 +1,0 @@
-{
-  "lhs": "select (zext(v0) != 0) C2 v3",
-  "rhs": "select v0 C2 v3"
-}

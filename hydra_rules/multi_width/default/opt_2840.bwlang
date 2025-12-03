@@ -1,9 +1,9 @@
 {
+  "preconditions": [
+    "(> r t)",
+    "(< t r)"
+  ],
   "lhs": "(bw t (bw r (+ (bw r symconst_1) (bw r (bw t newvar1)))))",
   "rhs": "(bw t (+ (bw t newvar1) (bw t (bw r symconst_1))))",
-  "preconditions": [
-    "(< t r)",
-    "(> r t)"
-  ],
   "name": "hydra_opt_2840"
 }

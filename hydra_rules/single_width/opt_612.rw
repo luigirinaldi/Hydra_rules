@@ -1,5 +1,1 @@
-{
-  "lhs": "let var0 = (C3 & newvar0);\nC5 & var0",
-  "rhs": "C5 & newvar0",
-  "precondition": "symconst_3.k1 <<=1 C5"
-}
+{}

@@ -1,4 +1,6 @@
 {
-  "lhs": "0 - (v0 - v1)",
-  "rhs": "v1 - v0"
+  "preconditions": [],
+  "lhs": "(bw q (- (bw q 0) (bw q (- (bw q v0) (bw q v1)))))",
+  "rhs": "(bw q (- (bw q v1) (bw q v0)))",
+  "name": "hydra_opt_251"
 }

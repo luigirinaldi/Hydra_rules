@@ -1,4 +1,0 @@
-{
-  "lhs": "(zext(newvar0) | zext(newvar24)) != 0",
-  "rhs": "newvar24 | newvar0"
-}

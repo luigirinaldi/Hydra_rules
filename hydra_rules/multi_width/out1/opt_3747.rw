@@ -1,4 +1,0 @@
-{
-  "lhs": "zext(v0) <=u zext(v2)",
-  "rhs": "v0 <=u v2"
-}

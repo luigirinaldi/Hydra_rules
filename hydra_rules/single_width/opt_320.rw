@@ -1,4 +1,1 @@
-{
-  "lhs": "(v0 + newvar0) -nsw newvar0",
-  "rhs": "v0"
-}
+{}

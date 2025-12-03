@@ -1,5 +1,1 @@
-{
-  "lhs": "select (C9 != (select newvar1 C8 C9)) C3 C7",
-  "rhs": "select newvar1 C3 C7",
-  "precondition": "C9 <u C8"
-}
+{}

@@ -1,4 +1,0 @@
-{
-  "lhs": "zext((newvar0 & 1)) != 0",
-  "rhs": "trunc(newvar0)"
-}

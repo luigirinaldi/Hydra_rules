@@ -1,4 +1,6 @@
 {
-  "lhs": "(newvar0 - C1) * 0xFF",
-  "rhs": "C1 - newvar0"
+  "preconditions": [],
+  "lhs": "(bw q (* (bw q 255) (bw q (- (bw q newvar0) (bw q symconst_1)))))",
+  "rhs": "(bw q (- (bw q symconst_1) (bw q newvar0)))",
+  "name": "hydra_opt_391"
 }

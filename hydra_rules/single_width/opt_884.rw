@@ -1,5 +1,1 @@
-{
-  "lhs": "v0 & C2",
-  "rhs": "v0",
-  "precondition": "C2 == ~v0.k0"
-}
+{}

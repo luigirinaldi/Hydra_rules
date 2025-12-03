@@ -1,4 +1,0 @@
-{
-  "lhs": "trunc((select newvar1 C1 C2))",
-  "rhs": "select newvar1 trunc(C1) trunc(C2)"
-}

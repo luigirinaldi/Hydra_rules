@@ -1,4 +1,0 @@
-{
-  "lhs": "trunc((sext(v0) - C1))",
-  "rhs": "v0 + trunc((0 - C1))"
-}

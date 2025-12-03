@@ -1,4 +1,6 @@
 {
-  "lhs": "C1 | (v0 | C2)",
-  "rhs": "v0 | (C2 | C1)"
+  "preconditions": [],
+  "lhs": "(bw q (or (bw q symconst_1) (bw q (or (bw q symconst_2) (bw q v0)))))",
+  "rhs": "(bw q (or (bw q v0) (bw q (or (bw q symconst_1) (bw q symconst_2)))))",
+  "name": "hydra_opt_1116"
 }
