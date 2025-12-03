@@ -1,7 +1,7 @@
 {
   "preconditions": [
-    "(> s r)",
-    "(< r s)"
+    "(< r s)",
+    "(> s r)"
   ],
   "lhs": "(bw r (bw s (or (bw s (bw r v0)) (bw s (bw r newvar1)))))",
   "rhs": "(bw r (or (bw r v0) (bw r newvar1)))",

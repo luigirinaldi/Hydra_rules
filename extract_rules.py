@@ -293,6 +293,21 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
             raise ValueError("String conversion never should reach here")
 
 
+def parametric_to_pbv(
+    rewrite_in: tuple[
+        tuple[
+            list[POp | PConst | PVar | Op] | None,
+            POp | PConst | PVar,
+            POp | PConst | PVar,
+        ],
+        dict[str, PVar],
+        list[str],
+    ],
+) -> str:
+    (cond, lhs, rhs), var_defs, widths = parametrised
+    
+
+
 def update_p_widths(
     node: POp | PConst | PVar | Op, old_w: str, new_w: str
 ) -> POp | PConst | PVar | Op:
@@ -317,7 +332,11 @@ def update_p_widths(
 def parametrise_ir(
     souper_ir: str,
 ) -> tuple[
-    list[POp | PConst | PVar | Op] | None, POp | PConst | PVar, POp | PConst | PVar
+    tuple[
+        list[POp | PConst | PVar | Op] | None, POp | PConst | PVar, POp | PConst | PVar
+    ],
+    dict[str, PVar],
+    list[str],
 ]:
     parsed_souper = parse_souper(souper_ir)
 
@@ -372,7 +391,7 @@ def parametrise_ir(
     if precondition:
         new_conditions.append(precondition)
 
-    return new_conditions, lhs, rhs
+    return (new_conditions, lhs, rhs), var_defs, widths
 
 
 def extract_width_annotations(ir_text: str):
@@ -504,9 +523,7 @@ for block in comments:
 
     res = re.search(r"(width\([^)]*\)\s+==\s+(\S+))", bottom)
     if res and res.group(2).isdigit():
-        print(
-            f"Non parametric opt {opt_num}.", "Found width condition: ", res.group(1)
-        )
+        print(f"Non parametric opt {opt_num}.", "Found width condition: ", res.group(1))
         num_nonparametric += 1
         continue
 
@@ -515,19 +532,17 @@ for block in comments:
 
     num_rw += 1
     out_tuple = (opt_num, block, bwlang_out)
-    
+
     try:
         parametrised = parametrise_ir(rewrite_ir)
         print(f"Succesfull parametrised {opt_num}")
         try:
-            cond, lhs, rhs = parametrised
+            (cond, lhs, rhs), _vars, _widths = parametrised
             print(f"Succesfull converted {opt_num} to bwlang")
             lhs_str = parametric_to_bwlang_string(lhs)
             rhs_str = parametric_to_bwlang_string(rhs)
             bwlang_out["preconditions"] = (
-                [*set([parametric_to_bwlang_string(c) for c in cond])]
-                if cond
-                else []
+                [*set([parametric_to_bwlang_string(c) for c in cond])] if cond else []
             )
             bwlang_out["lhs"] = lhs_str
             bwlang_out["rhs"] = rhs_str
@@ -561,7 +576,9 @@ print(f"Found {num_rw} rewrites")
 num_mw = sum([len(d) for d in mw_output.values()])
 num_sw = len(sw_output)
 
-print(f"{num_mw} multiwidth ones, {num_sw} single width, {num_nonparametric} non-parametric")
+print(
+    f"{num_mw} multiwidth ones, {num_sw} single width, {num_nonparametric} non-parametric"
+)
 
 for k, v in mw_output.items():
     print(f"{k}: {len(v)}")
@@ -580,12 +597,13 @@ for opt_num, block_str, bwlang_out in sw_output:
         f.write(block_str + "\n")
 
     # Write .rw file with the rule_data JSON
-    rw_file = os.path.join(sw_dir, f"opt_{opt_num}.rw")
-    with open(rw_file, "w", encoding="utf-8") as f:
-        json.dump(bwlang_out, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    rw_file = os.path.join(sw_dir, f"opt_{opt_num}.bwlang")
+    if bwlang_out != {}:
+        with open(rw_file, "w", encoding="utf-8") as f:
+            json.dump(bwlang_out, f, indent=2, ensure_ascii=False)
+            f.write("\n")
 
-print(f"Wrote {len(sw_output)} single-width rules to {sw_dir}")
+print(f"Wrote {len([r for r in sw_output if r[2] != {}])} single-width rules to {sw_dir}")
 
 # Create multi-width directories and files
 mw_base_dir = os.path.join(base_output, "multi_width")
