@@ -1,6 +1,6 @@
 (set-logic ALL)
 (declare-const r Int)
-(declare-fun newvar1 () (_ BitVec p))
+(declare-fun newvar1 () (_ BitVec r))
 
 (assert (distinct 
     (= newvar1 newvar1)

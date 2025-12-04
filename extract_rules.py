@@ -395,6 +395,7 @@ def parametric_to_pbv(
     output += "\n"
 
     # todo add preconditions
+    assert len(cond) == 0
     lhs_str = parametric_to_pbv_string(lhs)
     rhs_str = parametric_to_pbv_string(rhs)
 
@@ -485,6 +486,7 @@ def parametrise_ir(
                     else None
                 )
                 widths = [new_width if w == old_width else w for w in widths]
+                var_defs = {k : update_p_widths(v, old_width, new_width) for k,v in var_defs.items()}
             case ">" | "<":
                 new_conditions.append(cond)
             case _:
@@ -657,7 +659,9 @@ for block in comments:
             print(f"Succesfull converted {opt_num} to pbv")
         except ValueError as e:
             print(f"Failed to convert {opt_num} to pbv:", e)
-
+        except AssertionError as e:
+            print(f"Failed to convert {opt_num} to pbv:", e)
+            
     except ValueError as e:
         print("Failed to parametrise:", opt_num, e)
         # continue

@@ -1,8 +1,8 @@
 (set-logic ALL)
 (declare-const r Int)
 (declare-const u Int)
-(declare-fun v0 () (_ BitVec q))
-(declare-fun newvar0 () (_ BitVec s))
+(declare-fun v0 () (_ BitVec r))
+(declare-fun newvar0 () (_ BitVec r))
 
 (assert (distinct 
     (ite (distinct (int_to_pbv r 0) (bvand v0 (bvshl (int_to_pbv r 1) newvar0))) (int_to_pbv r 1) (int_to_pbv u 0))

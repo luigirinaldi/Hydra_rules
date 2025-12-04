@@ -1,7 +1,7 @@
 (set-logic ALL)
 (declare-const q Int)
 (declare-fun newvar0 () (_ BitVec q))
-(declare-fun symconst_1 () (_ BitVec r))
+(declare-fun symconst_1 () (_ BitVec q))
 
 (assert (distinct 
     (bvmul (int_to_pbv q 255) (bvsub newvar0 symconst_1))

@@ -1,8 +1,8 @@
 (set-logic ALL)
 (declare-const s Int)
-(declare-fun v0 () (_ BitVec p))
-(declare-fun symconst_2 () (_ BitVec q))
-(declare-fun symconst_1 () (_ BitVec r))
+(declare-fun v0 () (_ BitVec s))
+(declare-fun symconst_2 () (_ BitVec s))
+(declare-fun symconst_1 () (_ BitVec s))
 (declare-fun symconst_3 () (_ BitVec s))
 
 (assert (distinct 

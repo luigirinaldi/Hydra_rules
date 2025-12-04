@@ -1,8 +1,8 @@
 {
   "preconditions": [
-    "(< p q)",
+    "(< p s)",
     "(> q s)",
-    "(< p s)"
+    "(< p q)"
   ],
   "lhs": "(bw s (bw q (bw p v0)))",
   "rhs": "(bw s (bw p v0))",

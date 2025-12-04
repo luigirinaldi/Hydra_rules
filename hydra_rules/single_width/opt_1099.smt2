@@ -2,7 +2,7 @@
 (declare-const r Int)
 (declare-const s Int)
 (declare-const q Int)
-(declare-fun symconst_3 () (_ BitVec p))
+(declare-fun symconst_3 () (_ BitVec r))
 (declare-fun newvar5 () (_ BitVec q))
 (declare-fun symconst_1 () (_ BitVec r))
 
