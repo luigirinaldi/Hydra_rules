@@ -1,0 +1,15 @@
+(set-logic ALL)
+(declare-const u Int)
+(declare-const r Int)
+(declare-const q Int)
+(declare-const t Int)
+(declare-const p Int)
+(declare-fun newvar1 () (_ BitVec p))
+(declare-fun symconst_1 () (_ BitVec q))
+(declare-fun symconst_2 () (_ BitVec r))
+
+(assert (distinct 
+    (pextract (ite newvar1 symconst_1 symconst_2) (- t 1) 0)
+    (ite newvar1 (pextract symconst_1 (- t 1) 0) (pextract symconst_2 (- u 1) 0))
+))
+(check-sat)

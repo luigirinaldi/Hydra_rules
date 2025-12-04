@@ -254,6 +254,14 @@ def souper_to_parametric(
                     # make it into a separate variable of width of the width
                     assert len(childs_p) == 1
                     return PVar(childs_p[0].width, childs_p[0].width)
+                case "select":
+                    assert len(childs_p) == 3
+                    w_out = childs_p[1].width
+                    if (w_1 := childs_p[1].width) != w_out:
+                        # abuse the Op class
+                        width_conditions.append(Op("=", [w_out, w_1], 0))
+                    # assert childs[0].width == 1
+                    return POp('select', childs_p, w_out)
                 case _:
                     raise ValueError(f"Uknown op: {op}")
         case Variable(name, _width):
@@ -314,24 +322,42 @@ def parametric_to_pbv_string(node: POp | PConst | PVar) -> str:
         "add": "bvadd",
         "sub": "bvsub",
         "mul": "bvmul",
-        "rem": "bvurem",
+        "urem": "bvurem",
         "udiv": "bvudiv",
         "and": "bvand",
         "xor": "bvxor",
         "or": "bvor",
         "shl": "bvshl",
-        "shr": "bvlshr",
-        "ashr": "bvlshr",
+        "lshr": "bvlshr",
+        "ashr": "bvashr",
+        "eq": "=",
+        "ne": "distinct",
+        "ult": "bvult",
+        "slt": "bvslt",
+        "ule": "bvule",
+        "sle": "bvsle",
+        "ugt": "bvugt",
+        "sgt": "bvsgt",
+        "uge": "bvuge",
+        "sge": "bvsge",
     }
     match node:
         case POp(op, childs, width):
             childs_str = [parametric_to_pbv_string(c) for c in childs]
             match op:
-                case "trunc" | "zext":
-                    # both of these are essentially just applying the mod operation
-                    assert False
+                case "trunc":
+                    # translate to "pextract x i j" where 0 <= j <= i < width(x) and makes a bitvector of length i - j + 1
+                    # so trunc p x =>. pextracct x (p - 1) 0
+                    assert len(childs) == 1
+                    return f"(pextract {childs_str[0]} (- {width} 1) 0)"
+                case "zext" | "sext" as ext:
+                    assert len(childs) == 1
+                    width_diff = f"(- {width} {childs[0].width})"
+                    return f"({'pzero_extend' if ext == 'zext' else 'psign_extend'} {width_diff} {childs_str[0]})"
                 case op if op in BINOP_MAPPING:
-                    return f"({BINOP_MAPPING[op]} {' '.join(childs_str)}))"
+                    return f"({BINOP_MAPPING[op]} {' '.join(childs_str)})"
+                case "select":
+                    return f"(ite {childs_str[0]} {childs_str[1]} {childs_str[2]})"
                 case _:
                     raise ValueError("pbv_to_string unkown op:", op)
 
@@ -629,8 +655,8 @@ for block in comments:
         try:
             pbv_out = parametric_to_pbv(parametrised)
             print(f"Succesfull converted {opt_num} to pbv")
-        except:
-            print(f"Failed to convert {opt_num} to pbv")
+        except ValueError as e:
+            print(f"Failed to convert {opt_num} to pbv:", e)
 
     except ValueError as e:
         print("Failed to parametrise:", opt_num, e)
@@ -717,42 +743,33 @@ print("\nWriting output files...")
 sw_dir = os.path.join(base_output, "single_width")
 os.makedirs(sw_dir, exist_ok=True)
 
-for opt_num, block_str, bwlang_out, pbv in sw_output:
-    # Write .ir file with the block
-    ir_file = os.path.join(sw_dir, f"opt_{opt_num}.ir")
+def save_to_file(tuple, base_dir):
+    opt_num, block_str, bwlang_out, pbv = tuple
+    ir_file = os.path.join(base_dir, f"opt_{opt_num}.ir")
     with open(ir_file, "w", encoding="utf-8") as f:
         f.write(block_str + "\n")
 
     # Write .rw file with the rule_data JSON
-    rw_file = os.path.join(sw_dir, f"opt_{opt_num}.bwlang")
+    rw_file = os.path.join(base_dir, f"opt_{opt_num}.bwlang")
     if bwlang_out != {}:
         with open(rw_file, "w", encoding="utf-8") as f:
             json.dump(bwlang_out, f, indent=2, ensure_ascii=False)
             f.write("\n")
+    pbv_file = os.path.join(base_dir, f"opt_{opt_num}.smt2")
+    if pbv is not None:
+        with open(pbv_file, "w", encoding="utf-8") as f:
+            f.write(pbv)
 
-# print(f"Wrote {len([r for r in sw_output if r[2] != {}])} single-width rules to {sw_dir}")
+for data in sw_output:
+    # Write .ir file with the block
+    save_to_file(data, sw_dir)
 
-# Create multi-width directories and files
 mw_base_dir = os.path.join(base_output, "multi_width")
 
 for category, rules in mw_output.items():
     category_dir = os.path.join(mw_base_dir, category)
     os.makedirs(category_dir, exist_ok=True)
 
-    for opt_num, block_str, bwlang_out, pbv in rules:
+    for data in rules:
         # Write .ir file with the block
-        ir_file = os.path.join(category_dir, f"opt_{opt_num}.ir")
-        with open(ir_file, "w", encoding="utf-8") as f:
-            f.write(block_str + "\n")
-
-        # Write .rw file with the rule_data JSON
-        rw_file = os.path.join(category_dir, f"opt_{opt_num}.bwlang")
-
-        if bwlang_out != {}:
-            with open(rw_file, "w", encoding="utf-8") as f:
-                json.dump(bwlang_out, f, indent=2, ensure_ascii=False)
-                f.write("\n")
-
-    # print(
-    #     f"Wrote {len([r for r in rules if r[2] != {}])} multi-width '{category}' rules to {category_dir}"
-    # )
+        save_to_file(data, category_dir)
