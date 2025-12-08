@@ -8,7 +8,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (bvmul symconst_3 (pzero_extend (- v 1) (bvxor (_ bv1 1) (bvxor (_ bv1 1) (distinct (int_to_pbv v 0) (bvand (int_to_pbv v 1) newvar0))))))
+    (bvmul symconst_3 (pzero_extend (- v 1) (bvxor true (bvxor true (distinct (int_to_pbv v 0) (bvand (int_to_pbv v 1) newvar0))))))
     (bvmul symconst_3 (bvand (int_to_pbv v 1) newvar0))
 ))
 (check-sat)

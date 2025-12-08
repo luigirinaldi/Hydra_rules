@@ -13,7 +13,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (bvxor (_ bv1 1) (distinct symconst_1 (pzero_extend (- t x) newvar1)))
+    (bvxor true (distinct symconst_1 (pzero_extend (- t x) newvar1)))
     (= newvar1 (pextract (- x 1) 0 symconst_1))
 ))
 (check-sat)

@@ -5,7 +5,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (bvxor (_ bv1 1) (= symconst_1 (bvand symconst_1 v0)))
+    (bvxor true (= symconst_1 (bvand symconst_1 v0)))
     (bvult (bvand symconst_1 v0) symconst_1)
 ))
 (check-sat)
