@@ -1,0 +1,803 @@
+Found 198 comment blocks.
+generated width conds: [Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['r', 'u'], width=0), Op(op='=', children=['p', 'u'], width=0), Op(op='>', children=['p', 'v'], width=0), Op(op='=', children=['r', 'v'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3157
+Succesfull converted 3157 to bwlang
+Failed to translate to bwlang: 3157 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 3157 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'r'], width=-1)]
+Succesfull parametrised 3197
+Succesfull converted 3197 to bwlang
+Failed to translate to bwlang: 3197 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 3197 to pbv
+generated width conds: [Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='<', children=['p', 's'], width=0), Op(op='=', children=['q', 's'], width=-1)]
+Succesfull parametrised 1677
+Succesfull converted 1677 to bwlang
+Failed to translate to bwlang: 1677 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 1677 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=[Constant(value=1, width=1), 's'], width=0), Op(op='<', children=['r', 't'], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2426
+Succesfull converted 2426 to bwlang
+Failed to translate to bwlang: 2426 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 2426 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='>', children=['q', 'r'], width=0), Op(op='=', children=['r', 'p'], width=-1)]
+Succesfull parametrised 2743
+Succesfull converted 2743 to bwlang
+Succesfull converted 2743 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', 's'], width=-1)]
+Succesfull parametrised 1534
+Succesfull converted 1534 to bwlang
+Failed to translate to bwlang: 1534 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 1534 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'q'], width=-1)]
+Succesfull parametrised 3174
+Succesfull converted 3174 to bwlang
+Failed to translate to bwlang: 3174 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3174 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 37
+Succesfull converted 37 to bwlang
+Succesfull converted 37 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['s', 'q'], width=-1)]
+Succesfull parametrised 2789
+Succesfull converted 2789 to bwlang
+Succesfull converted 2789 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='>', children=['r', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), 's'], width=-1)]
+Succesfull parametrised 3296
+Succesfull converted 3296 to bwlang
+Failed to translate to bwlang: 3296 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3296 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['p', 'r'], width=0), Op(op='<', children=['q', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2712
+Succesfull converted 2712 to bwlang
+Failed to translate to bwlang: 2712 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2712 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 392
+Succesfull converted 392 to bwlang
+Succesfull converted 392 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='<', children=['r', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='>', children=['q', 'u'], width=0), Op(op='=', children=['r', 'u'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 2931
+Succesfull converted 2931 to bwlang
+Failed to translate to bwlang: 2931 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 2931 to pbv
+Failed to parametrise: 503 Uknown op: logb
+Failed to parametrise: 3940 Uknown op: knownones
+Failed to parametrise: 4023 Uknown op: knownzeros
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['q', 'p'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 36
+Succesfull converted 36 to bwlang
+Succesfull converted 36 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['s', 'q'], width=-1)]
+Succesfull parametrised 2761
+Succesfull converted 2761 to bwlang
+Succesfull converted 2761 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 1250
+Succesfull converted 1250 to bwlang
+Failed to translate to bwlang: 1250 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1250 to pbv
+generated width conds: [Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['r', 'u'], width=0), Op(op='=', children=['u', 'p'], width=0), Op(op='>', children=['p', 'v'], width=0), Op(op='=', children=['r', 'v'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3523
+Succesfull converted 3523 to bwlang
+Failed to translate to bwlang: 3523 ('Bwlang_to_string unkown op:', 'ult')
+Succesfull converted 3523 to pbv
+generated width conds: [Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='<', children=['t', 'u'], width=0), Op(op='=', children=['r', 'u'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'q'], width=-1)]
+Succesfull parametrised 3414
+Succesfull converted 3414 to bwlang
+Failed to translate to bwlang: 3414 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 3414 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['t', 'u'], width=0), Op(op='=', children=['s', 't'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['v', 'u'], width=0), Op(op='=', children=['r', 'v'], width=0), Op(op='=', children=['q', 'r'], width=-1)]
+Succesfull parametrised 1635
+Succesfull converted 1635 to bwlang
+Failed to translate to bwlang: 1635 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1635 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 625
+Succesfull converted 625 to bwlang
+Succesfull converted 625 to pbv
+Failed to parametrise: 3948 Uknown op: knownzeros
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['p', 'r'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['p', 't'], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2448
+Succesfull converted 2448 to bwlang
+Failed to translate to bwlang: 2448 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2448 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 2989
+Succesfull converted 2989 to bwlang
+Failed to translate to bwlang: 2989 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2989 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='>', children=['q', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), 's'], width=-1)]
+Succesfull parametrised 3328
+Succesfull converted 3328 to bwlang
+Failed to translate to bwlang: 3328 ('Bwlang_to_string unkown op:', 'srem')
+Failed to convert 3328 to pbv: ('pbv_to_string unkown op:', 'srem')
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='<', children=['q', 's'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='>', children=['r', 't'], width=0), Op(op='=', children=[Constant(value=1, width=1), 't'], width=-1)]
+Succesfull parametrised 3487
+Succesfull converted 3487 to bwlang
+Failed to translate to bwlang: 3487 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3487 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 583
+Succesfull converted 583 to bwlang
+Failed to translate to bwlang: 583 ('Bwlang_to_string unkown op:', 'urem')
+Succesfull converted 583 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', 't'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='>', children=['t', 'u'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'u'], width=-1)]
+Succesfull parametrised 3189
+Succesfull converted 3189 to bwlang
+Failed to translate to bwlang: 3189 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3189 to pbv
+generated width conds: [Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 1099
+Succesfull converted 1099 to bwlang
+Failed to translate to bwlang: 1099 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 1099 to pbv
+generated width conds: [Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='>', children=['q', 's'], width=0), Op(op='>', children=['q', 't'], width=0), Op(op='>', children=['r', 'u'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2748
+Succesfull converted 2748 to bwlang
+Failed to translate to bwlang: 2748 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 2748 to pbv
+generated width conds: [Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['v', 's'], width=0), Op(op='=', children=['q', 'v'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['t', 'q'], width=-1)]
+Succesfull parametrised 1669
+Succesfull converted 1669 to bwlang
+Failed to translate to bwlang: 1669 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1669 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 1097
+Succesfull converted 1097 to bwlang
+Succesfull converted 1097 to pbv
+generated width conds: [Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='<', children=['q', 's'], width=0), Op(op='<', children=['q', 't'], width=0), Op(op='<', children=['r', 'u'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2696
+Succesfull converted 2696 to bwlang
+Failed to translate to bwlang: 2696 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 2696 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['q', 'r'], width=0), Op(op='<', children=['p', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2626
+Succesfull converted 2626 to bwlang
+Succesfull converted 2626 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='<', children=['s', 't'], width=0), Op(op='=', children=['r', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'q'], width=-1)]
+Succesfull parametrised 3244
+Succesfull converted 3244 to bwlang
+Failed to translate to bwlang: 3244 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3244 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 263
+Succesfull converted 263 to bwlang
+Succesfull converted 263 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 1247
+Succesfull converted 1247 to bwlang
+Succesfull converted 1247 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='>', children=['q', 'r'], width=0), Op(op='=', children=['r', 'p'], width=-1)]
+Succesfull parametrised 2746
+Succesfull converted 2746 to bwlang
+Failed to translate to bwlang: 2746 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2746 to pbv
+generated width conds: [Op(op='=', children=['s', 't'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['q', 'u'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='<', children=['p', 'w'], width=0), Op(op='=', children=['y', 't'], width=0), Op(op='=', children=['x', 'y'], width=0), Op(op='=', children=['w', 'x'], width=-1)]
+Succesfull parametrised 2482
+Succesfull converted 2482 to bwlang
+Failed to translate to bwlang: 2482 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2482 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['u', 'r'], width=0), Op(op='=', children=['s', 'u'], width=0), Op(op='=', children=['s', 's'], width=-1)]
+Succesfull parametrised 2097
+Succesfull converted 2097 to bwlang
+Failed to translate to bwlang: 2097 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2097 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['s', 'q'], width=-1)]
+Succesfull parametrised 2840
+Succesfull converted 2840 to bwlang
+Succesfull converted 2840 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['s', 'q'], width=-1)]
+Succesfull parametrised 2862
+Succesfull converted 2862 to bwlang
+Failed to translate to bwlang: 2862 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2862 to pbv
+generated width conds: [Op(op='>', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='<', children=['p', 's'], width=0), Op(op='<', children=['p', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['s', 'q'], width=-1)]
+Succesfull parametrised 2438
+Succesfull converted 2438 to bwlang
+Succesfull converted 2438 to pbv
+Non parametric opt 878. Found width condition:  width(newvar2) == 8
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 1212
+Succesfull converted 1212 to bwlang
+Failed to translate to bwlang: 1212 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1212 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='>', children=['q', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['t', 'p'], width=-1)]
+Succesfull parametrised 2750
+Succesfull converted 2750 to bwlang
+Succesfull converted 2750 to pbv
+Failed to parametrise: 2720 Uknown op: subnsw
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='<', children=[Constant(value=1, width=1), 's'], width=0), Op(op='<', children=['q', 't'], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2365
+Succesfull converted 2365 to bwlang
+Failed to translate to bwlang: 2365 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2365 to pbv
+Failed to parametrise: 612 Uknown op: knownones
+generated width conds: [Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 't'], width=0), Op(op='<', children=[Constant(value=1, width=1), 'v'], width=0), Op(op='=', children=['w', 's'], width=0), Op(op='>', children=['w', 'x'], width=0), Op(op='=', children=['v', 'x'], width=-1)]
+Succesfull parametrised 2318
+Succesfull converted 2318 to bwlang
+Failed to translate to bwlang: 2318 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2318 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['r', 'p'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['r', 'r'], width=-1)]
+Succesfull parametrised 1122
+Succesfull converted 1122 to bwlang
+Failed to translate to bwlang: 1122 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 1122 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 1237
+Succesfull converted 1237 to bwlang
+Failed to translate to bwlang: 1237 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 1237 to pbv
+Failed to parametrise: 3968 Uknown op: knownones
+Non parametric opt 3156. Found width condition:  width(v0) == 32
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 19
+Succesfull converted 19 to bwlang
+Succesfull converted 19 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['u', 'r'], width=0), Op(op='=', children=['s', 'u'], width=-1)]
+Succesfull parametrised 1978
+Succesfull converted 1978 to bwlang
+Failed to translate to bwlang: 1978 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1978 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='>', children=['q', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['t', 'p'], width=-1)]
+Succesfull parametrised 2793
+Succesfull converted 2793 to bwlang
+Succesfull converted 2793 to pbv
+Failed to parametrise: 884 Uknown op: knownzeros
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'p'], width=-1)]
+Succesfull parametrised 3356
+Succesfull converted 3356 to bwlang
+Failed to translate to bwlang: 3356 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3356 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 251
+Succesfull converted 251 to bwlang
+Succesfull converted 251 to pbv
+Non parametric opt 471. Found width condition:  width(newvar0) == 32
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='<', children=['r', 't'], width=0), Op(op='=', children=['t', 'q'], width=0), Op(op='>', children=['t', 'u'], width=0), Op(op='>', children=['q', 'v'], width=0), Op(op='=', children=['r', 'v'], width=0), Op(op='=', children=['u', 'r'], width=-1)]
+Succesfull parametrised 2903
+Succesfull converted 2903 to bwlang
+Failed to translate to bwlang: 2903 ('Bwlang_to_string unkown op:', 'ashr')
+Succesfull converted 2903 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 293
+Succesfull converted 293 to bwlang
+Succesfull converted 293 to pbv
+Failed to parametrise: 3182 Uknown op: knownzeros
+generated width conds: [Op(op='>', children=['p', 'q'], width=0), Op(op='>', children=['q', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2895
+Succesfull converted 2895 to bwlang
+Succesfull converted 2895 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='>', children=['q', 's'], width=0), Op(op='=', children=['t', 'r'], width=0), Op(op='>', children=['t', 'u'], width=0), Op(op='=', children=['p', 'u'], width=0), Op(op='=', children=['s', 'p'], width=-1)]
+Succesfull parametrised 2817
+Succesfull converted 2817 to bwlang
+Succesfull converted 2817 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='>', children=['q', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['t', 'p'], width=-1)]
+Succesfull parametrised 2731
+Succesfull converted 2731 to bwlang
+Succesfull converted 2731 to pbv
+generated width conds: [Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='=', children=['q', 'q'], width=-1)]
+Succesfull parametrised 1502
+Succesfull converted 1502 to bwlang
+Failed to translate to bwlang: 1502 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 1502 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3604
+Succesfull converted 3604 to bwlang
+Failed to translate to bwlang: 3604 ('Bwlang_to_string unkown op:', 'slt')
+Succesfull converted 3604 to pbv
+generated width conds: [Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['u', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 'v'], width=0), Op(op='=', children=['w', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 'x'], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['t', 'v'], width=-1)]
+Succesfull parametrised 2791
+Succesfull converted 2791 to bwlang
+Failed to translate to bwlang: 2791 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 2791 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='<', children=[Constant(value=1, width=1), 's'], width=0), Op(op='<', children=['q', 't'], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2542
+Succesfull converted 2542 to bwlang
+Failed to translate to bwlang: 2542 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2542 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 1451
+Succesfull converted 1451 to bwlang
+Failed to translate to bwlang: 1451 ('Bwlang_to_string unkown op:', 'lshr')
+Succesfull converted 1451 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3165
+Succesfull converted 3165 to bwlang
+Failed to translate to bwlang: 3165 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 3165 to pbv
+Failed to parametrise: 3991 Uknown op: knownzeros
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', 'r'], width=0), Op(op='=', children=['p', 's'], width=-1)]
+Succesfull parametrised 1295
+Succesfull converted 1295 to bwlang
+Succesfull converted 1295 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', 'r'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 1271
+Succesfull converted 1271 to bwlang
+Failed to translate to bwlang: 1271 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 1271 to pbv
+Failed to parametrise: 772 Uknown op: knownzeros
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3368
+Succesfull converted 3368 to bwlang
+Failed to translate to bwlang: 3368 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3368 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['q', 'r'], width=0), Op(op='<', children=['p', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2695
+Succesfull converted 2695 to bwlang
+Failed to translate to bwlang: 2695 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2695 to pbv
+Non parametric opt 1723. Found width condition:  width(C7) == 32
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['r', 'p'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 70
+Succesfull converted 70 to bwlang
+Failed to translate to bwlang: 70 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 70 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', 'r'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 2986
+Succesfull converted 2986 to bwlang
+Failed to translate to bwlang: 2986 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 2986 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='>', children=['s', 't'], width=0), Op(op='<', children=['t', 'u'], width=0), Op(op='=', children=['q', 'u'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'p'], width=-1)]
+Succesfull parametrised 3315
+Succesfull converted 3315 to bwlang
+Failed to translate to bwlang: 3315 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3315 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='>', children=['r', 's'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'q'], width=-1)]
+Succesfull parametrised 3272
+Succesfull converted 3272 to bwlang
+Failed to translate to bwlang: 3272 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3272 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 288
+Succesfull converted 288 to bwlang
+Succesfull converted 288 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['s', 'q'], width=-1)]
+Succesfull parametrised 2873
+Succesfull converted 2873 to bwlang
+Succesfull converted 2873 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', 'p'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='<', children=['r', 't'], width=0), Op(op='=', children=['u', 'p'], width=0), Op(op='=', children=['p', 'u'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['t', 'p'], width=-1)]
+Succesfull parametrised 2424
+Succesfull converted 2424 to bwlang
+Failed to translate to bwlang: 2424 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2424 to pbv
+Non parametric opt 1120. Found width condition:  width(v0) == 32
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 'p'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 1116
+Succesfull converted 1116 to bwlang
+Succesfull converted 1116 to pbv
+generated width conds: [Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['r', 'u'], width=0), Op(op='=', children=['u', 'p'], width=0), Op(op='>', children=['p', 'v'], width=0), Op(op='=', children=['r', 'v'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3607
+Succesfull converted 3607 to bwlang
+Failed to translate to bwlang: 3607 ('Bwlang_to_string unkown op:', 'slt')
+Succesfull converted 3607 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=[Constant(value=1, width=1), 's'], width=0), Op(op='=', children=['u', 'r'], width=0), Op(op='=', children=['t', 'u'], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2483
+Succesfull converted 2483 to bwlang
+Failed to translate to bwlang: 2483 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 2483 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 67
+Succesfull converted 67 to bwlang
+Failed to translate to bwlang: 67 ('Bwlang_to_string unkown op:', 'sdiv')
+Failed to convert 67 to pbv: ('pbv_to_string unkown op:', 'sdiv')
+generated width conds: [Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['q', 'p'], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 54
+Succesfull converted 54 to bwlang
+Succesfull converted 54 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 547
+Succesfull converted 547 to bwlang
+Failed to translate to bwlang: 547 ('Bwlang_to_string unkown op:', 'sdiv')
+Failed to convert 547 to pbv: ('pbv_to_string unkown op:', 'sdiv')
+Failed to parametrise: 3965 Uknown op: demandedmask
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='>', children=['q', 's'], width=0), Op(op='=', children=['t', 'r'], width=0), Op(op='>', children=['t', 'u'], width=0), Op(op='=', children=['p', 'u'], width=0), Op(op='=', children=['s', 'p'], width=-1)]
+Succesfull parametrised 2889
+Succesfull converted 2889 to bwlang
+Succesfull converted 2889 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['s', 'q'], width=-1)]
+Succesfull parametrised 2778
+Succesfull converted 2778 to bwlang
+Failed to translate to bwlang: 2778 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2778 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='>', children=['q', 'r'], width=0), Op(op='<', children=['p', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2744
+Succesfull converted 2744 to bwlang
+Succesfull converted 2744 to pbv
+Failed to parametrise: 3998 Uknown op: knownones
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='<', children=['s', 't'], width=0), Op(op='=', children=['r', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'q'], width=-1)]
+Succesfull parametrised 3449
+Succesfull converted 3449 to bwlang
+Failed to translate to bwlang: 3449 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3449 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), 's'], width=-1)]
+Succesfull parametrised 3385
+Succesfull converted 3385 to bwlang
+Failed to translate to bwlang: 3385 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 3385 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='>', children=['q', 'r'], width=0), Op(op='<', children=['p', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2824
+Succesfull converted 2824 to bwlang
+Succesfull converted 2824 to pbv
+Failed to parametrise: 561 Uknown op: logb
+Non parametric opt 540. Found width condition:  width(v0) == 8
+Failed to parametrise: 3957 Uknown op: knownones
+Failed to parametrise: 3697 Uknown op: subnsw
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['s', 't'], width=0), Op(op='<', children=['s', 'u'], width=0), Op(op='=', children=['r', 'u'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['t', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3275
+Succesfull converted 3275 to bwlang
+Failed to translate to bwlang: 3275 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 3275 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['s', 'q'], width=-1)]
+Succesfull parametrised 2801
+Succesfull converted 2801 to bwlang
+Failed to translate to bwlang: 2801 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2801 to pbv
+Failed to parametrise: 2721 Uknown op: subnsw
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='<', children=['p', 's'], width=0), Op(op='<', children=['q', 't'], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2703
+Succesfull converted 2703 to bwlang
+Failed to translate to bwlang: 2703 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2703 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 250
+Succesfull converted 250 to bwlang
+Succesfull converted 250 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 1204
+Succesfull converted 1204 to bwlang
+Failed to translate to bwlang: 1204 ('Bwlang_to_string unkown op:', 'ult')
+Succesfull converted 1204 to pbv
+Failed to parametrise: 389 Uknown op: sdivexact
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='<', children=['r', 't'], width=0), Op(op='=', children=['t', 'q'], width=0), Op(op='>', children=['q', 'u'], width=0), Op(op='=', children=['r', 'u'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3503
+Succesfull converted 3503 to bwlang
+Failed to translate to bwlang: 3503 ('Bwlang_to_string unkown op:', 'ult')
+Succesfull converted 3503 to pbv
+generated width conds: [Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='<', children=['q', 's'], width=0), Op(op='<', children=['q', 't'], width=0), Op(op='<', children=['r', 'u'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2456
+Succesfull converted 2456 to bwlang
+Failed to translate to bwlang: 2456 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 2456 to pbv
+generated width conds: [Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 1150
+Succesfull converted 1150 to bwlang
+Failed to translate to bwlang: 1150 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 1150 to pbv
+generated width conds: [Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='>', children=['r', 't'], width=0), Op(op='=', children=['p', 't'], width=0), Op(op='=', children=['u', Constant(value=1, width=1)], width=0), Op(op='>', children=['r', 'v'], width=0), Op(op='=', children=['p', 'v'], width=0), Op(op='=', children=['w', Constant(value=1, width=1)], width=0), Op(op='>', children=['r', 'x'], width=0), Op(op='=', children=['p', 'x'], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 862
+Succesfull converted 862 to bwlang
+Failed to translate to bwlang: 862 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 862 to pbv
+generated width conds: [Op(op='=', children=['q', 'p'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 57
+Succesfull converted 57 to bwlang
+Succesfull converted 57 to pbv
+Failed to parametrise: 3936 Uknown op: knownzeros
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3891
+Succesfull converted 3891 to bwlang
+Failed to translate to bwlang: 3891 ('Bwlang_to_string unkown op:', 'sle')
+Succesfull converted 3891 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', Constant(value=1, width=1)], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'r'], width=-1)]
+Succesfull parametrised 3407
+Succesfull converted 3407 to bwlang
+Failed to translate to bwlang: 3407 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 3407 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='<', children=['r', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), 'p'], width=-1)]
+Succesfull parametrised 3045
+Succesfull converted 3045 to bwlang
+Failed to translate to bwlang: 3045 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 3045 to pbv
+generated width conds: [Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 'u'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='>', children=['p', 'v'], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['t', 'u'], width=-1)]
+Succesfull parametrised 2846
+Succesfull converted 2846 to bwlang
+Failed to translate to bwlang: 2846 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 2846 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='>', children=['s', 'u'], width=0), Op(op='<', children=['u', 'v'], width=0), Op(op='=', children=['w', 'r'], width=0), Op(op='=', children=['v', 'w'], width=-1)]
+Succesfull parametrised 2593
+Succesfull converted 2593 to bwlang
+Failed to translate to bwlang: 2593 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2593 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', 'r'], width=0), Op(op='=', children=['s', 'q'], width=0), Op(op='=', children=['p', 's'], width=-1)]
+Succesfull parametrised 252
+Succesfull converted 252 to bwlang
+Succesfull converted 252 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', 's'], width=-1)]
+Succesfull parametrised 1818
+Succesfull converted 1818 to bwlang
+Failed to translate to bwlang: 1818 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1818 to pbv
+generated width conds: [Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['r', 'p'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 1304
+Succesfull converted 1304 to bwlang
+Failed to translate to bwlang: 1304 ('Bwlang_to_string unkown op:', 'lshr')
+Succesfull converted 1304 to pbv
+generated width conds: [Op(op='=', children=['s', 't'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='>', children=['s', 'u'], width=0), Op(op='=', children=['p', 'u'], width=-1)]
+Succesfull parametrised 1248
+Succesfull converted 1248 to bwlang
+Failed to translate to bwlang: 1248 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1248 to pbv
+generated width conds: [Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['r', 'v'], width=0), Op(op='=', children=['p', 'v'], width=0), Op(op='=', children=['u', Constant(value=1, width=1)], width=0), Op(op='>', children=['p', 'w'], width=0), Op(op='=', children=['r', 'w'], width=0), Op(op='=', children=['u', Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 1230
+Succesfull converted 1230 to bwlang
+Failed to translate to bwlang: 1230 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1230 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['r', 'p'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 1160
+Succesfull converted 1160 to bwlang
+Failed to translate to bwlang: 1160 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1160 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='>', children=['q', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), 's'], width=-1)]
+Succesfull parametrised 3212
+Succesfull converted 3212 to bwlang
+Failed to translate to bwlang: 3212 ('Bwlang_to_string unkown op:', 'urem')
+Succesfull converted 3212 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='<', children=['s', 't'], width=0), Op(op='=', children=['r', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='<', children=[Constant(value=1, width=1), 'u'], width=0), Op(op='<', children=['q', 'v'], width=0), Op(op='<', children=['s', 'w'], width=0), Op(op='=', children=['v', 'w'], width=0), Op(op='>', children=['v', 'x'], width=0), Op(op='=', children=['u', 'x'], width=-1)]
+Succesfull parametrised 2414
+Succesfull converted 2414 to bwlang
+Failed to translate to bwlang: 2414 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2414 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', Constant(value=1, width=1)], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 1243
+Succesfull converted 1243 to bwlang
+Failed to translate to bwlang: 1243 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 1243 to pbv
+Non parametric opt 843. Found width condition:  width(newvar4) == 32
+Non parametric opt 765. Found width condition:  width(newvar0) == 32
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 724
+Succesfull converted 724 to bwlang
+Succesfull converted 724 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 't'], width=-1)]
+Succesfull parametrised 629
+Succesfull converted 629 to bwlang
+Failed to translate to bwlang: 629 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 629 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 594
+Succesfull converted 594 to bwlang
+Failed to translate to bwlang: 594 ('Bwlang_to_string unkown op:', 'srem')
+Failed to convert 594 to pbv: ('pbv_to_string unkown op:', 'srem')
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 56
+Succesfull converted 56 to bwlang
+Succesfull converted 56 to pbv
+generated width conds: [Op(op='=', children=['t', 'u'], width=0), Op(op='=', children=['s', 't'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='<', children=['q', 'v'], width=0), Op(op='=', children=['p', 'v'], width=0), Op(op='=', children=['w', 'u'], width=0), Op(op='=', children=['p', 'w'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 408
+Succesfull converted 408 to bwlang
+Failed to translate to bwlang: 408 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 408 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3747
+Succesfull converted 3747 to bwlang
+Failed to translate to bwlang: 3747 ('Bwlang_to_string unkown op:', 'ule')
+Succesfull converted 3747 to pbv
+Non parametric opt 3206. Found width condition:  width(v0) == 32
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='<', children=['q', 's'], width=0), Op(op='=', children=['p', 's'], width=-1)]
+Succesfull parametrised 310
+Succesfull converted 310 to bwlang
+Failed to translate to bwlang: 310 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 310 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', Constant(value=1, width=1)], width=0), Op(op='=', children=[Constant(value=1, width=1), 'r'], width=-1)]
+Succesfull parametrised 3040
+Succesfull converted 3040 to bwlang
+Failed to translate to bwlang: 3040 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 3040 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['t', 'q'], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2852
+Succesfull converted 2852 to bwlang
+Succesfull converted 2852 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='<', children=['r', 't'], width=0), Op(op='=', children=['t', 'q'], width=0), Op(op='>', children=['t', 'u'], width=0), Op(op='>', children=['q', 'v'], width=0), Op(op='=', children=['r', 'v'], width=0), Op(op='=', children=['u', 'r'], width=-1)]
+Succesfull parametrised 2851
+Succesfull converted 2851 to bwlang
+Failed to translate to bwlang: 2851 ('Bwlang_to_string unkown op:', 'lshr')
+Succesfull converted 2851 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='>', children=['q', 's'], width=0), Op(op='=', children=['t', 'r'], width=0), Op(op='>', children=['t', 'u'], width=0), Op(op='=', children=['p', 'u'], width=0), Op(op='=', children=['s', 'p'], width=-1)]
+Succesfull parametrised 2825
+Succesfull converted 2825 to bwlang
+Failed to translate to bwlang: 2825 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2825 to pbv
+generated width conds: [Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='>', children=['q', 's'], width=0), Op(op='>', children=['q', 't'], width=0), Op(op='>', children=['r', 'u'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', 't'], width=-1)]
+Succesfull parametrised 2806
+Succesfull converted 2806 to bwlang
+Failed to translate to bwlang: 2806 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 2806 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 278
+Succesfull converted 278 to bwlang
+Succesfull converted 278 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='>', children=['p', 'r'], width=0), Op(op='>', children=['q', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2784
+Succesfull converted 2784 to bwlang
+Succesfull converted 2784 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='>', children=['p', 'r'], width=0), Op(op='>', children=['q', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2763
+Succesfull converted 2763 to bwlang
+Succesfull converted 2763 to pbv
+generated width conds: [Op(op='=', children=['s', 't'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['p', 'u'], width=0), Op(op='=', children=['v', 't'], width=0), Op(op='=', children=['u', 'v'], width=-1)]
+Succesfull parametrised 2687
+Succesfull converted 2687 to bwlang
+Failed to translate to bwlang: 2687 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2687 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=['t', 's'], width=0), Op(op='=', children=['r', 't'], width=-1)]
+Succesfull parametrised 259
+Succesfull converted 259 to bwlang
+Failed to translate to bwlang: 259 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 259 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 256
+Succesfull converted 256 to bwlang
+Succesfull converted 256 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 'p'], width=0), Op(op='<', children=[Constant(value=1, width=1), 's'], width=0), Op(op='=', children=['t', 'p'], width=0), Op(op='=', children=['p', 't'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', 'p'], width=-1)]
+Succesfull parametrised 2496
+Succesfull converted 2496 to bwlang
+Failed to translate to bwlang: 2496 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 2496 to pbv
+generated width conds: [Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['p', Constant(value=1, width=1)], width=0), Op(op='<', children=['p', 't'], width=0), Op(op='<', children=['u', 'v'], width=0), Op(op='<', children=['r', 'w'], width=0), Op(op='=', children=['v', 'w'], width=0), Op(op='=', children=['t', 'v'], width=-1)]
+Succesfull parametrised 2450
+Succesfull converted 2450 to bwlang
+Failed to translate to bwlang: 2450 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2450 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['u', 'r'], width=0), Op(op='=', children=['s', 'u'], width=-1)]
+Succesfull parametrised 1784
+Succesfull converted 1784 to bwlang
+Failed to translate to bwlang: 1784 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1784 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='<', children=['q', 's'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['v', 'r'], width=0), Op(op='<', children=['v', 'w'], width=0), Op(op='=', children=['t', 'w'], width=-1)]
+Succesfull parametrised 1584
+Succesfull converted 1584 to bwlang
+Failed to translate to bwlang: 1584 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1584 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['q', 'p'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 1003
+Succesfull converted 1003 to bwlang
+Succesfull converted 1003 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 386
+Succesfull converted 386 to bwlang
+Succesfull converted 386 to pbv
+Failed to parametrise: 3682 Uknown op: subnsw
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', 'r'], width=0), Op(op='=', children=['p', 's'], width=-1)]
+Succesfull parametrised 30
+Succesfull converted 30 to bwlang
+Succesfull converted 30 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3056
+Succesfull converted 3056 to bwlang
+Failed to translate to bwlang: 3056 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 3056 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='>', children=['r', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), 's'], width=-1)]
+Succesfull parametrised 3055
+Succesfull converted 3055 to bwlang
+Failed to translate to bwlang: 3055 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 3055 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 2967
+Succesfull converted 2967 to bwlang
+Failed to translate to bwlang: 2967 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 2967 to pbv
+Failed to parametrise: 2905 Uknown op: subnsw
+generated width conds: [Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['t', 'u'], width=0), Op(op='=', children=['p', 'u'], width=0), Op(op='=', children=['q', 'p'], width=0), Op(op='>', children=['q', 'v'], width=0), Op(op='>', children=['q', 'w'], width=0), Op(op='=', children=['t', 'w'], width=0), Op(op='=', children=['v', 't'], width=-1)]
+Succesfull parametrised 2814
+Succesfull converted 2814 to bwlang
+Failed to translate to bwlang: 2814 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2814 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='>', children=['q', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['t', 'p'], width=-1)]
+Succesfull parametrised 2777
+Succesfull converted 2777 to bwlang
+Failed to translate to bwlang: 2777 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2777 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='>', children=['q', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['t', 'p'], width=-1)]
+Succesfull parametrised 2770
+Succesfull converted 2770 to bwlang
+Failed to translate to bwlang: 2770 ('Bwlang_to_string unkown op:', 'sext')
+Succesfull converted 2770 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='<', children=['r', 's'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='>', children=['q', 't'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['t', 'p'], width=-1)]
+Succesfull parametrised 2751
+Succesfull converted 2751 to bwlang
+Succesfull converted 2751 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='<', children=['q', 's'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='<', children=[Constant(value=1, width=1), 't'], width=0), Op(op='=', children=['u', 'r'], width=0), Op(op='=', children=['t', 'u'], width=-1)]
+Succesfull parametrised 2599
+Succesfull converted 2599 to bwlang
+Failed to translate to bwlang: 2599 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2599 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=[Constant(value=1, width=1), 's'], width=0), Op(op='=', children=['t', 'r'], width=0), Op(op='>', children=['t', 'u'], width=0), Op(op='=', children=['s', 'u'], width=-1)]
+Succesfull parametrised 2443
+Succesfull converted 2443 to bwlang
+Failed to translate to bwlang: 2443 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 2443 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='<', children=['p', 'r'], width=0), Op(op='<', children=['q', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2430
+Succesfull converted 2430 to bwlang
+Succesfull converted 2430 to pbv
+Non parametric opt 1521. Found width condition:  width(v0) == 32
+generated width conds: [Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 1232
+Succesfull converted 1232 to bwlang
+Failed to translate to bwlang: 1232 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 1232 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='=', children=['r', 'p'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'p'], width=-1)]
+Succesfull parametrised 1106
+Succesfull converted 1106 to bwlang
+Succesfull converted 1106 to pbv
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 814
+Succesfull converted 814 to bwlang
+Succesfull converted 814 to pbv
+generated width conds: [Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['p', 's'], width=-1)]
+Succesfull parametrised 781
+Succesfull converted 781 to bwlang
+Failed to translate to bwlang: 781 ('Bwlang_to_string unkown op:', 'select')
+Succesfull converted 781 to pbv
+Non parametric opt 728. Found width condition:  width(newvar4) == 32
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', 'r'], width=0), Op(op='=', children=['q', 's'], width=0), Op(op='=', children=['p', 'q'], width=-1)]
+Succesfull parametrised 64
+Succesfull converted 64 to bwlang
+Succesfull converted 64 to pbv
+Non parametric opt 644. Found width condition:  width(v0) == 8
+Failed to parametrise: 3962 Uknown op: demandedmask
+Failed to parametrise: 3947 Uknown op: demandedmask
+Failed to parametrise: 3945 Uknown op: knownones
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['r', 'q'], width=0), Op(op='=', children=['p', 'r'], width=-1)]
+Succesfull parametrised 391
+Succesfull converted 391 to bwlang
+Succesfull converted 391 to pbv
+Failed to parametrise: 326 Uknown op: subnsw
+Failed to parametrise: 320 Uknown op: subnsw
+generated width conds: [Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3108
+Succesfull converted 3108 to bwlang
+Failed to translate to bwlang: 3108 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 3108 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['s', 'p'], width=0), Op(op='=', children=['r', 's'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3102
+Succesfull converted 3102 to bwlang
+Failed to translate to bwlang: 3102 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 3102 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 3066
+Succesfull converted 3066 to bwlang
+Failed to translate to bwlang: 3066 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 3066 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['s', 'q'], width=0), Op(op='=', children=[Constant(value=1, width=1), 's'], width=-1)]
+Succesfull parametrised 3058
+Succesfull converted 3058 to bwlang
+Failed to translate to bwlang: 3058 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 3058 to pbv
+generated width conds: [Op(op='=', children=['q', 'r'], width=0), Op(op='=', children=['p', 'q'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['q', 'p'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=-1)]
+Succesfull parametrised 2980
+Succesfull converted 2980 to bwlang
+Failed to translate to bwlang: 2980 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 2980 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['t', 'q'], width=0), Op(op='>', children=['s', 'u'], width=0), Op(op='=', children=['t', 'u'], width=-1)]
+Succesfull parametrised 285
+Succesfull converted 285 to bwlang
+Failed to translate to bwlang: 285 ('Bwlang_to_string unkown op:', 'eq')
+Succesfull converted 285 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='>', children=['p', 't'], width=0), Op(op='=', children=['q', 't'], width=0), Op(op='=', children=['s', 'q'], width=-1)]
+Succesfull parametrised 2837
+Succesfull converted 2837 to bwlang
+Succesfull converted 2837 to pbv
+generated width conds: [Op(op='<', children=['p', 'q'], width=0), Op(op='>', children=['q', 'r'], width=0), Op(op='>', children=['p', 's'], width=0), Op(op='=', children=['r', 's'], width=-1)]
+Succesfull parametrised 2816
+Succesfull converted 2816 to bwlang
+Succesfull converted 2816 to pbv
+generated width conds: [Op(op='<', children=['q', 'r'], width=0), Op(op='=', children=['p', 'r'], width=0), Op(op='=', children=[Constant(value=1, width=1), Constant(value=1, width=1)], width=0), Op(op='=', children=['q', Constant(value=1, width=1)], width=0), Op(op='=', children=['s', 's'], width=-1)]
+Succesfull parametrised 1922
+Succesfull converted 1922 to bwlang
+Failed to translate to bwlang: 1922 ('Bwlang_to_string unkown op:', 'ne')
+Succesfull converted 1922 to pbv
+Found 186 rewrites
+96 multiwidth ones, 90 single width, 12 non-parametric
+             total  bwlang  pbv
+-------------------------------
+       out1     17       0   16
+        in1      8       1    8
+     select     14       0   14
+    default     31      21   31
+     inout1     10       0   10
+       sext     16       0   11
+ multiwidth     96      22   90
+singlewidth     90      28   66
+
+Writing output files...

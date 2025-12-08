@@ -1,7 +1,6 @@
 (set-logic ALL)
-(declare-const p Int)
 (declare-const q Int)
-(declare-fun newvar0 () (_ BitVec p))
+(declare-fun newvar0 () (_ BitVec 1))
 (declare-fun symconst_1 () (_ BitVec q))
 
 ; assert lhs != rhs:

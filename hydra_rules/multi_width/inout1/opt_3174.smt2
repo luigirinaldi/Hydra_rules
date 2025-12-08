@@ -1,13 +1,14 @@
 (set-logic ALL)
+(declare-const q Int)
 (declare-const r Int)
-(declare-fun newvar0 () (_ BitVec r))
+(declare-fun newvar0 () (_ BitVec q))
 
 ; Preconditions:
-(assert (< r r))
+(assert (< q r))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (distinct (int_to_pbv r 0) (pzero_extend (- r r) newvar0))
+    (distinct (int_to_pbv r 0) (pzero_extend (- r q) newvar0))
     newvar0
 ))
 (check-sat)

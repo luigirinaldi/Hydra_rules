@@ -3,11 +3,11 @@
 (declare-fun v0 () (_ BitVec r))
 
 ; Preconditions:
-(assert (< r r))
+(assert (< 1 r))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pzero_extend (- r r) (= (int_to_pbv r 0) (bvand (int_to_pbv r 1) v0)))
+    (pzero_extend (- r 1) (= (int_to_pbv r 0) (bvand (int_to_pbv r 1) v0)))
     (bvsub (int_to_pbv r 1) (bvand (int_to_pbv r 1) v0))
 ))
 (check-sat)

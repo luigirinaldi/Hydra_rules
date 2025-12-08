@@ -7,11 +7,11 @@
 ; Preconditions:
 (assert (< q r))
 (assert (< q t))
-(assert (< r t))
+(assert (< 1 t))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pzero_extend (- t r) (distinct (int_to_pbv r 0) (pzero_extend (- r q) newvar3)))
+    (pzero_extend (- t 1) (distinct (int_to_pbv r 0) (pzero_extend (- r q) newvar3)))
     (pzero_extend (- t q) newvar3)
 ))
 (check-sat)

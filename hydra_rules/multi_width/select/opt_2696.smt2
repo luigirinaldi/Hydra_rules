@@ -1,10 +1,9 @@
 (set-logic ALL)
-(declare-const p Int)
 (declare-const q Int)
 (declare-const r Int)
 (declare-const t Int)
 (declare-const u Int)
-(declare-fun newvar1 () (_ BitVec p))
+(declare-fun newvar1 () (_ BitVec 1))
 (declare-fun symconst_1 () (_ BitVec q))
 (declare-fun symconst_2 () (_ BitVec r))
 

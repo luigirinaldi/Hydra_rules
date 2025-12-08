@@ -12,12 +12,12 @@
 (assert (< q w))
 (assert (< s t))
 (assert (< s w))
-(assert (< t x))
+(assert (< 1 x))
 (assert (> w x))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pzero_extend (- x t) (distinct (int_to_pbv t 0) (bvor (pzero_extend (- t q) newvar2) (pzero_extend (- t s) newvar7))))
+    (pzero_extend (- x 1) (distinct (int_to_pbv t 0) (bvor (pzero_extend (- t q) newvar2) (pzero_extend (- t s) newvar7))))
     (pextract (- x 1) 0 (bvor (pzero_extend (- w q) newvar2) (pzero_extend (- w s) newvar7)))
 ))
 (check-sat)
