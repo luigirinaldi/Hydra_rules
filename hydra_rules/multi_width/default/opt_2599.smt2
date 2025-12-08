@@ -4,8 +4,8 @@
 (declare-fun v0 () (_ BitVec r))
 
 ; Preconditions:
-(assert (< s r))
 (assert (< r s))
+(assert (< s r))
 
 ; assert lhs != rhs:
 (assert (distinct 

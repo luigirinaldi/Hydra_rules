@@ -1,7 +1,7 @@
 (set-logic ALL)
 (declare-const s Int)
-(declare-fun v5 () (_ BitVec s))
 (declare-fun v0 () (_ BitVec s))
+(declare-fun v5 () (_ BitVec s))
 
 ; Preconditions:
 (assert (< s s))

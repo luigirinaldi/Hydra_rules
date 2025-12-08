@@ -1,8 +1,8 @@
 (set-logic ALL)
-(declare-const u Int)
 (declare-const r Int)
-(declare-fun v0 () (_ BitVec r))
+(declare-const u Int)
 (declare-fun newvar0 () (_ BitVec r))
+(declare-fun v0 () (_ BitVec r))
 
 ; assert lhs != rhs:
 (assert (distinct 

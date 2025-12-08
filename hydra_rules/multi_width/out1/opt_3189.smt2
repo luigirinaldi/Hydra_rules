@@ -1,9 +1,9 @@
 (set-logic ALL)
-(declare-const t Int)
 (declare-const q Int)
-(declare-fun symconst_6 () (_ BitVec q))
-(declare-fun symconst_5 () (_ BitVec q))
+(declare-const t Int)
 (declare-fun newvar0 () (_ BitVec t))
+(declare-fun symconst_5 () (_ BitVec q))
+(declare-fun symconst_6 () (_ BitVec q))
 
 ; Preconditions:
 (assert (> t q))

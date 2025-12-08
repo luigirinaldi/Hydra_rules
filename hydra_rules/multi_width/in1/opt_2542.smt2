@@ -1,13 +1,13 @@
 (set-logic ALL)
-(declare-const t Int)
 (declare-const q Int)
 (declare-const r Int)
+(declare-const t Int)
 (declare-fun newvar0 () (_ BitVec q))
 
 ; Preconditions:
+(assert (< q r))
 (assert (< q t))
 (assert (< r t))
-(assert (< q r))
 
 ; assert lhs != rhs:
 (assert (distinct 

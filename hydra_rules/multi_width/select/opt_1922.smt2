@@ -1,10 +1,10 @@
 (set-logic ALL)
-(declare-const t Int)
 (declare-const q Int)
-(declare-const s Int)
 (declare-const r Int)
-(declare-fun v0 () (_ BitVec q))
+(declare-const s Int)
+(declare-const t Int)
 (declare-fun symconst_2 () (_ BitVec s))
+(declare-fun v0 () (_ BitVec q))
 (declare-fun v3 () (_ BitVec t))
 
 ; Preconditions:

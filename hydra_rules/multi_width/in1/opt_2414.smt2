@@ -1,19 +1,19 @@
 (set-logic ALL)
+(declare-const q Int)
 (declare-const s Int)
-(declare-const x Int)
 (declare-const t Int)
 (declare-const w Int)
-(declare-const q Int)
+(declare-const x Int)
 (declare-fun newvar2 () (_ BitVec q))
 (declare-fun newvar7 () (_ BitVec s))
 
 ; Preconditions:
-(assert (> w x))
-(assert (< s w))
-(assert (< q w))
-(assert (< t x))
-(assert (< s t))
 (assert (< q t))
+(assert (< q w))
+(assert (< s t))
+(assert (< s w))
+(assert (< t x))
+(assert (> w x))
 
 ; assert lhs != rhs:
 (assert (distinct 

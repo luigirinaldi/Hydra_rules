@@ -4,9 +4,9 @@
 (declare-fun v0 () (_ BitVec s))
 
 ; Preconditions:
+(assert (< s s))
+(assert (< s s))
 (assert (> s s))
-(assert (< s s))
-(assert (< s s))
 (assert (bvule symconst_1 (bvsub (bvshl (int_to_pbv s 1) (pzero_extend (- s s) r)) (int_to_pbv s 1))))
 
 ; assert lhs != rhs:

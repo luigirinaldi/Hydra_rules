@@ -1,7 +1,7 @@
 {
   "preconditions": [
-    "(> q p)",
-    "(< p q)"
+    "(< p q)",
+    "(> q p)"
   ],
   "lhs": "(bw p (bw q (bw p newvar0)))",
   "rhs": "(bw p newvar0)",

@@ -1,7 +1,7 @@
 (set-logic ALL)
 (declare-const q Int)
-(declare-fun symconst_2 () (_ BitVec q))
 (declare-fun symconst_1 () (_ BitVec q))
+(declare-fun symconst_2 () (_ BitVec q))
 (declare-fun v0 () (_ BitVec q))
 
 ; Preconditions:

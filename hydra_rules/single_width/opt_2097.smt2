@@ -1,6 +1,6 @@
 (set-logic ALL)
-(declare-const t Int)
 (declare-const r Int)
+(declare-const t Int)
 (declare-fun newvar0 () (_ BitVec r))
 (declare-fun symconst_3 () (_ BitVec r))
 

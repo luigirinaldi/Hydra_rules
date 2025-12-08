@@ -1,14 +1,14 @@
 (set-logic ALL)
 (declare-const q Int)
 (declare-const r Int)
+(declare-fun newvar4 () (_ BitVec r))
 (declare-fun symconst_1 () (_ BitVec r))
 (declare-fun symconst_2 () (_ BitVec q))
-(declare-fun newvar4 () (_ BitVec r))
 
 ; Preconditions:
-(assert (> r q))
-(assert (> r q))
 (assert (< q r))
+(assert (> r q))
+(assert (> r q))
 (assert (= symconst_1 (pzero_extend (- r q) symconst_2)))
 
 ; assert lhs != rhs:

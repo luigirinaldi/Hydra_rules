@@ -1,8 +1,8 @@
 (set-logic ALL)
+(declare-const r Int)
+(declare-const s Int)
 (declare-const t Int)
 (declare-const u Int)
-(declare-const s Int)
-(declare-const r Int)
 (declare-fun newvar6 () (_ BitVec r))
 
 ; Preconditions:

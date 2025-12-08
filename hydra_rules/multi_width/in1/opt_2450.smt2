@@ -1,15 +1,15 @@
 (set-logic ALL)
 (declare-const r Int)
-(declare-const w Int)
-(declare-const u Int)
 (declare-const s Int)
+(declare-const u Int)
+(declare-const w Int)
 (declare-fun v0 () (_ BitVec r))
 
 ; Preconditions:
-(assert (< r w))
-(assert (< u w))
-(assert (< s w))
 (assert (< r s))
+(assert (< r w))
+(assert (< s w))
+(assert (< u w))
 
 ; assert lhs != rhs:
 (assert (distinct 

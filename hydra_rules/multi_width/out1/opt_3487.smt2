@@ -4,8 +4,8 @@
 (declare-fun newvar0 () (_ BitVec r))
 
 ; Preconditions:
-(assert (> r s))
 (assert (< r s))
+(assert (> r s))
 
 ; assert lhs != rhs:
 (assert (distinct 

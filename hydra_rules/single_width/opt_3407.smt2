@@ -1,9 +1,9 @@
 (set-logic ALL)
 (declare-const s Int)
-(declare-fun symconst_2 () (_ BitVec s))
-(declare-fun symconst_1 () (_ BitVec s))
 (declare-fun newvar1 () (_ BitVec s))
 (declare-fun newvar4 () (_ BitVec s))
+(declare-fun symconst_1 () (_ BitVec s))
+(declare-fun symconst_2 () (_ BitVec s))
 
 ; Preconditions:
 (assert (bvult symconst_2 symconst_1))

@@ -1,13 +1,13 @@
 (set-logic ALL)
-(declare-const x Int)
+(declare-const s Int)
 (declare-const t Int)
 (declare-const u Int)
-(declare-const s Int)
+(declare-const x Int)
 (declare-fun v0 () (_ BitVec s))
 
 ; Preconditions:
-(assert (> s x))
 (assert (< t x))
+(assert (> s x))
 
 ; assert lhs != rhs:
 (assert (distinct 

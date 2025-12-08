@@ -1,7 +1,7 @@
 (set-logic ALL)
 (declare-const v Int)
-(declare-fun symconst_3 () (_ BitVec v))
 (declare-fun newvar0 () (_ BitVec v))
+(declare-fun symconst_3 () (_ BitVec v))
 
 ; Preconditions:
 (assert (< v v))

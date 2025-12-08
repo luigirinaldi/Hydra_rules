@@ -1,13 +1,13 @@
 (set-logic ALL)
-(declare-const t Int)
 (declare-const r Int)
-(declare-fun symconst_1 () (_ BitVec r))
+(declare-const t Int)
 (declare-fun newvar1 () (_ BitVec t))
+(declare-fun symconst_1 () (_ BitVec r))
 
 ; Preconditions:
-(assert (> r t))
-(assert (> r t))
 (assert (< t r))
+(assert (> r t))
+(assert (> r t))
 
 ; assert lhs != rhs:
 (assert (distinct 

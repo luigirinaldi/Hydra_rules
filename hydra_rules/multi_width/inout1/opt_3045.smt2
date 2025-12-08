@@ -1,7 +1,7 @@
 (set-logic ALL)
 (declare-const t Int)
-(declare-fun newvar1 () (_ BitVec t))
 (declare-fun newvar0 () (_ BitVec t))
+(declare-fun newvar1 () (_ BitVec t))
 
 ; Preconditions:
 (assert (< t t))

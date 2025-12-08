@@ -1,8 +1,8 @@
 (set-logic ALL)
 (declare-const q Int)
+(declare-fun newvar0 () (_ BitVec q))
 (declare-fun symconst_1 () (_ BitVec q))
 (declare-fun symconst_2 () (_ BitVec q))
-(declare-fun newvar0 () (_ BitVec q))
 
 ; Preconditions:
 (assert (distinct symconst_1 symconst_2))

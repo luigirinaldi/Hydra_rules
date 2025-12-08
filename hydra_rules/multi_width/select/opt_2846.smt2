@@ -1,17 +1,17 @@
 (set-logic ALL)
-(declare-const u Int)
 (declare-const q Int)
-(declare-const v Int)
 (declare-const r Int)
-(declare-fun symconst_3 () (_ BitVec r))
+(declare-const u Int)
+(declare-const v Int)
 (declare-fun newvar1 () (_ BitVec q))
 (declare-fun symconst_1 () (_ BitVec r))
 (declare-fun symconst_2 () (_ BitVec r))
+(declare-fun symconst_3 () (_ BitVec r))
 
 ; Preconditions:
+(assert (> r u))
+(assert (> r u))
 (assert (> r v))
-(assert (> r u))
-(assert (> r u))
 
 ; assert lhs != rhs:
 (assert (distinct 

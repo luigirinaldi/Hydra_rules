@@ -1,6 +1,6 @@
 (set-logic ALL)
-(declare-const t Int)
 (declare-const r Int)
+(declare-const t Int)
 (declare-fun v0 () (_ BitVec r))
 
 ; assert lhs != rhs:

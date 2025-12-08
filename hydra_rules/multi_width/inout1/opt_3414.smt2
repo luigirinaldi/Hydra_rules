@@ -1,6 +1,6 @@
 (set-logic ALL)
-(declare-const u Int)
 (declare-const s Int)
+(declare-const u Int)
 (declare-fun newvar0 () (_ BitVec u))
 (declare-fun newvar5 () (_ BitVec u))
 
