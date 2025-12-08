@@ -379,12 +379,7 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                 case op if op in BINOP_MAPPING:
                     return f"({BINOP_MAPPING[op]} {' '.join(childs_str)})"
                 case "select":
-                    # encode the condition as (cond == 1) because if cond is a bv then it cannot be used directly in the ite
-                    match childs[0]:
-                        case PVar():
-                            cond_str = f"(= {childs_str[0]} (_ bv1 1))"
-                        case _:
-                            cond_str = childs_str[0]
+                    cond_str = childs_str[0]
                     return f"(ite {cond_str} {childs_str[1]} {childs_str[2]})"
                 case _:
                     raise ValueError("pbv_to_string unkown op:", op)
@@ -432,7 +427,7 @@ def parametric_to_pbv(
     output += "\n"
     output += "\n".join(
         [
-            f"(declare-fun {var.name} () (_ BitVec {str(var.width.value) if isinstance(var.width, Constant) else var.width}))"
+            f"(declare-fun {var.name} () {'Bool' if var.width == Constant(1,1) else '(_ BitVec ' + var.width + ')'})"
             for _n, var in var_defs.items()
         ]
     )

@@ -1,7 +1,7 @@
 (set-logic ALL)
 (declare-const q Int)
-(declare-fun newvar1 () (_ BitVec 1))
-(declare-fun newvar4 () (_ BitVec 1))
+(declare-fun newvar1 () Bool)
+(declare-fun newvar4 () Bool)
 (declare-fun symconst_1 () (_ BitVec q))
 (declare-fun symconst_2 () (_ BitVec q))
 
@@ -10,7 +10,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (distinct (ite (= newvar1 (_ bv1 1)) symconst_1 symconst_2) (ite (= newvar4 (_ bv1 1)) symconst_1 symconst_2))
+    (distinct (ite newvar1 symconst_1 symconst_2) (ite newvar4 symconst_1 symconst_2))
     (bvxor newvar1 newvar4)
 ))
 (check-sat)
