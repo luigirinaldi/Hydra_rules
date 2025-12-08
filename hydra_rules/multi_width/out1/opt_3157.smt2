@@ -1,18 +1,19 @@
 (set-logic ALL)
 (declare-const s Int)
-(declare-const v Int)
-(declare-fun newvar0 () (_ BitVec v))
-(declare-fun symconst_1 () (_ BitVec s))
+(declare-const t Int)
+(declare-const w Int)
+(declare-fun newvar0 () (_ BitVec w))
+(declare-fun symconst_1 () (_ BitVec t))
 
 ; Preconditions:
-(assert (< v s))
-(assert (< v s))
-(assert (> s v))
-(assert (bvule symconst_1 (bvsub (bvshl (int_to_pbv s 1) (pzero_extend (- s v) r)) (int_to_pbv s 1))))
+(assert (< s t))
+(assert (< w t))
+(assert (> t w))
+(assert (bvule symconst_1 (bvsub (bvshl (int_to_pbv t 1) (pzero_extend (- t w) (int_to_pbv w w))) (int_to_pbv t 1))))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (= symconst_1 (pzero_extend (- s v) newvar0))
-    (= newvar0 (pextract (- v 1) 0 symconst_1))
+    (= symconst_1 (pzero_extend (- t w) newvar0))
+    (= newvar0 (pextract (- w 1) 0 symconst_1))
 ))
 (check-sat)

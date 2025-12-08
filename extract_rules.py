@@ -29,7 +29,7 @@ class Variable:
 
 @dataclass
 class PConst:
-    value: int
+    value: int | str
     width: str
 
 
@@ -261,7 +261,7 @@ def souper_to_parametric(
                     # extracting the width of a variable/expression
                     # make it into a separate variable of width of the width
                     assert len(childs_p) == 1
-                    return PVar(childs_p[0].width, childs_p[0].width)
+                    return POp("width", [childs_p[0]], make_fresh_width(widths))
                 case "select":
                     assert len(childs_p) == 3
                     w_0 = childs_p[1].width
@@ -467,6 +467,17 @@ def update_p_widths(
             # Assuming that the childs are string representing widths
             return Op(op, [new_w if not isinstance(old_w, Constant) and c == old_w else c for c in childs], _width)
 
+def remove_width_op_pass(node: POp) -> POp | PConst:
+    # remove any occurence of the width operator from an ast
+    if isinstance(node, POp):
+        if node.op == 'width':
+            assert len(node.children) == 1
+            return PConst(node.children[0].width, node.children[0].width)
+        else:
+            new_childs = [remove_width_op_pass(c) if isinstance(c, POp) else c for c in node.children]
+            return POp(node.op, new_childs, node.width)
+    else:
+        return node
 
 def parametrise_ir(
     souper_ir: str,
@@ -529,11 +540,16 @@ def parametrise_ir(
             case _:
                 raise ValueError(f"Condition unkown: {cond.op}")
 
-    # assert len([var for name, var in var_defs.items() if not isinstance(var.width, Constant)]) > 0, f"There are no parametric variables: {var_defs}"
-
     widths = [*set([w for w in widths if isinstance(w, str)])]
+
+    # for the problem to be parametric there must be at least some parametric widths somewhere
     assert len(widths) > 0, f"There are no parametric widths: {widths}"
+
+    lhs = remove_width_op_pass(lhs)
+    rhs = remove_width_op_pass(rhs)
+
     if precondition:
+        precondition = remove_width_op_pass(precondition)
         new_conditions.append(precondition)
 
     # Sort alphabetically before returning
