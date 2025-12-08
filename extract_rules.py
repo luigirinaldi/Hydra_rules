@@ -340,9 +340,6 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
         "mul": "bvmul",
         "urem": "bvurem",
         "udiv": "bvudiv",
-        "and": "bvand",
-        "xor": "bvxor",
-        "or": "bvor",
         "shl": "bvshl",
         "lshr": "bvlshr",
         "ashr": "bvashr",
@@ -356,6 +353,11 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
         "sgt": "bvsgt",
         "uge": "bvuge",
         "sge": "bvsge",
+    }
+    BIT_BINOP = {
+        "and": ["bvand", "and"],
+        "xor": ["bvxor", "xor"],
+        "or": ["bvor","or"]
     }
     match node:
         case POp(op, childs, width):
@@ -378,6 +380,15 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                     return f"({'pzero_extend' if ext == 'zext' else 'psign_extend'} {width_diff} {child_str})"
                 case op if op in BINOP_MAPPING:
                     return f"({BINOP_MAPPING[op]} {' '.join(childs_str)})"
+                case op if op in BIT_BINOP:
+                    if all([c.width == Constant(1,1) for c in childs]):
+                        op_str = BIT_BINOP[op][1]
+                        if op == 'xor' and isinstance(c0 := childs[0], PConst) and c0.value == 1:
+                            # xor true a for some reason breaks so just make it a not
+                            return f"(not {childs_str[1]})"
+                    else:
+                        op_str = BIT_BINOP[op][0]
+                    return f"({op_str} {' '.join(childs_str)})"
                 case "select":
                     cond_str = childs_str[0]
                     return f"(ite {cond_str} {childs_str[1]} {childs_str[2]})"

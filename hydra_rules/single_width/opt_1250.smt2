@@ -5,7 +5,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (bvxor true (distinct newvar0 symconst_1))
+    (not (distinct newvar0 symconst_1))
     (= newvar0 symconst_1)
 ))
 (check-sat)

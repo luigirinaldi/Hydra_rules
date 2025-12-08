@@ -10,7 +10,7 @@
 (assert (< w t))
 (assert (> t w))
 (assert (> t w))
-(assert (bvand (bvult (int_to_pbv t 0) symconst_1) (bvult symconst_1 (pzero_extend (- t w) (int_to_pbv w w)))))
+(assert (and (bvult (int_to_pbv t 0) symconst_1) (bvult symconst_1 (pzero_extend (- t w) (int_to_pbv w w)))))
 
 ; assert lhs != rhs:
 (assert (distinct 
