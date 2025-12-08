@@ -1,20 +1,19 @@
 (set-logic ALL)
+(declare-const q Int)
 (declare-const r Int)
 (declare-const s Int)
-(declare-const t Int)
-(declare-const u Int)
-(declare-fun newvar5 () (_ BitVec r))
-(declare-fun v0 () (_ BitVec r))
+(declare-fun newvar5 () Bool)
+(declare-fun v0 () Bool)
 
 ; Preconditions:
 (assert (< r s))
-(assert (< r u))
-(assert (< t u))
-(assert (> s t))
+(assert (< 1 q))
+(assert (< 1 s))
+(assert (> q r))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (distinct (pzero_extend (- u r) v0) (pzero_extend (- u t) (pextract (- t 1) 0 (pzero_extend (- s r) newvar5))))
-    (bvxor v0 newvar5)
+    (distinct (pzero_extend (- s 1) (ite v0 (_ bv1 1) (_ bv0 1))) (pzero_extend (- s r) (pextract (- r 1) 0 (pzero_extend (- q 1) (ite newvar5 (_ bv1 1) (_ bv0 1))))))
+    (xor v0 newvar5)
 ))
 (check-sat)

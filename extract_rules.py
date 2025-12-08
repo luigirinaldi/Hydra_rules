@@ -273,13 +273,18 @@ def souper_to_parametric(
                     return POp('select', childs_p, w_0)
                 case _:
                     raise ValueError(f"Uknown op: {op}")
-        case Variable(name, _width):
+        case Variable(name, width):
             if name not in definitions:
-                # fresh width variable
-                new_w = make_fresh_width(widths)
-                new_var = PVar(name, new_w)
-                definitions[name] = new_var
-                return new_var
+                if width > 1:
+                    # fresh width variable
+                    new_w = make_fresh_width(widths)
+                    new_var = PVar(name, new_w)
+                    definitions[name] = new_var
+                    return new_var
+                else:
+                    new_var = PVar(name, Constant(1,1))
+                    definitions[name] = new_var
+                    return new_var
             else:
                 return definitions[name]
         case Constant(value, width):
@@ -324,7 +329,7 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
             return f"(bw {width} {value})"
         case Op(op, childs, _width):
             # meta operation on the widths
-            return f"({op} {' '.join([c for c in childs])})"
+            return f"({op} {' '.join([c if isinstance(c,str) else str(c.value) for c in childs])})"
         case _:
             print(node)
             raise ValueError("String conversion never should reach here")

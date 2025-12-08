@@ -1,17 +1,16 @@
 (set-logic ALL)
 (declare-const p Int)
-(declare-const q Int)
-(declare-const s Int)
-(declare-fun newvar1 () (_ BitVec p))
+(declare-const r Int)
+(declare-fun newvar1 () Bool)
 
 ; Preconditions:
-(assert (< p q))
-(assert (< p s))
-(assert (> q s))
+(assert (< 1 p))
+(assert (< 1 r))
+(assert (> p r))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pextract (- s 1) 0 (pzero_extend (- q p) newvar1))
-    (pzero_extend (- s p) newvar1)
+    (pextract (- r 1) 0 (pzero_extend (- p 1) (ite newvar1 (_ bv1 1) (_ bv0 1))))
+    (pzero_extend (- r 1) (ite newvar1 (_ bv1 1) (_ bv0 1)))
 ))
 (check-sat)

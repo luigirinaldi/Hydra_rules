@@ -1,16 +1,15 @@
 (set-logic ALL)
-(declare-const s Int)
-(declare-const t Int)
-(declare-fun newvar52 () (_ BitVec s))
-(declare-fun v0 () (_ BitVec s))
+(declare-const r Int)
+(declare-fun newvar52 () Bool)
+(declare-fun v0 () Bool)
 
 ; Preconditions:
-(assert (< s t))
-(assert (< s t))
+(assert (< 1 r))
+(assert (< 1 r))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (distinct (int_to_pbv t 0) (bvxor (pzero_extend (- t s) v0) (pzero_extend (- t s) newvar52)))
-    (bvxor v0 newvar52)
+    (distinct (int_to_pbv r 0) (bvxor (pzero_extend (- r 1) (ite v0 (_ bv1 1) (_ bv0 1))) (pzero_extend (- r 1) (ite newvar52 (_ bv1 1) (_ bv0 1)))))
+    (xor v0 newvar52)
 ))
 (check-sat)

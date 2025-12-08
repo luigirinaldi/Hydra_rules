@@ -1,21 +1,21 @@
 (set-logic ALL)
+(declare-const q Int)
 (declare-const r Int)
-(declare-const s Int)
-(declare-const v Int)
-(declare-const x Int)
+(declare-const u Int)
+(declare-const w Int)
 (declare-fun newvar0 () Bool)
-(declare-fun symconst_1 () (_ BitVec r))
-(declare-fun symconst_2 () (_ BitVec s))
-(declare-fun symconst_3 () (_ BitVec r))
+(declare-fun symconst_1 () (_ BitVec q))
+(declare-fun symconst_2 () (_ BitVec r))
+(declare-fun symconst_3 () (_ BitVec q))
 
 ; Preconditions:
-(assert (> r v))
-(assert (> r v))
-(assert (> r x))
+(assert (> q u))
+(assert (> q u))
+(assert (> q w))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pextract (- v 1) 0 (bvor symconst_3 (ite newvar0 symconst_1 symconst_2)))
-    (ite newvar0 (pextract (- v 1) 0 (bvor symconst_3 (ite true symconst_1 symconst_2))) (pextract (- x 1) 0 (bvor symconst_3 (ite false symconst_1 symconst_2))))
+    (pextract (- u 1) 0 (bvor symconst_3 (ite newvar0 symconst_1 symconst_2)))
+    (ite newvar0 (pextract (- u 1) 0 (bvor symconst_3 (ite true symconst_1 symconst_2))) (pextract (- w 1) 0 (bvor symconst_3 (ite false symconst_1 symconst_2))))
 ))
 (check-sat)
