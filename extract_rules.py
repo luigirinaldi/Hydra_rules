@@ -38,9 +38,11 @@ class PVar:
     name: str
     width: str
 
+
 class allOnesConst(PConst):
     def __init__(self, width: str):
         super().__init__(value=-1, width=width)
+
 
 @dataclass
 class POp:
@@ -269,8 +271,10 @@ def souper_to_parametric(
                         # abuse the Op class
                         width_conditions.append(Op("=", [w_0, w_1], 0))
                     assert childs[0].width == 1
-                    width_conditions.append(Op('=', [childs_p[0].width, Constant(1, 1)], 0))
-                    return POp('select', childs_p, w_0)
+                    width_conditions.append(
+                        Op("=", [childs_p[0].width, Constant(1, 1)], 0)
+                    )
+                    return POp("select", childs_p, w_0)
                 case _:
                     raise ValueError(f"Uknown op: {op}")
         case Variable(name, width):
@@ -282,7 +286,7 @@ def souper_to_parametric(
                     definitions[name] = new_var
                     return new_var
                 else:
-                    new_var = PVar(name, Constant(1,1))
+                    new_var = PVar(name, Constant(1, 1))
                     definitions[name] = new_var
                     return new_var
             else:
@@ -329,14 +333,16 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
             return f"(bw {width} {value})"
         case Op(op, childs, _width):
             # meta operation on the widths
-            return f"({op} {' '.join([c if isinstance(c,str) else str(c.value) for c in childs])})"
+            return f"({op} {' '.join([c if isinstance(c, str) else str(c.value) for c in childs])})"
         case _:
             print(node)
             raise ValueError("String conversion never should reach here")
 
+
 def width_to_string(w: str | Constant) -> str:
     assert isinstance(w, str) or isinstance(w, Constant)
     return str(w.value) if isinstance(w, Constant) else w
+
 
 def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
     BINOP_MAPPING = {
@@ -359,11 +365,7 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
         "uge": "bvuge",
         "sge": "bvsge",
     }
-    BIT_BINOP = {
-        "and": ["bvand", "and"],
-        "xor": ["bvxor", "xor"],
-        "or": ["bvor","or"]
-    }
+    BIT_BINOP = {"and": ["bvand", "and"], "xor": ["bvxor", "xor"], "or": ["bvor", "or"]}
     match node:
         case POp(op, childs, width):
             print(node, width)
@@ -373,11 +375,13 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                     # translate to "pextract x i j" where 0 <= j <= i < width(x) and makes a bitvector of length i - j + 1
                     # so trunc p x =>. pextracct x (p - 1) 0
                     assert len(childs) == 1
-                    return f"(pextract (- {width_to_string(width)} 1) 0 {childs_str[0]})"
+                    return (
+                        f"(pextract (- {width_to_string(width)} 1) 0 {childs_str[0]})"
+                    )
                 case "zext" | "sext" as ext:
                     assert len(childs) == 1
                     width_diff = f"(- {width_to_string(width)} {width_to_string(childs[0].width)})"
-                    if childs[0].width == Constant(1,1):
+                    if childs[0].width == Constant(1, 1):
                         # handle the boolean case, convert boolean to bv
                         child_str = f"(ite {childs_str[0]} (_ bv1 1) (_ bv0 1))"
                     else:
@@ -386,9 +390,13 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                 case op if op in BINOP_MAPPING:
                     return f"({BINOP_MAPPING[op]} {' '.join(childs_str)})"
                 case op if op in BIT_BINOP:
-                    if all([c.width == Constant(1,1) for c in childs]):
+                    if all([c.width == Constant(1, 1) for c in childs]):
                         op_str = BIT_BINOP[op][1]
-                        if op == 'xor' and isinstance(c0 := childs[0], PConst) and c0.value == 1:
+                        if (
+                            op == "xor"
+                            and isinstance(c0 := childs[0], PConst)
+                            and c0.value == 1
+                        ):
                             # xor true a for some reason breaks so just make it a not
                             return f"(not {childs_str[1]})"
                     else:
@@ -443,7 +451,7 @@ def parametric_to_pbv(
     output += "\n"
     output += "\n".join(
         [
-            f"(declare-fun {var.name} () {'Bool' if var.width == Constant(1,1) else '(_ BitVec ' + var.width + ')'})"
+            f"(declare-fun {var.name} () {'Bool' if var.width == Constant(1, 1) else '(_ BitVec ' + var.width + ')'})"
             for _n, var in var_defs.items()
         ]
     )
@@ -453,9 +461,38 @@ def parametric_to_pbv(
         output += "\n; Preconditions:\n"
     for c in cond:
         output += f"(assert {parametric_to_pbv_string(c)})\n"
-
+    
     lhs_str = parametric_to_pbv_string(lhs)
     rhs_str = parametric_to_pbv_string(rhs)
+
+    BOOL_OP = [
+        "eq",
+        "ne",
+        "ult",
+        "ult",
+        "slt",
+        "ule",
+        "sle",
+        "ugt",
+        "sgt",
+        "uge",
+        "sge",
+        "or",
+        "and",
+        "xor",
+    ]
+    
+    match lhs, rhs:
+        case POp(op_l, _c_l, w_l), POp(op_r, _c_r, w_r) if op_l in BOOL_OP and isinstance(w_l, Constant) and op_r not in BOOL_OP:
+            assert w_l == w_r
+            # lhs_w and rhs_w are the same
+            # width is constant (1) and left returns bool but right return bv
+            # wrap the result to make it bv
+            lhs_str = f"(ite {lhs_str} (_ bv1 1) (_ bv0 1))"
+        case POp(op_l, _c_l, w_l), POp(op_r, _c_r, w_r) if op_l not in BOOL_OP and isinstance(w_l, Constant) and op_r in BOOL_OP:
+            assert w_l == w_r
+            rhs_str = f"(ite {rhs_str} (_ bv1 1) (_ bv0 1))"
+            
 
     output += "\n; assert lhs != rhs:"
     output += f"""
@@ -474,35 +511,53 @@ def update_p_widths(
 ) -> POp | PConst | PVar | Op:
     match node:
         case POp(op, childs, width):
-            out_width = new_w if not isinstance(old_w, Constant) and width == old_w else width
+            out_width = (
+                new_w if not isinstance(old_w, Constant) and width == old_w else width
+            )
             return POp(
                 op, [update_p_widths(c, old_w, new_w) for c in childs], out_width
             )
         case PConst(value, width) as const:
-            out_width = new_w if not isinstance(old_w, Constant) and width == old_w else width
+            out_width = (
+                new_w if not isinstance(old_w, Constant) and width == old_w else width
+            )
             if isinstance(const, allOnesConst):
                 return allOnesConst(out_width)
             else:
                 return PConst(value, out_width)
         case PVar(name, width):
-            out_width = new_w if not isinstance(old_w, Constant) and width == old_w else width
+            out_width = (
+                new_w if not isinstance(old_w, Constant) and width == old_w else width
+            )
             return PVar(name, out_width)
         case Op(op, childs, _width):
             # this is the special case for an operation (abused to represent the inferred conditions on the widths)
             # Assuming that the childs are string representing widths
-            return Op(op, [new_w if not isinstance(old_w, Constant) and c == old_w else c for c in childs], _width)
+            return Op(
+                op,
+                [
+                    new_w if not isinstance(old_w, Constant) and c == old_w else c
+                    for c in childs
+                ],
+                _width,
+            )
+
 
 def remove_width_op_pass(node: POp) -> POp | PConst:
     # remove any occurence of the width operator from an ast
     if isinstance(node, POp):
-        if node.op == 'width':
+        if node.op == "width":
             assert len(node.children) == 1
             return PConst(node.children[0].width, node.children[0].width)
         else:
-            new_childs = [remove_width_op_pass(c) if isinstance(c, POp) else c for c in node.children]
+            new_childs = [
+                remove_width_op_pass(c) if isinstance(c, POp) else c
+                for c in node.children
+            ]
             return POp(node.op, new_childs, node.width)
     else:
         return node
+
 
 def parametrise_ir(
     souper_ir: str,
@@ -533,7 +588,7 @@ def parametrise_ir(
 
     width_conditions.append(Op("=", [lhs.width, rhs.width], -1))
 
-    # print("generated width conds:", width_conditions)
+    print("generated width conds:", width_conditions)
 
     new_conditions: list[Op | POp | PConst | PVar] = []
 
@@ -545,6 +600,10 @@ def parametrise_ir(
             case "=":
                 assert len(cond.children) == 2
                 old_width, new_width = cond.children
+                if isinstance(old_width, Constant):
+                    tmp = old_width
+                    old_width = new_width
+                    new_width = tmp
                 width_conditions = [
                     update_p_widths(wc, old_width, new_width) for wc in width_conditions
                 ]
@@ -559,7 +618,10 @@ def parametrise_ir(
                     else None
                 )
                 widths = [new_width if w == old_width else w for w in widths]
-                var_defs = {k : update_p_widths(v, old_width, new_width) for k,v in var_defs.items()}
+                var_defs = {
+                    k: update_p_widths(v, old_width, new_width)
+                    for k, v in var_defs.items()
+                }
             case ">" | "<":
                 new_conditions.append(cond)
             case _:
@@ -731,7 +793,9 @@ for block in comments:
             lhs_str = parametric_to_bwlang_string(lhs)
             rhs_str = parametric_to_bwlang_string(rhs)
             bwlang_out["preconditions"] = (
-                sorted([*set([parametric_to_bwlang_string(c) for c in cond])]) if cond else []
+                sorted([*set([parametric_to_bwlang_string(c) for c in cond])])
+                if cond
+                else []
             )
             bwlang_out["lhs"] = lhs_str
             bwlang_out["rhs"] = rhs_str
@@ -746,7 +810,7 @@ for block in comments:
             print(f"Failed to convert {opt_num} to pbv:", e)
         except AssertionError as e:
             print(f"Failed to convert {opt_num} to pbv:", e)
-            
+
     except ValueError as e:
         print("Failed to parametrise:", opt_num, e)
     except AssertionError as e:
@@ -836,6 +900,7 @@ print("\nWriting output files...")
 sw_dir = os.path.join(base_output, "single_width")
 os.makedirs(sw_dir, exist_ok=True)
 
+
 def save_to_file(tuple, base_dir):
     opt_num, block_str, bwlang_out, pbv = tuple
     ir_file = os.path.join(base_dir, f"opt_{opt_num}.ir")
@@ -852,6 +917,7 @@ def save_to_file(tuple, base_dir):
     if pbv is not None:
         with open(pbv_file, "w", encoding="utf-8") as f:
             f.write(pbv)
+
 
 for data in sw_output:
     # Write .ir file with the block
