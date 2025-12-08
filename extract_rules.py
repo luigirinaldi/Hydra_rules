@@ -359,6 +359,7 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
     }
     match node:
         case POp(op, childs, width):
+            print(node, width)
             childs_str = [parametric_to_pbv_string(c) for c in childs]
             match op:
                 case "trunc":
@@ -369,7 +370,12 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                 case "zext" | "sext" as ext:
                     assert len(childs) == 1
                     width_diff = f"(- {width_to_string(width)} {width_to_string(childs[0].width)})"
-                    return f"({'pzero_extend' if ext == 'zext' else 'psign_extend'} {width_diff} {childs_str[0]})"
+                    if childs[0].width == Constant(1,1):
+                        # handle the boolean case, convert boolean to bv
+                        child_str = f"(ite {childs_str[0]} (_ bv1 1) (_ bv0 1))"
+                    else:
+                        child_str = childs_str[0]
+                    return f"({'pzero_extend' if ext == 'zext' else 'psign_extend'} {width_diff} {child_str})"
                 case op if op in BINOP_MAPPING:
                     return f"({BINOP_MAPPING[op]} {' '.join(childs_str)})"
                 case "select":
@@ -377,9 +383,6 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                     match childs[0]:
                         case PVar():
                             cond_str = f"(= {childs_str[0]} (_ bv1 1))"
-                        case PConst(value, width):
-                            assert width == Constant(1, 1)
-                            cond_str = "true" if value == 1 else "false"
                         case _:
                             cond_str = childs_str[0]
                     return f"(ite {cond_str} {childs_str[1]} {childs_str[2]})"
@@ -390,7 +393,9 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
             return name
         case PConst(value, width):
             # Check if it's an allOnesConst
-            if isinstance(width, Constant):
+            if width == Constant(1, 1):
+                return "true" if value == 1 else "false"
+            elif isinstance(width, Constant):
                 return f"(_ bv{value} {width.value})"
             else:
                 if isinstance(node, allOnesConst):

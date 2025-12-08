@@ -12,7 +12,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pzero_extend (- t 1) (distinct symconst_1 (ite (= newvar1 (_ bv1 1)) symconst_2 symconst_1)))
-    (pzero_extend (- t 1) newvar1)
+    (pzero_extend (- t 1) (ite (distinct symconst_1 (ite (= newvar1 (_ bv1 1)) symconst_2 symconst_1)) (_ bv1 1) (_ bv0 1)))
+    (pzero_extend (- t 1) (ite newvar1 (_ bv1 1) (_ bv0 1)))
 ))
 (check-sat)
