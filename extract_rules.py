@@ -505,6 +505,11 @@ def parametrise_ir(
     if precondition:
         new_conditions.append(precondition)
 
+    # Sort alphabetically before returning
+    new_conditions = sorted(new_conditions, key=lambda x: str(x))
+    var_defs = dict(sorted(var_defs.items()))
+    widths = sorted(widths)
+
     return (new_conditions, lhs, rhs), var_defs, widths
 
 
@@ -655,7 +660,7 @@ for block in comments:
             lhs_str = parametric_to_bwlang_string(lhs)
             rhs_str = parametric_to_bwlang_string(rhs)
             bwlang_out["preconditions"] = (
-                [*set([parametric_to_bwlang_string(c) for c in cond])] if cond else []
+                sorted([*set([parametric_to_bwlang_string(c) for c in cond])]) if cond else []
             )
             bwlang_out["lhs"] = lhs_str
             bwlang_out["rhs"] = rhs_str
