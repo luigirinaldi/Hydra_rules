@@ -317,7 +317,7 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
             raise ValueError("String conversion never should reach here")
 
 
-def parametric_to_pbv_string(node: POp | PConst | PVar) -> str:
+def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
     BINOP_MAPPING = {
         "add": "bvadd",
         "sub": "bvsub",
@@ -349,7 +349,7 @@ def parametric_to_pbv_string(node: POp | PConst | PVar) -> str:
                     # translate to "pextract x i j" where 0 <= j <= i < width(x) and makes a bitvector of length i - j + 1
                     # so trunc p x =>. pextracct x (p - 1) 0
                     assert len(childs) == 1
-                    return f"(pextract {childs_str[0]} (- {width} 1) 0)"
+                    return f"(pextract (- {width} 1) 0 {childs_str[0]})"
                 case "zext" | "sext" as ext:
                     assert len(childs) == 1
                     width_diff = f"(- {width} {childs[0].width})"
@@ -365,6 +365,11 @@ def parametric_to_pbv_string(node: POp | PConst | PVar) -> str:
             return name
         case PConst(value, width):
             return f"(int_to_pbv {width} {value})"
+        case Op(op, childs, width):
+            # this is the special case for an operation (abused to represent the inferred conditions on the widths)
+            # Assuming that the childs are string representing widths
+            assert len(childs) == 2
+            return f"({op} {childs[0]} {childs[1]})"
         case _:
             print(node)
             raise ValueError("String conversion never should reach here")
@@ -394,11 +399,15 @@ def parametric_to_pbv(
     )
     output += "\n"
 
-    # todo add preconditions
-    assert len(cond) == 0
+    if len(cond) > 0:
+        output += "\n; Preconditions:\n"
+    for c in cond:
+        output += f"(assert {parametric_to_pbv_string(c)})\n"
+
     lhs_str = parametric_to_pbv_string(lhs)
     rhs_str = parametric_to_pbv_string(rhs)
 
+    output += "\n; assert lhs != rhs:"
     output += f"""
 (assert (distinct 
     {lhs_str}
