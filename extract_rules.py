@@ -4,7 +4,7 @@ import os
 import shutil
 import sys
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Union
 
 
@@ -38,6 +38,9 @@ class PVar:
     name: str
     width: str
 
+class allOnesConst(PConst):
+    def __init__(self, width: str):
+        super().__init__(value=-1, width=width)
 
 @dataclass
 class POp:
@@ -273,9 +276,13 @@ def souper_to_parametric(
                 return new_var
             else:
                 return definitions[name]
-        case Constant(value, _width):
+        case Constant(value, width):
             new_width = make_fresh_width(widths)
-            return PConst(value, new_width)
+            # case where a constant can be made parametric based on the width
+            if width > 1 and value == 2**width - 1:
+                return allOnesConst(new_width)
+            else:
+                return PConst(value, new_width)
         case _:
             print(node)
             raise ValueError("Shouldn't reach here")
@@ -364,7 +371,12 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
         case PVar(name, width):
             return name
         case PConst(value, width):
-            return f"(int_to_pbv {width} {value})"
+            # Check if it's an allOnesConst
+            if isinstance(node, allOnesConst):
+                # convention from other examples is to encode all ones as the not of 0
+                return f"(bvnot (int_to_pbv {width} 0))"
+            else:
+                return f"(int_to_pbv {width} {value})"
         case Op(op, childs, width):
             # this is the special case for an operation (abused to represent the inferred conditions on the widths)
             # Assuming that the childs are string representing widths
@@ -428,9 +440,12 @@ def update_p_widths(
             return POp(
                 op, [update_p_widths(c, old_w, new_w) for c in childs], out_width
             )
-        case PConst(value, width):
+        case PConst(value, width) as const:
             out_width = new_w if width == old_w else width
-            return PConst(value, out_width)
+            if isinstance(const, allOnesConst):
+                return allOnesConst(out_width)
+            else:
+                return PConst(value, out_width)
         case PVar(name, width):
             out_width = new_w if width == old_w else width
             return PVar(name, out_width)

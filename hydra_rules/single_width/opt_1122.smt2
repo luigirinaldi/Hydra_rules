@@ -5,7 +5,7 @@
 (declare-fun v0 () (_ BitVec q))
 
 ; Preconditions:
-(assert (= symconst_2 (bvxor (int_to_pbv q 255) symconst_1)))
+(assert (= symconst_2 (bvxor (bvnot (int_to_pbv q 0)) symconst_1)))
 
 ; assert lhs != rhs:
 (assert (distinct 

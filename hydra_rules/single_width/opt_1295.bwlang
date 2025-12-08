@@ -1,6 +1,6 @@
 {
   "preconditions": [],
-  "lhs": "(bw q (xor (bw q 18446744073709551615) (bw q (and (bw q 18446744073709551615) (bw q newvar2)))))",
-  "rhs": "(bw q (- (bw q 18446744073709551615) (bw q newvar2)))",
+  "lhs": "(bw q (xor (bw q -1) (bw q (and (bw q -1) (bw q newvar2)))))",
+  "rhs": "(bw q (- (bw q -1) (bw q newvar2)))",
   "name": "hydra_opt_1295"
 }

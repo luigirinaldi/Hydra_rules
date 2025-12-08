@@ -5,7 +5,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (bvmul (int_to_pbv q 255) (bvsub newvar0 symconst_1))
+    (bvmul (bvnot (int_to_pbv q 0)) (bvsub newvar0 symconst_1))
     (bvsub symconst_1 newvar0)
 ))
 (check-sat)

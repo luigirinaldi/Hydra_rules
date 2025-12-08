@@ -5,7 +5,7 @@
 (declare-fun v1 () (_ BitVec q))
 
 ; Preconditions:
-(assert (= symconst_1 (bvmul (int_to_pbv q 255) symconst_2)))
+(assert (= symconst_1 (bvmul (bvnot (int_to_pbv q 0)) symconst_2)))
 
 ; assert lhs != rhs:
 (assert (distinct 

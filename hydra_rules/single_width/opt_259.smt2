@@ -10,6 +10,6 @@
 ; assert lhs != rhs:
 (assert (distinct 
     (bvsub (bvadd symconst_1 v1) symconst_2)
-    (bvadd (int_to_pbv q 255) v1)
+    (bvadd (bvnot (int_to_pbv q 0)) v1)
 ))
 (check-sat)
