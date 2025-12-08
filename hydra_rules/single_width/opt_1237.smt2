@@ -3,6 +3,7 @@
 (declare-fun symconst_1 () (_ BitVec r))
 (declare-fun v0 () (_ BitVec r))
 
+; assert lhs != rhs:
 (assert (distinct 
     (bvxor (int_to_pbv r 1) (= symconst_1 (bvand symconst_1 v0)))
     (bvult (bvand symconst_1 v0) symconst_1)

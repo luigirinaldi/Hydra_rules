@@ -2,6 +2,7 @@
 (declare-const q Int)
 (declare-fun newvar0 () (_ BitVec q))
 
+; assert lhs != rhs:
 (assert (distinct 
     (bvand (int_to_pbv q 65535) newvar0)
     newvar0

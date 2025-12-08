@@ -3,6 +3,7 @@
 (declare-fun newvar0 () (_ BitVec q))
 (declare-fun v4 () (_ BitVec q))
 
+; assert lhs != rhs:
 (assert (distinct 
     (bvxor (int_to_pbv q 1) (bvult newvar0 v4))
     (bvule v4 newvar0)

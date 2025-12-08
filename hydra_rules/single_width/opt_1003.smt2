@@ -4,6 +4,7 @@
 (declare-fun v0 () (_ BitVec r))
 (declare-fun symconst_1 () (_ BitVec r))
 
+; assert lhs != rhs:
 (assert (distinct 
     (bvor (bvand symconst_2 v0) (bvand v0 symconst_1))
     (bvand v0 (bvor symconst_2 symconst_1))

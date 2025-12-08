@@ -3,6 +3,7 @@
 (declare-fun v1 () (_ BitVec r))
 (declare-fun symconst_2 () (_ BitVec r))
 
+; assert lhs != rhs:
 (assert (distinct 
     (= (int_to_pbv r 0) (bvadd v1 symconst_2))
     (= v1 (bvsub (int_to_pbv r 0) symconst_2))
