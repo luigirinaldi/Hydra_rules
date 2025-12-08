@@ -15,7 +15,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pextract (- v 1) 0 (bvor symconst_3 (ite newvar0 symconst_1 symconst_2)))
-    (ite newvar0 (pextract (- v 1) 0 (bvor symconst_3 (ite (_ bv1 1) symconst_1 symconst_2))) (pextract (- x 1) 0 (bvor symconst_3 (ite (_ bv1 0) symconst_1 symconst_2))))
+    (pextract (- v 1) 0 (bvor symconst_3 (ite (= newvar0 (_ bv1 1)) symconst_1 symconst_2)))
+    (ite (= newvar0 (_ bv1 1)) (pextract (- v 1) 0 (bvor symconst_3 (ite true symconst_1 symconst_2))) (pextract (- x 1) 0 (bvor symconst_3 (ite false symconst_1 symconst_2))))
 ))
 (check-sat)

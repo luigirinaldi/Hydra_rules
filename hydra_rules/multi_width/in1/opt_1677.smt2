@@ -8,7 +8,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (ite newvar3 (int_to_pbv s 1) (int_to_pbv r 0))
+    (ite (= newvar3 (_ bv1 1)) (int_to_pbv s 1) (int_to_pbv r 0))
     (pzero_extend (- s 1) newvar3)
 ))
 (check-sat)

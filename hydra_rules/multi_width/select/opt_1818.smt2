@@ -12,6 +12,6 @@
 ; assert lhs != rhs:
 (assert (distinct 
     (ite (distinct (int_to_pbv r 0) (pzero_extend (- r 1) newvar0)) newvar5 (int_to_pbv t 0))
-    (ite newvar0 newvar5 (int_to_pbv u 0))
+    (ite (= newvar0 (_ bv1 1)) newvar5 (int_to_pbv u 0))
 ))
 (check-sat)

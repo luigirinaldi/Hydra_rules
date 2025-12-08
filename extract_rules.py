@@ -373,7 +373,16 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                 case op if op in BINOP_MAPPING:
                     return f"({BINOP_MAPPING[op]} {' '.join(childs_str)})"
                 case "select":
-                    return f"(ite {childs_str[0]} {childs_str[1]} {childs_str[2]})"
+                    # encode the condition as (cond == 1) because if cond is a bv then it cannot be used directly in the ite
+                    match childs[0]:
+                        case PVar():
+                            cond_str = f"(= {childs_str[0]} (_ bv1 1))"
+                        case PConst(value, width):
+                            assert width == Constant(1, 1)
+                            cond_str = "true" if value == 1 else "false"
+                        case _:
+                            cond_str = childs_str[0]
+                    return f"(ite {cond_str} {childs_str[1]} {childs_str[2]})"
                 case _:
                     raise ValueError("pbv_to_string unkown op:", op)
 
@@ -382,7 +391,7 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
         case PConst(value, width):
             # Check if it's an allOnesConst
             if isinstance(width, Constant):
-                return f"(_ bv{width.value} {value})"
+                return f"(_ bv{value} {width.value})"
             else:
                 if isinstance(node, allOnesConst):
                     # convention from other examples is to encode all ones as the not of 0
