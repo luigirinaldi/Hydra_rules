@@ -776,6 +776,18 @@ for block in comments:
 
     is_mw = any([cond in bottom for cond in ["zext", "sext", "trunc"]])
 
+    if "range=" in bottom:
+        print(f"{opt_num} contains range constraint on var, skipping")
+        num_nonparametric += 1
+        continue
+    elif "knownBits=" in bottom:
+        print(f"{opt_num} contains knownBits constraint on var, skipping")
+        num_nonparametric += 1
+        continue
+    elif "(nonNegative)" in bottom:
+        print(f"{opt_num} contains nonnegative constraint on var, skipping")
+        num_nonparametric += 1
+        continue
     res = re.search(r"(width\([^)]*\)\s+==\s+(\S+))", bottom)
     if res and res.group(2).isdigit():
         print(f"Non parametric opt {opt_num}.", "Found width condition: ", res.group(1))
