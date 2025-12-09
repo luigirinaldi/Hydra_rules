@@ -4,7 +4,7 @@
     "(< 1 r)",
     "(> p r)"
   ],
-  "lhs": "(bw r (bw p (bw Constant(value=1, width=1) newvar1)))",
-  "rhs": "(bw r (bw Constant(value=1, width=1) newvar1))",
+  "lhs": "(bw r (bw p (bw 1 newvar1)))",
+  "rhs": "(bw r (bw 1 newvar1))",
   "name": "hydra_opt_2744"
 }

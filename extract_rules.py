@@ -294,14 +294,18 @@ def souper_to_parametric(
         case Constant(value, width):
             new_width = make_fresh_width(widths)
             # case where a constant can be made parametric based on the width
-            if width > 1 and value == 2**width - 1:
-                return allOnesConst(new_width)
+            for w in range(width, 1, -1):
+                if value == 2**w - 1:
+                    return allOnesConst(new_width)
             else:
                 return PConst(value, new_width)
         case _:
             print(node)
             raise ValueError("Shouldn't reach here")
 
+def width_to_string(w: str | Constant) -> str:
+    assert isinstance(w, str) or isinstance(w, Constant)
+    return str(w.value) if isinstance(w, Constant) else w
 
 def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
     # Essentially perform desugaring from the parametric language into bwlang
@@ -322,15 +326,15 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
                 case "trunc" | "zext":
                     # both of these are essentially just applying the mod operation
                     assert len(childs) == 1
-                    return f"(bw {width} {childs_str[0]})"
+                    return f"(bw {width_to_string(width)} {childs_str[0]})"
                 case op if op in BINOP_MAPPING:
-                    return f"(bw {width} ({BINOP_MAPPING[op]} {' '.join(childs_str)}))"
+                    return f"(bw {width_to_string(width)} ({BINOP_MAPPING[op]} {' '.join(childs_str)}))"
                 case _:
                     raise ValueError("Bwlang_to_string unkown op:", op)
         case PVar(name, width):
-            return f"(bw {width} {name})"
+            return f"(bw {width_to_string(width)} {name})"
         case PConst(value, width):
-            return f"(bw {width} {value})"
+            return f"(bw {width_to_string(width)} {value})"
         case Op(op, childs, _width):
             # meta operation on the widths
             return f"({op} {' '.join([c if isinstance(c, str) else str(c.value) for c in childs])})"
@@ -339,9 +343,7 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
             raise ValueError("String conversion never should reach here")
 
 
-def width_to_string(w: str | Constant) -> str:
-    assert isinstance(w, str) or isinstance(w, Constant)
-    return str(w.value) if isinstance(w, Constant) else w
+
 
 
 def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
