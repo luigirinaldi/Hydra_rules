@@ -327,6 +327,11 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
                     # both of these are essentially just applying the mod operation
                     assert len(childs) == 1
                     return f"(bw {width_to_string(width)} {childs_str[0]})"
+                case "sext":
+                    assert (len(childs) == 1)
+                    # encode sign extension as, interpreting the child as a signed integer and then casting to the new width
+                    # sext p (a_q) => bw p (signed a q)
+                    return f"(bw {width_to_string(width)} (signed {width_to_string(childs[0].width)} {childs_str[0]}))"
                 case op if op in BINOP_MAPPING:
                     return f"(bw {width_to_string(width)} ({BINOP_MAPPING[op]} {' '.join(childs_str)}))"
                 case _:
@@ -370,7 +375,6 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
     BIT_BINOP = {"and": ["bvand", "and"], "xor": ["bvxor", "xor"], "or": ["bvor", "or"]}
     match node:
         case POp(op, childs, width):
-            print(node, width)
             childs_str = [parametric_to_pbv_string(c) for c in childs]
             match op:
                 case "trunc":

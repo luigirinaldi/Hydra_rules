@@ -1,0 +1,9 @@
+{
+  "preconditions": [
+    "(< t r)",
+    "(> r t)"
+  ],
+  "lhs": "(bw t (bw r (or (bw r symconst_1) (bw r (signed t (bw t v0))))))",
+  "rhs": "(bw t (or (bw t v0) (bw t (bw r symconst_1))))",
+  "name": "hydra_opt_2778"
+}
