@@ -237,6 +237,10 @@ def souper_to_parametric(
                     # print('hello')
                     assert len(childs_p) == 2
                     w_0 = childs_p[0].width
+                    if op == "xor" and isinstance(c0 := childs[0], Constant) and c0.value == 1 and c0.width == 1:
+                        # convert all the xor 1 to nots
+                        # if xor 1:i1 a => not a
+                        return POp('not', [childs_p[1]], w_0)
                     if (w_1 := childs_p[1].width) != w_0:
                         # abuse the Op class
                         width_conditions.append(Op("=", [w_0, w_1], 0))
@@ -288,9 +292,9 @@ def souper_to_parametric(
         case Constant(value, width):
             new_width = make_fresh_width(widths)
             # case where a constant can be made parametric based on the width
-            for w in range(width, 1, -1):
-                if value == 2**w - 1:
-                    return allOnesConst(new_width)
+            # for w in range(width, 0, -1):
+            if value == 2**width - 1:
+                return allOnesConst(new_width)
             else:
                 return PConst(value, new_width)
         case _:
@@ -309,6 +313,7 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
         "mul": "*",
         "and": "and",
         "xor": "xor",
+        "not": "not",
         "or": "or",
         "shl": "<<",
         "shr": ">>",
@@ -366,7 +371,7 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
         "uge": "bvuge",
         "sge": "bvsge",
     }
-    BIT_BINOP = {"and": ["bvand", "and"], "xor": ["bvxor", "xor"], "or": ["bvor", "or"]}
+    BIT_BINOP = {"and": ["bvand", "and"], "xor": ["bvxor", "xor"], "or": ["bvor", "or"], "not": ["bvnot", "not"]}
     match node:
         case POp(op, childs, width):
             childs_str = [parametric_to_pbv_string(c) for c in childs]
@@ -392,13 +397,6 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                 case op if op in BIT_BINOP:
                     if all([c.width == Constant(1, 1) for c in childs]):
                         op_str = BIT_BINOP[op][1]
-                        if (
-                            op == "xor"
-                            and isinstance(c0 := childs[0], PConst)
-                            and c0.value == 1
-                        ):
-                            # xor true a for some reason breaks so just make it a not
-                            return f"(not {childs_str[1]})"
                     else:
                         op_str = BIT_BINOP[op][0]
                     return f"({op_str} {' '.join(childs_str)})"
