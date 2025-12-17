@@ -279,16 +279,10 @@ def souper_to_parametric(
                     raise ValueError(f"Uknown op: {op}")
         case Variable(name, width):
             if name not in definitions:
-                if width > 1:
-                    # fresh width variable
-                    new_w = make_fresh_width(widths)
-                    new_var = PVar(name, new_w)
-                    definitions[name] = new_var
-                    return new_var
-                else:
-                    new_var = PVar(name, Constant(1, 1))
-                    definitions[name] = new_var
-                    return new_var
+                new_w = make_fresh_width(widths)
+                new_var = PVar(name, new_w)
+                definitions[name] = new_var
+                return new_var
             else:
                 return definitions[name]
         case Constant(value, width):

@@ -1,10 +1,10 @@
 {
   "preconditions": [
-    "(< 1 p)",
-    "(< 1 r)",
-    "(> p r)"
+    "(< p q)",
+    "(< p s)",
+    "(> q s)"
   ],
-  "lhs": "(bw r (bw p (bw 1 newvar1)))",
-  "rhs": "(bw r (bw 1 newvar1))",
+  "lhs": "(bw s (bw q (bw p newvar1)))",
+  "rhs": "(bw s (bw p newvar1))",
   "name": "hydra_opt_2744"
 }
