@@ -237,14 +237,14 @@ def souper_to_parametric(
                     # print('hello')
                     assert len(childs_p) == 2
                     w_0 = childs_p[0].width
-                    if op == "xor" and isinstance(c0 := childs[0], Constant) and c0.value == 1 and c0.width == 1:
-                        # convert all the xor 1 to nots
-                        # if xor 1:i1 a => not a
-                        return POp('not', [childs_p[1]], w_0)
                     if (w_1 := childs_p[1].width) != w_0:
                         # abuse the Op class
                         width_conditions.append(Op("=", [w_0, w_1], 0))
                     assert w_0 is not None
+                    if op == "xor" and isinstance(c0 := childs[0], Constant) and c0.value == 1 and c0.width == 1:
+                        # convert all the xor 1 to nots
+                        # if xor 1:i1 a => not a
+                        return POp('not', [childs_p[1]], w_0)
                     if op in BINARY_BINOPS:
                         return POp(op, childs_p, Constant(1, 1))
                     else:
@@ -260,6 +260,17 @@ def souper_to_parametric(
                     # %new_var:i(w_1) = zext %some_other_var
                     # outgoing will have a new fresh width, strictly larger than the original
                     assert len(childs_p) == 1
+                    if isinstance(c0 := childs_p[0], allOnesConst) and childs[0].width == 1:
+                        # case where the child is an allonesconst of width 1, in which case it's just a normal 1 not allones
+                        # a sext of a 1 bit variable of value 1 is itself an allones
+                        # but this is a kind of optimisation I suppose, so just do the same as zext
+                        # a zext of a 1 bit variable of value 1 is a "normal zext"
+                        
+                        # the allones must be converted to a "parametric" constant with a fixed width and value, so not parametric at all
+                        # remove fresh width from widths
+                        widths.remove(c0.width)
+                        del childs_p[0]
+                        childs_p.append(PConst(1, Constant(1, 1)))
                     new_w = make_fresh_width(widths)
                     width_conditions.append(Op("<", [childs_p[0].width, new_w], 0))
                     return POp(ext, childs_p, new_w)
@@ -411,7 +422,10 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
         case PConst(value, width):
             # Check if it's an allOnesConst
             if width == Constant(1, 1):
-                return "true" if value == 1 else "false"
+                if isinstance(node, allOnesConst):
+                    return "true"
+                else:
+                    return "true" if value == 1 else "false"
             elif isinstance(width, Constant):
                 return f"(_ bv{value} {width.value})"
             else:
@@ -478,6 +492,7 @@ def parametric_to_pbv(
         "or",
         "and",
         "xor",
+        "not",
     ]
     
     match lhs, rhs:

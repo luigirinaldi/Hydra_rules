@@ -2,7 +2,7 @@
   "preconditions": [
     "(> q s)"
   ],
-  "lhs": "(bw s (bw q (and (bw q -1) (bw q v3))))",
+  "lhs": "(bw s (bw q (and (bw q 4294967295) (bw q v3))))",
   "rhs": "(bw s (bw q v3))",
   "name": "hydra_opt_2784"
 }

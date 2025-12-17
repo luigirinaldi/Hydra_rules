@@ -1,6 +1,6 @@
 {
   "preconditions": [],
-  "lhs": "(bw q (xor (bw q 1) (bw q (xor (bw q 1) (bw q newvar4)))))",
+  "lhs": "(bw q (not (bw q (not (bw q newvar4)))))",
   "rhs": "(bw q newvar4)",
   "name": "hydra_opt_1247"
 }

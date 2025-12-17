@@ -17,6 +17,10 @@ Translation from the `gen.cpp` file to testcases occurs as follows:
 
 ## Type-check errors
 
+#### Manual fix
+
+- opt_2784: The constant 0xFFFFFFFF ((2^32)-1) is stored in a 64-bit variable because it's used to mask the bottom bits, so it is converted into a parametric all-ones constant of the correct parameter, that matches the other operations.
+
 #### Bit-vector exception
 
 - `BVXor` related:
@@ -24,7 +28,7 @@ Translation from the `gen.cpp` file to testcases occurs as follows:
     - opt_3414
 - Failure reason unclear:
     - opt_2969 (select of sext is same as sext of select)
-    - opt_2969 (select of zext is same as zext of select)
+    - opt_2456 (select of zext is same as zext of select)
 
 #### Seg-Faults
 

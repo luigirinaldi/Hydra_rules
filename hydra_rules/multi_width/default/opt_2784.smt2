@@ -9,7 +9,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pextract (- s 1) 0 (bvand (bvnot (int_to_pbv q 0)) v3))
+    (pextract (- s 1) 0 (bvand (int_to_pbv q 4294967295) v3))
     (pextract (- s 1) 0 v3)
 ))
 (check-sat)
