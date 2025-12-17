@@ -267,7 +267,7 @@ def souper_to_parametric(
                 case "select":
                     assert len(childs_p) == 3
                     w_0 = childs_p[1].width
-                    if (w_1 := childs_p[1].width) != w_0:
+                    if (w_1 := childs_p[2].width) != w_0:
                         # abuse the Op class
                         width_conditions.append(Op("=", [w_0, w_1], 0))
                     assert childs[0].width == 1
