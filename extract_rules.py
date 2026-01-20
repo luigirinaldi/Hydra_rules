@@ -7,6 +7,9 @@ import json
 from dataclasses import dataclass, field
 from typing import Union
 
+BWLANG_SIGNED_OP = False
+BWLANG_ITE_OP = False
+
 
 @dataclass
 class Constant:
@@ -337,7 +340,7 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
                     # both of these are essentially just applying the mod operation
                     assert len(childs) == 1
                     return f"(bw {width_to_string(width)} {childs_str[0]})"
-                case "sext":
+                case "sext" if BWLANG_SIGNED_OP:
                     assert (len(childs) == 1)
                     # encode sign extension as, interpreting the child as a signed integer and then casting to the new width
                     # sext p (a_q) => bw p (signed a q)

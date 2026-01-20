@@ -1,8 +1,0 @@
-{
-  "preconditions": [
-    "(< q s)"
-  ],
-  "lhs": "(bw s (signed q (bw q (+ (bw q 0) (bw q newvar0)))))",
-  "rhs": "(bw s (signed q (bw q newvar0)))",
-  "name": "hydra_opt_2712"
-}
