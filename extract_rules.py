@@ -345,6 +345,10 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
                     # encode sign extension as, interpreting the child as a signed integer and then casting to the new width
                     # sext p (a_q) => bw p (signed a q)
                     return f"(bw {width_to_string(width)} (signed {width_to_string(childs[0].width)} {childs_str[0]}))"
+                case "select":
+                    assert (len(childs) == 3)
+                    cond_str = childs_str[0]
+                    return f"(bw {width_to_string(width)} (sel {cond_str} {childs_str[1]} {childs_str[2]}))"
                 case op if op in BINOP_MAPPING:
                     return f"(bw {width_to_string(width)} ({BINOP_MAPPING[op]} {' '.join(childs_str)}))"
                 case _:

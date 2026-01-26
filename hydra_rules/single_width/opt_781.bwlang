@@ -1,0 +1,6 @@
+{
+  "preconditions": [],
+  "lhs": "(bw r (and (bw r symconst_2) (bw r (sel (bw 1 v0) (bw r 0) (bw r symconst_2)))))",
+  "rhs": "(bw r (sel (bw 1 v0) (bw r 0) (bw r symconst_2)))",
+  "name": "hydra_opt_781"
+}
