@@ -1,0 +1,9 @@
+{
+  "preconditions": [
+    "(< p q)",
+    "(> q p)"
+  ],
+  "lhs": "(bw p (bw q (signed p (bw p v0))))",
+  "rhs": "(bw p v0)",
+  "name": "hydra_opt_2746"
+}

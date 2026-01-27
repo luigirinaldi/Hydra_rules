@@ -7,8 +7,8 @@ import json
 from dataclasses import dataclass, field
 from typing import Union
 
-BWLANG_SIGNED_OP = False
-BWLANG_ITE_OP = False
+BWLANG_SIGNED_OP = True
+BWLANG_ITE_OP = True
 
 
 @dataclass
