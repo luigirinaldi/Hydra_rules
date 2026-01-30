@@ -1,3 +1,18 @@
+; Opt : 2806
+; %newvar2:i1 = var ; newvar2
+; %symconst_1:i32 = var ; symconst_1
+; %symconst_2:i32 = var ; symconst_2
+; %3:i32 = select %newvar2, %symconst_1, %symconst_2
+; %4:i16 = trunc %3
+; infer %4
+; %5:i16 = trunc %symconst_1
+; %6:i16 = trunc %symconst_2
+; %7:i16 = select %newvar2, %5, %6
+; result %7
+; 
+; trunc((select newvar2 C1 C2))
+;   =>
+; select newvar2 trunc(C1) trunc(C2)
 (set-logic ALL)
 (declare-const r Int)
 (declare-const u Int)

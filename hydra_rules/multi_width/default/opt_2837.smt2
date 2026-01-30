@@ -1,3 +1,17 @@
+; Opt : 2837
+; %symconst_1:i32 = var ; symconst_1
+; %v0:i8 = var ; v0
+; %2:i32 = zext %v0
+; %3:i32 = mul %symconst_1, %2
+; %4:i8 = trunc %3
+; infer %4
+; %5:i8 = trunc %symconst_1
+; %6:i8 = mul %v0, %5
+; result %6
+; 
+; trunc((C1 * zext(v0)))
+;   =>
+; v0 * trunc(C1)
 (set-logic ALL)
 (declare-const r Int)
 (declare-const t Int)

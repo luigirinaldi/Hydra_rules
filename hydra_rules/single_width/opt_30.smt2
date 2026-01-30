@@ -1,3 +1,14 @@
+; Opt : 30
+; %v0:i64 = var ; v0
+; %1:i64 = xor 18446744073709551615:i64, %v0
+; %2:i64 = add 1:i64, %1
+; infer %2
+; %3:i64 = mul 18446744073709551615:i64, %v0
+; result %3
+; 
+; ~v0 + 1
+;   =>
+; v0 * 0xFFFFFFFFFFFFFFFF
 (set-logic ALL)
 (declare-const q Int)
 (declare-fun v0 () (_ BitVec q))

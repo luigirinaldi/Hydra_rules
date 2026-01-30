@@ -1,3 +1,13 @@
+; Opt : 1677
+; %newvar3:i1 = var ; newvar3
+; %1:i16 = select %newvar3, 1:i16, 0:i16
+; infer %1
+; %2:i16 = zext %newvar3
+; result %2
+; 
+; select newvar3 1 0
+;   =>
+; zext(newvar3)
 (set-logic ALL)
 (declare-const r Int)
 (declare-fun newvar3 () Bool)

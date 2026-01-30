@@ -1,3 +1,16 @@
+; Opt : 2986
+; %v1:i8 = var ; v1
+; %symconst_2:i8 = var ; symconst_2
+; %2:i8 = add %v1, %symconst_2
+; %3:i1 = eq 0:i8, %2
+; infer %3
+; %4:i8 = sub 0:i8, %symconst_2
+; %5:i1 = eq %v1, %4
+; result %5
+; 
+; (v1 + C2) == 0
+;   =>
+; v1 == (0 - C2)
 (set-logic ALL)
 (declare-const r Int)
 (declare-fun symconst_2 () (_ BitVec r))

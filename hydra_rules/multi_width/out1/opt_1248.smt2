@@ -1,3 +1,16 @@
+; Opt : 1248
+; %v0:i64 = var ; v0
+; %1:i64 = sub %v0, 1:i64 (hasExternalUses)
+; %2:i64 = and 1:i64, %1
+; %3:i1 = ne 0:i64, %2
+; %4:i1 = xor 1:i1, %3
+; infer %4
+; %5:i1 = trunc %v0
+; result %5
+; 
+; ~(((v0 - 1) & 1) != 0)
+;   =>
+; trunc(v0)
 (set-logic ALL)
 (declare-const t Int)
 (declare-fun v0 () (_ BitVec t))

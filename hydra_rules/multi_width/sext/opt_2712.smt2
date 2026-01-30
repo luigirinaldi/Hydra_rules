@@ -1,3 +1,14 @@
+; Opt : 2712
+; %newvar0:i32 = var ; newvar0
+; %1:i32 = add 0:i32, %newvar0
+; %2:i64 = sext %1
+; infer %2
+; %3:i64 = sext %newvar0
+; result %3
+; 
+; sext((newvar0 + 0))
+;   =>
+; sext(newvar0)
 (set-logic ALL)
 (declare-const q Int)
 (declare-const s Int)

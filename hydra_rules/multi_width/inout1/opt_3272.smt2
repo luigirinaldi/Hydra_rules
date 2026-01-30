@@ -1,3 +1,14 @@
+; Opt : 3272
+; %newvar0:i1 = var ; newvar0
+; %1:i32 = zext %newvar0
+; %2:i8 = trunc %1
+; %3:i1 = ne 0:i8, %2
+; infer %3
+; result %newvar0
+; 
+; trunc(zext(newvar0)) != 0
+;   =>
+; newvar0
 (set-logic ALL)
 (declare-const r Int)
 (declare-const s Int)

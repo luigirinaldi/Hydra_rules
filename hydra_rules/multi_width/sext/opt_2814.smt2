@@ -1,3 +1,25 @@
+; Opt : 2814
+; %symconst_1:i32 = var ; symconst_1
+; %symconst_2:i32 = var ; symconst_2
+; %2:i32 = sext 1:i1
+; %3:i32 = xor %symconst_2, %2
+; %4:i1 = eq %symconst_1, %3
+; pc %4 1:i1
+; %v0:i8 = var ; v0
+; %6:i32 = zext %v0
+; %7:i32 = and %symconst_1, %6
+; %8:i32 = or %symconst_2, %7
+; %9:i8 = trunc %8
+; infer %9
+; %10:i8 = trunc %symconst_2
+; %11:i8 = or %v0, %10
+; result %11
+; 
+; C1 == (C2 ^ sext(1))
+;   |= 
+; trunc((C2 | (C1 & zext(v0))))
+;   =>
+; v0 | trunc(C2)
 (set-logic ALL)
 (declare-const r Int)
 (declare-const v Int)

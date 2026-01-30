@@ -1,3 +1,14 @@
+; Opt : 3058
+; %v0:i1 = var ; v0
+; %1:i32 = zext %v0
+; %2:i1 = eq 0:i32, %1
+; infer %2
+; %3:i1 = xor 1:i1, %v0
+; result %3
+; 
+; zext(v0) == 0
+;   =>
+; ~v0
 (set-logic ALL)
 (declare-const r Int)
 (declare-fun v0 () Bool)

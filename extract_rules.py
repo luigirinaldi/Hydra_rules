@@ -462,10 +462,12 @@ def parametric_to_pbv(
         dict[str, PVar],
         list[str],
     ],
+    block
 ) -> str:
     (cond, lhs, rhs), var_defs, widths = rewrite_in
 
-    output = "(set-logic ALL)\n"
+    output = '\n'.join([f"; {line}" for line in block.split('\n')])
+    output += "\n(set-logic ALL)\n"
     output += "\n".join([f"(declare-const {w} Int)" for w in widths])
     output += "\n"
     output += "\n".join(
@@ -836,7 +838,7 @@ for block in comments:
             print("Failed to translate to bwlang:", opt_num, e)
 
         try:
-            pbv_out = parametric_to_pbv(parametrised)
+            pbv_out = parametric_to_pbv(parametrised, block)
             print(f"Succesfull converted {opt_num} to pbv")
         except ValueError as e:
             print(f"Failed to convert {opt_num} to pbv:", e)

@@ -1,3 +1,17 @@
+; Opt : 2980
+; %symconst_1:i8 = var ; symconst_1
+; %newvar0:i8 = var ; newvar0
+; %symconst_2:i8 = var ; symconst_2
+; %3:i8 = sub %newvar0, %symconst_2
+; %4:i1 = eq %symconst_1, %3
+; infer %4
+; %5:i8 = add %symconst_1, %symconst_2
+; %6:i1 = eq %newvar0, %5
+; result %6
+; 
+; C1 == (newvar0 - C2)
+;   =>
+; newvar0 == (C2 + C1)
 (set-logic ALL)
 (declare-const r Int)
 (declare-fun newvar0 () (_ BitVec r))

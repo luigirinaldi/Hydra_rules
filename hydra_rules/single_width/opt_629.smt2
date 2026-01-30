@@ -1,3 +1,20 @@
+; Opt : 629
+; %symconst_2:i8 = var ; symconst_2
+; %symconst_1:i8 = var ; symconst_1
+; %2:i8 = xor 255:i8, %symconst_1
+; %3:i1 = eq %symconst_2, %2
+; pc %3 1:i1
+; %v0:i8 = var ; v0
+; %5:i8 = and %symconst_1, %v0
+; %6:i8 = and %symconst_2, %5
+; infer %6
+; result 0:i8
+; 
+; C2 == ~C1
+;   |= 
+; C2 & (v0 & C1)
+;   =>
+; 0
 (set-logic ALL)
 (declare-const q Int)
 (declare-fun symconst_1 () (_ BitVec q))
