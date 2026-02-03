@@ -184,7 +184,7 @@ def make_fresh_width(existing_widths: list[str]) -> str:
     while candidate in existing_widths:
         if candidate[-1] == "z":
             candidate += "a"
-        candidate = chr((ord(candidate) + 1 - 97) % 26 + 97)
+        candidate = candidate[0:-1] + chr((ord(candidate[-1]) + 1 - 97) % 26 + 97)
     existing_widths.append(candidate)
     return candidate
 
