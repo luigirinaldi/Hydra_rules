@@ -28,6 +28,8 @@ class Op:
 class Variable:
     name: str
     width: int
+    # Souper's attributes of the variable, e.g. ["powerOfTwo"]
+    attrs: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -156,8 +158,9 @@ def parse_souper(text: str) -> dict[str, GenericAst]:
             op_name = parts[0]
 
             if op_name == "var":
-                # Variable declaration
-                definitions[name] = Variable(name=name, width=width)
+                # Variable declaration, with its attributes, e.g. `var (powerOfTwo)`
+                attrs = re.findall(r"\((\w+)\)", right)
+                definitions[name] = Variable(name=name, width=width, attrs=attrs)
             else:
                 # Operation with arguments
                 args = parts[1:]
@@ -195,18 +198,70 @@ def souper_to_parametric(
     definitions: dict[str, PVar],
     width_conditions: list[Op],
     widths: list[str],
+    side_conditions: list[POp],
 ) -> POp | PConst | PVar:
     # Essentially inside of this function the specific bitwidths still presnet inside of the souper ir
     # need to be parametrised, and some conditions needs to be introduced to ensure the definition
     # is still sound, for ex. %a:iP = zext 3:iQ implies that Q < P
+    # `side_conditions` collects the preconditions that ops and variable attributes imply, e.g. that
+    # a `subnsw` does not overflow (on the lhs, it is poison if it does, so any rhs refines it)
     # print(node)
     match node:
         case Op(op, childs, _width):
             # print(op)
             childs_p = [
-                souper_to_parametric(c, definitions, width_conditions, widths)
+                souper_to_parametric(c, definitions, width_conditions, widths, side_conditions)
                 for c in childs
             ]
+            # Ops with the same semantics as an op below, plus a side condition
+            match op:
+                case "subnsw":
+                    # no signed overflow: the operands' signs agree, or the result's sign is the lhs'
+                    # ((a ^ b) & (a ^ (a - b))) >=s 0
+                    assert len(childs_p) == 2
+                    a, b = childs_p
+                    w = a.width
+                    if b.width != w:
+                        width_conditions.append(Op("=", [w, b.width], 0))
+                    overflow = POp("and", [POp("xor", [a, b], w), POp("xor", [a, POp("sub", [a, b], w)], w)], w)
+                    side_conditions.append(POp("sle", [PConst(0, w), overflow], Constant(1, 1)))
+                    return POp("sub", childs_p, w)
+                case "sdivexact":
+                    # exact: no remainder
+                    assert len(childs_p) == 2
+                    a, b = childs_p
+                    w = a.width
+                    if b.width != w:
+                        width_conditions.append(Op("=", [w, b.width], 0))
+                    side_conditions.append(POp("eq", [POp("srem", [a, b], w), PConst(0, w)], Constant(1, 1)))
+                    return POp("sdiv", childs_p, w)
+                case "freeze":
+                    # the identity on values that are not poison
+                    assert len(childs_p) == 1
+                    return childs_p[0]
+                case "knownzeros" | "knownones" | "demandedmask":
+                    # Hydra's symbolic dataflow facts: `knownzeros x K` holds if the bits set in K are
+                    # zero in x, `knownones x K` if they are one, and `demandedmask x DB` is x where
+                    # only the bits set in DB are demanded
+                    assert len(childs_p) == 2
+                    x, k = childs_p
+                    w = x.width
+                    if k.width != w:
+                        width_conditions.append(Op("=", [w, k.width], 0))
+                    masked = POp("and", [x, k], w)
+                    if op == "demandedmask":
+                        return masked
+                    return POp("eq", [masked, PConst(0, w) if op == "knownzeros" else k], Constant(1, 1))
+                case "logb":
+                    # log2 of a power of two: a fresh `l` with x = 1 << l, l <u width(x)
+                    assert len(childs_p) == 1
+                    x = childs_p[0]
+                    w = x.width
+                    name = f"logb_{x.name}" if isinstance(x, PVar) else f"logb{len(definitions)}"
+                    l = definitions.setdefault(name, PVar(name, w))
+                    side_conditions.append(POp("eq", [x, POp("shl", [PConst(1, w), l], w)], Constant(1, 1)))
+                    side_conditions.append(POp("ult", [l, POp("width", [x], w)], Constant(1, 1)))
+                    return l
             MULTIWIDTH_BINOPS = [
                 "add",
                 "sub",
@@ -295,11 +350,23 @@ def souper_to_parametric(
                     return POp("select", childs_p, w_0)
                 case _:
                     raise ValueError(f"Uknown op: {op}")
-        case Variable(name, width):
+        case Variable(name, width, attrs):
             if name not in definitions:
                 new_w = make_fresh_width(widths)
                 new_var = PVar(name, new_w)
                 definitions[name] = new_var
+                for attr in attrs:
+                    match attr:
+                        case "powerOfTwo":
+                            # x != 0 && x & (x - 1) == 0
+                            side_conditions.append(POp("ne", [new_var, PConst(0, new_w)], Constant(1, 1)))
+                            minus1 = POp("sub", [new_var, PConst(1, new_w)], new_w)
+                            side_conditions.append(POp(
+                                "eq", [POp("and", [new_var, minus1], new_w), PConst(0, new_w)], Constant(1, 1)))
+                        case "nonNegative":
+                            side_conditions.append(POp("sle", [PConst(0, new_w), new_var], Constant(1, 1)))
+                        case _:
+                            raise ValueError(f"Unknown variable attribute: {attr}")
                 return new_var
             else:
                 return definitions[name]
@@ -375,6 +442,8 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
         "mul": "bvmul",
         "urem": "bvurem",
         "udiv": "bvudiv",
+        "srem": "bvsrem",
+        "sdiv": "bvsdiv",
         "shl": "bvshl",
         "lshr": "bvlshr",
         "ashr": "bvashr",
@@ -595,18 +664,21 @@ def parametrise_ir(
     widths = []
     width_conditions: list[Op] = []
     var_defs: dict[str, PVar] = {}
-    precondition = None
-    if len(pc := parsed_souper["pc"]) > 0:
-        precondition = souper_to_parametric(
-            pc[0]["condition"], var_defs, width_conditions, widths
-        )
+    # the path conditions (every `pc`), then the side conditions of the ops and variables
+    preconditions: list[POp] = []
+    side_conditions: list[POp] = []
+    for pc in parsed_souper["pc"]:
+        preconditions.append(souper_to_parametric(
+            pc["condition"], var_defs, width_conditions, widths, side_conditions
+        ))
 
     lhs = souper_to_parametric(
-        parsed_souper["infer"], var_defs, width_conditions, widths
+        parsed_souper["infer"], var_defs, width_conditions, widths, side_conditions
     )
     rhs = souper_to_parametric(
-        parsed_souper["result"], var_defs, width_conditions, widths
+        parsed_souper["result"], var_defs, width_conditions, widths, side_conditions
     )
+    preconditions += side_conditions
 
     width_conditions.append(Op("=", [lhs.width, rhs.width], -1))
 
@@ -634,11 +706,9 @@ def parametrise_ir(
                 ]
                 lhs = update_p_widths(lhs, old_width, new_width)
                 rhs = update_p_widths(rhs, old_width, new_width)
-                precondition = (
-                    update_p_widths(precondition, old_width, new_width)
-                    if precondition
-                    else None
-                )
+                preconditions = [
+                    update_p_widths(p, old_width, new_width) for p in preconditions
+                ]
                 widths = [new_width if w == old_width else w for w in widths]
                 var_defs = {
                     k: update_p_widths(v, old_width, new_width)
@@ -657,9 +727,7 @@ def parametrise_ir(
     lhs = remove_width_op_pass(lhs)
     rhs = remove_width_op_pass(rhs)
 
-    if precondition:
-        precondition = remove_width_op_pass(precondition)
-        new_conditions.append(precondition)
+    new_conditions += [remove_width_op_pass(p) for p in preconditions]
 
     # Sort alphabetically before returning
     new_conditions = sorted(new_conditions, key=lambda x: str(x))
@@ -804,11 +872,7 @@ for block in comments:
         print(f"{opt_num} contains knownBits constraint on var, skipping")
         num_nonparametric += 1
         continue
-    elif "(nonNegative)" in bottom:
-        print(f"{opt_num} contains nonnegative constraint on var, skipping")
-        num_nonparametric += 1
-        continue
-    res = re.search(r"(width\([^)]*\)\s+==\s+(\S+))", bottom)
+    res =re.search(r"(width\([^)]*\)\s+==\s+(\S+))", bottom)
     if res and res.group(2).isdigit():
         print(f"Non parametric opt {opt_num}.", "Found width condition: ", res.group(1))
         num_nonparametric += 1

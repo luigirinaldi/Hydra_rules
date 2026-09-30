@@ -1,0 +1,46 @@
+; Opt : 3936
+; %newvar0:i32 = var ; newvar0
+; %symDF_K0:i32 = var ; symDF_K0
+; %2:i1 = knownzeros %newvar0, %symDF_K0
+; pc %2 1:i1
+; %symconst_1:i32 = var ; symconst_1
+; %symDF_K1:i32 = var ; symDF_K1
+; %5:i1 = knownones %symconst_1, %symDF_K1
+; pc %5 1:i1
+; %6:i32 = or %symDF_K0, %symDF_K1
+; %symDF_DB:i32 = var ; symDF_DB
+; %8:i32 = xor 4294967295:i32, %symDF_DB
+; %9:i32 = or %6, %8
+; %10:i1 = eq 4294967295:i32, %9
+; pc %10 1:i1
+; %11:i32 = or %newvar0, %symconst_1
+; %12:i32 = demandedmask %11, %symDF_DB
+; infer %12
+; %13:i32 = demandedmask %symconst_1, %symDF_DB
+; result %13
+; 
+; ((symconst_1.k1 | newvar0.k0) | ~@db) == 0xFFFFFFFF
+;   |= 
+; let var0 = C1 | newvar0;
+; var0
+;   =>
+; C1
+(set-logic ALL)
+(declare-const s Int)
+(declare-fun newvar0 () (_ BitVec s))
+(declare-fun symDF_DB () (_ BitVec s))
+(declare-fun symDF_K0 () (_ BitVec s))
+(declare-fun symDF_K1 () (_ BitVec s))
+(declare-fun symconst_1 () (_ BitVec s))
+
+; Preconditions:
+(assert (= (bvand newvar0 symDF_K0) (int_to_pbv s 0)))
+(assert (= (bvand symconst_1 symDF_K1) symDF_K1))
+(assert (= (bvnot (int_to_pbv s 0)) (bvor (bvor symDF_K0 symDF_K1) (bvxor (bvnot (int_to_pbv s 0)) symDF_DB))))
+
+; assert lhs != rhs:
+(assert (distinct 
+    (bvand (bvor newvar0 symconst_1) symDF_DB)
+    (bvand symconst_1 symDF_DB)
+))
+(check-sat)
