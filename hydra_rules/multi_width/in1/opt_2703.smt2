@@ -20,6 +20,7 @@
 (assert (< q r))
 (assert (< q t))
 (assert (< r t))
+(assert (= q 1))
 
 ; assert lhs != rhs:
 (assert (distinct 

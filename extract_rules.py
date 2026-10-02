@@ -804,6 +804,30 @@ def extract_width_annotations(ir_text: str):
     return rw_widths, width_map, symbolic_vars, ssa_vars
 
 
+# --- Manual fixes ---
+# Rules the generalisation gets wrong, as it does not know which widths must stay equal or concrete
+# (see the README): replacements in the generated SMT-LIB, each of which must apply exactly once.
+PRECONDITION_END = "\n; assert lhs != rhs:"
+MANUAL_FIXES = {
+    # The mask 0xFFFFFFFF selects the bits the trunc to i32 keeps: all ones of the trunc's width,
+    # zero extended, rather than the constant (which only fits a trunc to 32 bits).
+    "2784": [("(int_to_pbv q 4294967295)", "(pzero_extend (- q s) (bvnot (int_to_pbv s 0)))")],
+    # `0 - zext(b) = sext(b)` holds for a 1-bit b only: keep newvar0 an i1 (the rule stays
+    # parametric in the other widths).
+    "310": [(PRECONDITION_END, "(assert (= q 1))\n" + PRECONDITION_END)],
+    "2703": [(PRECONDITION_END, "(assert (= q 1))\n" + PRECONDITION_END)],
+    # The trunc goes back to newvar0's width (i8 to i8): its width is q's, not a fresh one.
+    "3998": [(PRECONDITION_END, "(assert (= v q))\n" + PRECONDITION_END)],
+}
+
+
+def apply_manual_fixes(opt_num: str, smt: str) -> str:
+    for old, new in MANUAL_FIXES.get(opt_num, []):
+        assert smt.count(old) == 1, f"manual fix of {opt_num}: {old!r} occurs {smt.count(old)} times"
+        smt = smt.replace(old, new)
+    return smt
+
+
 # --- Settings ---
 filename = sys.argv[1] if len(sys.argv) > 1 else "gen.cpp.inc"
 base_output = "hydra_rules"
@@ -902,7 +926,7 @@ for block in comments:
             print("Failed to translate to bwlang:", opt_num, e)
 
         try:
-            pbv_out = parametric_to_pbv(parametrised, block)
+            pbv_out = apply_manual_fixes(opt_num, parametric_to_pbv(parametrised, block))
             print(f"Succesfull converted {opt_num} to pbv")
         except ValueError as e:
             print(f"Failed to convert {opt_num} to pbv:", e)

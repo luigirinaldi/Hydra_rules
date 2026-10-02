@@ -5,7 +5,9 @@ Translation from the `gen.cpp` file to testcases occurs as follows:
 - Extract comments
 - Parse the Souper-IR
 - Translate Souper -> parametric AST
-    - For each variable of concrete width > 1, introduce a fresh bitwidth variable
+    - For each variable, introduce a fresh bitwidth variable (`i1` ones too: Souper often types a
+      variable `i1` when the rule holds at any width; see [Manual fixes](#manual-fixes) for when it
+      does not)
     - For every operation that changes the width (ext and trunc) introduce symbolic constraints on the widths
         - a zext can only happen if the result width is strictly (not sure if the condition is strict?) larger than the original width
     - For every binary operand introduce an equality constraint between the two width operators
@@ -58,11 +60,26 @@ constant, which is chained the same way.
 are skipped as non-parametric.
 
 
+## Manual fixes
+
+The generalisation does not know which widths must stay equal to each other, or concrete, so a few
+rules come out false at most widths: their counterexamples are genuine. `MANUAL_FIXES` in
+`extract_rules.py` patches their generated SMT-LIB (each patch must apply exactly once, so a change
+to the extraction that moves them fails loudly). With the patches, each holds at every width and is
+still parametric:
+
+- opt_2784, `trunc((v3 & 0xFFFFFFFF)) => trunc(v3)`: the constant 0xFFFFFFFF ((2^32)-1) is stored
+  in a 64-bit variable because it masks the bits the trunc to i32 keeps. Kept as a constant, it only
+  fits a trunc to 32 bits; it becomes the all-ones constant of the trunc's width, zero extended:
+  `(pzero_extend (- q s) (bvnot (int_to_pbv s 0)))`.
+- opt_310, `0 - zext(newvar0) => sext(newvar0)`, and opt_2703,
+  `sext((0 - zext(newvar0))) => sext(newvar0)`: these hold for a 1-bit `newvar0` only (for a
+  wider one, `0 - zext(x)` is not `sext(x)`), so `newvar0` stays an `i1`: `(assert (= q 1))`. They
+  stay parametric in the other widths.
+- opt_3998: its `trunc` goes back to `newvar0`'s width (i8 to i8), but gets a fresh width `v` that
+  only has to be smaller than the `zext`'s; it is `newvar0`'s: `(assert (= v q))`.
+
 ## Type-check errors
-
-#### Manual fix
-
-- opt_2784: The constant 0xFFFFFFFF ((2^32)-1) is stored in a 64-bit variable because it's used to mask the bottom bits, so it is converted into a parametric all-ones constant of the correct parameter, that matches the other operations.
 
 #### Bit-vector exception
 
