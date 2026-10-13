@@ -1,6 +1,0 @@
-{
-  "preconditions": [],
-  "lhs": "(bw q (not (bw q (not (bw q newvar4)))))",
-  "rhs": "(bw q newvar4)",
-  "name": "hydra_opt_1247"
-}

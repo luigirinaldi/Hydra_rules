@@ -1,10 +1,10 @@
 {
   "preconditions": [
-    "(< q r)",
-    "(< q t)",
+    "(< 1 r)",
+    "(< 1 t)",
     "(< r t)"
   ],
-  "lhs": "(bw t (signed r (bw r (- (bw r 0) (bw r (bw q newvar0))))))",
-  "rhs": "(bw t (signed q (bw q newvar0)))",
+  "lhs": "(bw t (signed r (bw r (- (bw r 0) (bw r (bw 1 newvar0))))))",
+  "rhs": "(bw t (signed 1 (bw 1 newvar0)))",
   "name": "hydra_opt_2703"
 }

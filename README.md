@@ -5,9 +5,10 @@ Translation from the `gen.cpp` file to testcases occurs as follows:
 - Extract comments
 - Parse the Souper-IR
 - Translate Souper -> parametric AST
-    - For each variable, introduce a fresh bitwidth variable (`i1` ones too: Souper often types a
-      variable `i1` when the rule holds at any width; see [Manual fixes](#manual-fixes) for when it
-      does not)
+    - For each variable, introduce a fresh bitwidth variable, except for `i1` ones, which stay `i1`
+      (a `Bool`): an `i1` is a truth value, and the rules about one rely on it (`zext(x) != 0` is
+      `x`, `0 - zext(x)` is `sext(x)`), so most of them are false at wider widths. A rule whose
+      widths are all `i1` is then not parametric, and is skipped
     - For every operation that changes the width (ext and trunc) introduce symbolic constraints on the widths
         - a zext can only happen if the result width is strictly (not sure if the condition is strict?) larger than the original width
     - For every binary operand introduce an equality constraint between the two width operators
@@ -72,10 +73,6 @@ still parametric:
   in a 64-bit variable because it masks the bits the trunc to i32 keeps. Kept as a constant, it only
   fits a trunc to 32 bits; it becomes the all-ones constant of the trunc's width, zero extended:
   `(pzero_extend (- q s) (bvnot (int_to_pbv s 0)))`.
-- opt_310, `0 - zext(newvar0) => sext(newvar0)`, and opt_2703,
-  `sext((0 - zext(newvar0))) => sext(newvar0)`: these hold for a 1-bit `newvar0` only (for a
-  wider one, `0 - zext(x)` is not `sext(x)`), so `newvar0` stays an `i1`: `(assert (= q 1))`. They
-  stay parametric in the other widths.
 - opt_3998: its `trunc` goes back to `newvar0`'s width (i8 to i8), but gets a fresh width `v` that
   only has to be smaller than the `zext`'s; it is `newvar0`'s: `(assert (= v q))`.
 

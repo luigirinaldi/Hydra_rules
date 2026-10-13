@@ -355,6 +355,10 @@ def souper_to_parametric(
                 new_w = make_fresh_width(widths)
                 new_var = PVar(name, new_w)
                 definitions[name] = new_var
+                if width == 1:
+                    # an i1 is a truth value, and the rules about one rely on it (`zext(x) != 0` is
+                    # `x`, `0 - zext(x)` is `sext(x)`): it stays an i1, as a select condition does
+                    width_conditions.append(Op("=", [new_w, Constant(1, 1)], 0))
                 for attr in attrs:
                     match attr:
                         case "powerOfTwo":
@@ -480,6 +484,10 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                         child_str = childs_str[0]
                     return f"({'pzero_extend' if ext == 'zext' else 'psign_extend'} {width_diff} {child_str})"
                 case op if op in BINOP_MAPPING:
+                    if op not in ("eq", "ne"):
+                        # the bv ops take an i1 (a Bool) as a 1-bit bv
+                        childs_str = [f"(ite {s} (_ bv1 1) (_ bv0 1))" if c.width == Constant(1, 1) else s
+                                      for c, s in zip(childs, childs_str)]
                     return f"({BINOP_MAPPING[op]} {' '.join(childs_str)})"
                 case op if op in BIT_BINOP:
                     if all([c.width == Constant(1, 1) for c in childs]):
@@ -812,10 +820,6 @@ MANUAL_FIXES = {
     # The mask 0xFFFFFFFF selects the bits the trunc to i32 keeps: all ones of the trunc's width,
     # zero extended, rather than the constant (which only fits a trunc to 32 bits).
     "2784": [("(int_to_pbv q 4294967295)", "(pzero_extend (- q s) (bvnot (int_to_pbv s 0)))")],
-    # `0 - zext(b) = sext(b)` holds for a 1-bit b only: keep newvar0 an i1 (the rule stays
-    # parametric in the other widths).
-    "310": [(PRECONDITION_END, "(assert (= q 1))\n" + PRECONDITION_END)],
-    "2703": [(PRECONDITION_END, "(assert (= q 1))\n" + PRECONDITION_END)],
     # The trunc goes back to newvar0's width (i8 to i8): its width is q's, not a fresh one.
     "3998": [(PRECONDITION_END, "(assert (= v q))\n" + PRECONDITION_END)],
 }

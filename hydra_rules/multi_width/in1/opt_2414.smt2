@@ -14,25 +14,23 @@
 ;   =>
 ; trunc((zext(newvar2) | zext(newvar7)))
 (set-logic ALL)
-(declare-const q Int)
-(declare-const s Int)
 (declare-const t Int)
 (declare-const w Int)
 (declare-const x Int)
-(declare-fun newvar2 () (_ BitVec q))
-(declare-fun newvar7 () (_ BitVec s))
+(declare-fun newvar2 () Bool)
+(declare-fun newvar7 () Bool)
 
 ; Preconditions:
-(assert (< q t))
-(assert (< q w))
-(assert (< s t))
-(assert (< s w))
+(assert (< 1 t))
+(assert (< 1 t))
+(assert (< 1 w))
+(assert (< 1 w))
 (assert (< 1 x))
 (assert (> w x))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pzero_extend (- x 1) (ite (distinct (int_to_pbv t 0) (bvor (pzero_extend (- t q) newvar2) (pzero_extend (- t s) newvar7))) (_ bv1 1) (_ bv0 1)))
-    (pextract (- x 1) 0 (bvor (pzero_extend (- w q) newvar2) (pzero_extend (- w s) newvar7)))
+    (pzero_extend (- x 1) (ite (distinct (int_to_pbv t 0) (bvor (pzero_extend (- t 1) (ite newvar2 (_ bv1 1) (_ bv0 1))) (pzero_extend (- t 1) (ite newvar7 (_ bv1 1) (_ bv0 1))))) (_ bv1 1) (_ bv0 1)))
+    (pextract (- x 1) 0 (bvor (pzero_extend (- w 1) (ite newvar2 (_ bv1 1) (_ bv0 1))) (pzero_extend (- w 1) (ite newvar7 (_ bv1 1) (_ bv0 1)))))
 ))
 (check-sat)

@@ -11,19 +11,18 @@
 ;   =>
 ; zext(newvar0)
 (set-logic ALL)
-(declare-const q Int)
 (declare-const r Int)
 (declare-const t Int)
-(declare-fun newvar0 () (_ BitVec q))
+(declare-fun newvar0 () Bool)
 
 ; Preconditions:
-(assert (< q r))
-(assert (< q t))
+(assert (< 1 r))
+(assert (< 1 t))
 (assert (< 1 t))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pzero_extend (- t 1) (ite (distinct (int_to_pbv r 0) (pzero_extend (- r q) newvar0)) (_ bv1 1) (_ bv0 1)))
-    (pzero_extend (- t q) newvar0)
+    (pzero_extend (- t 1) (ite (distinct (int_to_pbv r 0) (pzero_extend (- r 1) (ite newvar0 (_ bv1 1) (_ bv0 1)))) (_ bv1 1) (_ bv0 1)))
+    (pzero_extend (- t 1) (ite newvar0 (_ bv1 1) (_ bv0 1)))
 ))
 (check-sat)
