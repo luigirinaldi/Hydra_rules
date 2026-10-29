@@ -15,8 +15,8 @@
 ; newvar1 <=u newvar2
 (set-logic ALL)
 (declare-const u Int)
-(declare-fun newvar1 () Bool)
-(declare-fun newvar2 () Bool)
+(declare-fun newvar1 () (_ BitVec 1))
+(declare-fun newvar2 () (_ BitVec 1))
 
 ; Preconditions:
 (assert (< 1 u))
@@ -24,7 +24,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (distinct (int_to_pbv u 0) (bvor (pzero_extend (- u 1) (ite newvar2 (_ bv1 1) (_ bv0 1))) (pzero_extend (- u 1) (ite (not newvar1) (_ bv1 1) (_ bv0 1)))))
-    (bvule (ite newvar1 (_ bv1 1) (_ bv0 1)) (ite newvar2 (_ bv1 1) (_ bv0 1)))
+    (distinct (int_to_pbv u 0) (bvor (pzero_extend (- u 1) newvar2) (pzero_extend (- u 1) (ite (not (= newvar1 (_ bv1 1))) (_ bv1 1) (_ bv0 1)))))
+    (bvule newvar1 newvar2)
 ))
 (check-sat)

@@ -11,14 +11,14 @@
 ; ~v0
 (set-logic ALL)
 (declare-const r Int)
-(declare-fun v0 () Bool)
+(declare-fun v0 () (_ BitVec 1))
 
 ; Preconditions:
 (assert (< 1 r))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (= (int_to_pbv r 0) (pzero_extend (- r 1) (ite v0 (_ bv1 1) (_ bv0 1))))
-    (not v0)
+    (= (int_to_pbv r 0) (pzero_extend (- r 1) v0))
+    (not (= v0 (_ bv1 1)))
 ))
 (check-sat)

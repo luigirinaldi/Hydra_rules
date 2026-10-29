@@ -14,15 +14,15 @@
 ; newvar5 ^ newvar0
 (set-logic ALL)
 (declare-const s Int)
-(declare-fun newvar0 () Bool)
-(declare-fun newvar5 () Bool)
+(declare-fun newvar0 () (_ BitVec 1))
+(declare-fun newvar5 () (_ BitVec 1))
 
 ; Preconditions:
 (assert (< 1 s))
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (distinct (int_to_pbv s 0) (bvxor (ite newvar0 (int_to_pbv s 1) (int_to_pbv s 0)) (pzero_extend (- s 1) (ite newvar5 (_ bv1 1) (_ bv0 1)))))
-    (xor newvar0 newvar5)
+    (distinct (int_to_pbv s 0) (bvxor (ite (= newvar0 (_ bv1 1)) (int_to_pbv s 1) (int_to_pbv s 0)) (pzero_extend (- s 1) newvar5)))
+    (xor (= newvar0 (_ bv1 1)) (= newvar5 (_ bv1 1)))
 ))
 (check-sat)

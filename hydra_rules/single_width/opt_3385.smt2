@@ -19,7 +19,7 @@
 (declare-const q Int)
 (declare-fun symconst_1 () (_ BitVec q))
 (declare-fun symconst_2 () (_ BitVec q))
-(declare-fun v0 () Bool)
+(declare-fun v0 () (_ BitVec 1))
 
 ; Preconditions:
 (assert (> q 0))
@@ -27,7 +27,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (distinct symconst_1 (ite v0 symconst_1 symconst_2))
-    (not v0)
+    (distinct symconst_1 (ite (= v0 (_ bv1 1)) symconst_1 symconst_2))
+    (not (= v0 (_ bv1 1)))
 ))
 (check-sat)

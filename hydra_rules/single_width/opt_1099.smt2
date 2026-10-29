@@ -14,7 +14,7 @@
 ; select newvar5 (C3 | C1) C3
 (set-logic ALL)
 (declare-const s Int)
-(declare-fun newvar5 () Bool)
+(declare-fun newvar5 () (_ BitVec 1))
 (declare-fun symconst_1 () (_ BitVec s))
 (declare-fun symconst_3 () (_ BitVec s))
 
@@ -23,7 +23,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (bvor symconst_3 (ite newvar5 symconst_1 (int_to_pbv s 0)))
-    (ite newvar5 (bvor symconst_3 symconst_1) symconst_3)
+    (bvor symconst_3 (ite (= newvar5 (_ bv1 1)) symconst_1 (int_to_pbv s 0)))
+    (ite (= newvar5 (_ bv1 1)) (bvor symconst_3 symconst_1) symconst_3)
 ))
 (check-sat)

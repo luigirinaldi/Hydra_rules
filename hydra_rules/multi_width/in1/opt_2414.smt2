@@ -17,8 +17,8 @@
 (declare-const t Int)
 (declare-const w Int)
 (declare-const x Int)
-(declare-fun newvar2 () Bool)
-(declare-fun newvar7 () Bool)
+(declare-fun newvar2 () (_ BitVec 1))
+(declare-fun newvar7 () (_ BitVec 1))
 
 ; Preconditions:
 (assert (< 1 t))
@@ -30,7 +30,7 @@
 
 ; assert lhs != rhs:
 (assert (distinct 
-    (pzero_extend (- x 1) (ite (distinct (int_to_pbv t 0) (bvor (pzero_extend (- t 1) (ite newvar2 (_ bv1 1) (_ bv0 1))) (pzero_extend (- t 1) (ite newvar7 (_ bv1 1) (_ bv0 1))))) (_ bv1 1) (_ bv0 1)))
-    (pextract (- x 1) 0 (bvor (pzero_extend (- w 1) (ite newvar2 (_ bv1 1) (_ bv0 1))) (pzero_extend (- w 1) (ite newvar7 (_ bv1 1) (_ bv0 1)))))
+    (pzero_extend (- x 1) (ite (distinct (int_to_pbv t 0) (bvor (pzero_extend (- t 1) newvar2) (pzero_extend (- t 1) newvar7))) (_ bv1 1) (_ bv0 1)))
+    (pextract (- x 1) 0 (bvor (pzero_extend (- w 1) newvar2) (pzero_extend (- w 1) newvar7)))
 ))
 (check-sat)

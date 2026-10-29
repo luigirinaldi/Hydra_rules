@@ -5,10 +5,10 @@ Translation from the `gen.cpp` file to testcases occurs as follows:
 - Extract comments
 - Parse the Souper-IR
 - Translate Souper -> parametric AST
-    - For each variable, introduce a fresh bitwidth variable, except for `i1` ones, which stay `i1`
-      (a `Bool`): an `i1` is a truth value, and the rules about one rely on it (`zext(x) != 0` is
-      `x`, `0 - zext(x)` is `sext(x)`), so most of them are false at wider widths. A rule whose
-      widths are all `i1` is then not parametric, and is skipped
+    - For each variable, introduce a fresh bitwidth variable, except for `i1` ones, which stay `i1`:
+      an `i1` is a truth value, and the rules about one rely on it (`zext(x) != 0` is `x`,
+      `0 - zext(x)` is `sext(x)`), so most of them are false at wider widths. A rule whose widths
+      are all `i1` is then not parametric, and is skipped
     - For every operation that changes the width (ext and trunc) introduce symbolic constraints on the widths
         - a zext can only happen if the result width is strictly (not sure if the condition is strict?) larger than the original width
     - Every width is at least 1 (Souper has no `i0`): a width that no other condition bounds from
@@ -20,6 +20,10 @@ Translation from the `gen.cpp` file to testcases occurs as follows:
     - Apply symbolic constraints
         - For every symbolic equality constraint, replace any occurrence of the widths with the new width
 - Once the rewrite has been parametrised, translate it to `pbv` and `bwlang`
+    - In `pbv` (SMT-LIB), an `i1` variable is a `(_ BitVec 1)`, not a `Bool`: blase's blasewuzla
+      parses no `Bool` variables. Where the rule uses it as a truth value (a `select`'s condition,
+      an operand of `and`/`or`/`xor`/`not`) it is `(= x (_ bv1 1))`, and as a bit (`zext`, the bv
+      ops) it is `x`. The other `i1`s (comparisons, connectives, constants) are `Bool`s
 
 Every `pc` is a precondition, and so are the side conditions that some ops and variable
 attributes imply (below).

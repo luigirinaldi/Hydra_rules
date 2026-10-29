@@ -439,6 +439,14 @@ def parametric_to_bwlang_string(node: POp | PConst | PVar | Op) -> str:
 
 
 
+def pbv_bit(node: POp | PConst | PVar, node_str: str) -> str:
+    # an i1 where a 1-bit bv is expected: an i1 variable is one (see `parametric_to_pbv`), any other
+    # i1 (a comparison, a connective, a constant) is a Bool, converted
+    if isinstance(node, PVar):
+        return node.name
+    return f"(ite {node_str} (_ bv1 1) (_ bv0 1))"
+
+
 def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
     BINOP_MAPPING = {
         "add": "bvadd",
@@ -479,14 +487,14 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                     width_diff = f"(- {width_to_string(width)} {width_to_string(childs[0].width)})"
                     if childs[0].width == Constant(1, 1):
                         # handle the boolean case, convert boolean to bv
-                        child_str = f"(ite {childs_str[0]} (_ bv1 1) (_ bv0 1))"
+                        child_str = pbv_bit(childs[0], childs_str[0])
                     else:
                         child_str = childs_str[0]
                     return f"({'pzero_extend' if ext == 'zext' else 'psign_extend'} {width_diff} {child_str})"
                 case op if op in BINOP_MAPPING:
                     if op not in ("eq", "ne"):
                         # the bv ops take an i1 (a Bool) as a 1-bit bv
-                        childs_str = [f"(ite {s} (_ bv1 1) (_ bv0 1))" if c.width == Constant(1, 1) else s
+                        childs_str = [pbv_bit(c, s) if c.width == Constant(1, 1) else s
                                       for c, s in zip(childs, childs_str)]
                     return f"({BINOP_MAPPING[op]} {' '.join(childs_str)})"
                 case op if op in BIT_BINOP:
@@ -502,7 +510,8 @@ def parametric_to_pbv_string(node: POp | PConst | PVar | Op) -> str:
                     raise ValueError("pbv_to_string unkown op:", op)
 
         case PVar(name, width):
-            return name
+            # an i1 variable is a 1-bit bv (see `parametric_to_pbv`), here as the Bool it stands for
+            return f"(= {name} (_ bv1 1))" if width == Constant(1, 1) else name
         case PConst(value, width):
             # Check if it's an allOnesConst
             if width == Constant(1, 1):
@@ -547,9 +556,11 @@ def parametric_to_pbv(
     output += "\n(set-logic ALL)\n"
     output += "\n".join([f"(declare-const {w} Int)" for w in widths])
     output += "\n"
+    # An i1 variable is a 1-bit bv, not a Bool: blase's blasewuzla takes no Bool variables. Where an
+    # i1 is a truth value (a select's condition, a connective's operand), it is `(= x (_ bv1 1))`
     output += "\n".join(
         [
-            f"(declare-fun {var.name} () {'Bool' if var.width == Constant(1, 1) else '(_ BitVec ' + var.width + ')'})"
+            f"(declare-fun {var.name} () (_ BitVec {width_to_string(var.width)}))"
             for _n, var in var_defs.items()
         ]
     )
