@@ -35,6 +35,7 @@
 (declare-fun v0 () (_ BitVec q))
 
 ; Preconditions:
+(assert (> q 0))
 (assert (= (bvand symconst_2 symDF_DB) symDF_DB))
 
 ; assert lhs != rhs:

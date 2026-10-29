@@ -25,6 +25,7 @@
 (declare-fun symconst_6 () (_ BitVec q))
 
 ; Preconditions:
+(assert (> q 0))
 (assert (> t 1))
 (assert (bvult symconst_6 symconst_5))
 

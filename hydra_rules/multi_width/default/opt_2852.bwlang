@@ -1,6 +1,7 @@
 {
   "preconditions": [
     "(< q r)",
+    "(> q 0)",
     "(> r q)"
   ],
   "lhs": "(bw q (bw r (- (bw r symconst_1) (bw r (bw q v0)))))",

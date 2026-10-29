@@ -25,6 +25,7 @@
 (declare-fun v0 () (_ BitVec u))
 
 ; Preconditions:
+(assert (> u 0))
 (assert (= (int_to_pbv u 1) (bvsub symconst_6 symconst_7)))
 
 ; assert lhs != rhs:

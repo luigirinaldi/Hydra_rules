@@ -16,6 +16,7 @@
 (declare-fun symconst_1 () (_ BitVec q))
 
 ; Preconditions:
+(assert (> q 0))
 (assert (= (bvsrem newvar1 symconst_1) (int_to_pbv q 0)))
 
 ; assert lhs != rhs:

@@ -25,6 +25,7 @@
 (declare-fun symconst_2 () (_ BitVec p))
 
 ; Preconditions:
+(assert (> p 0))
 (assert (bvult symconst_2 symconst_1))
 
 ; assert lhs != rhs:

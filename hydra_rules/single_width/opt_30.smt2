@@ -13,6 +13,9 @@
 (declare-const q Int)
 (declare-fun v0 () (_ BitVec q))
 
+; Preconditions:
+(assert (> q 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (bvadd (int_to_pbv q 1) (bvxor (bvnot (int_to_pbv q 0)) v0))

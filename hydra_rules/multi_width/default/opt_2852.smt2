@@ -20,6 +20,7 @@
 
 ; Preconditions:
 (assert (< q r))
+(assert (> q 0))
 (assert (> r q))
 (assert (> r q))
 

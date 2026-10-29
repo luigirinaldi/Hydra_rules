@@ -732,6 +732,13 @@ def parametrise_ir(
     # for the problem to be parametric there must be at least some parametric widths somewhere
     assert len(widths) > 0, f"There are no parametric widths: {widths}"
 
+    # Souper has no i0: every width is at least 1. Without it, the width-0 bitvector (the only value
+    # 0, so `1` is `0`) makes rules false, e.g. a `trunc` to width 0 drops the bit the rule keeps.
+    # A width some condition already bounds from below is left alone.
+    bounded = {c.children[0] for c in new_conditions if c.op == ">"} | \
+              {c.children[1] for c in new_conditions if c.op == "<"}
+    new_conditions += [Op(">", [w, Constant(0, 1)], 0) for w in widths if w not in bounded]
+
     lhs = remove_width_op_pass(lhs)
     rhs = remove_width_op_pass(rhs)
 
@@ -813,15 +820,27 @@ def extract_width_annotations(ir_text: str):
 
 
 # --- Manual fixes ---
-# Rules the generalisation gets wrong, as it does not know which widths must stay equal or concrete
-# (see the README): replacements in the generated SMT-LIB, each of which must apply exactly once.
+# Rules that come out false (see the README): quirks of this translation, which does not know which
+# widths must stay equal or concrete, and bugs in Hydra. Replacements in the generated SMT-LIB, each
+# of which must apply exactly once.
 PRECONDITION_END = "\n; assert lhs != rhs:"
+# A `; Note:` comment goes into the rule's docstring in pbv-bench (tools/smt_to_lean.py).
+NOTE_3682 = """\
+; Note: A bug in Hydra, not a quirk of the translation: Hydra generalises this rule unsoundly. It is
+; Note: false at width 1 (an i1), where the constant 1 is -1 as a signed value, so `newvar0 -nsw 1` is
+; Note: `newvar0 + 1`. The nsw precondition does not exclude it: newvar0 = -1, v3 = 0 satisfy it
+; Note: (-1 - (-1) = 0), and then `0 <s 0` is false but `-1 <=s 0` is true. The constant 1 only keeps
+; Note: its value from width 2, so q >= 2.
+"""
 MANUAL_FIXES = {
     # The mask 0xFFFFFFFF selects the bits the trunc to i32 keeps: all ones of the trunc's width,
     # zero extended, rather than the constant (which only fits a trunc to 32 bits).
     "2784": [("(int_to_pbv q 4294967295)", "(pzero_extend (- q s) (bvnot (int_to_pbv s 0)))")],
     # The trunc goes back to newvar0's width (i8 to i8): its width is q's, not a fresh one.
     "3998": [(PRECONDITION_END, "(assert (= v q))\n" + PRECONDITION_END)],
+    # A bug in Hydra, not a quirk of this translation: the rule is false at width 1 (an i1), where the
+    # constant 1 is -1 as a signed value, so `x -nsw 1` is `x + 1` (and nsw still holds for x = -1).
+    "3682": [("(assert (> q 0))\n", NOTE_3682 + "(assert (>= q 2))\n")],
 }
 
 

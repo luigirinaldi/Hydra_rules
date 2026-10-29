@@ -20,6 +20,7 @@
 
 ; Preconditions:
 (assert (< 1 t))
+(assert (> v 0))
 
 ; assert lhs != rhs:
 (assert (distinct 

@@ -28,6 +28,7 @@
 (declare-fun symconst_8 () (_ BitVec r))
 
 ; Preconditions:
+(assert (> r 0))
 (assert (= symconst_7 (bvlshr symDF_DB symconst_8)))
 
 ; assert lhs != rhs:

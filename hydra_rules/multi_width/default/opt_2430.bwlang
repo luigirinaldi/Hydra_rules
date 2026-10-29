@@ -1,6 +1,7 @@
 {
   "preconditions": [
-    "(< q s)"
+    "(< q s)",
+    "(> q 0)"
   ],
   "lhs": "(bw s (bw q (+ (bw q 0) (bw q v0))))",
   "rhs": "(bw s (bw q v0))",

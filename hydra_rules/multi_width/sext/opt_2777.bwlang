@@ -1,6 +1,7 @@
 {
   "preconditions": [
     "(< r s)",
+    "(> r 0)",
     "(> s r)"
   ],
   "lhs": "(bw r (bw s (and (bw s (signed r (bw r v0))) (bw s (signed r (bw r v2))))))",

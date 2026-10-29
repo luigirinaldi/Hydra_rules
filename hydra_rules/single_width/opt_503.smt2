@@ -17,6 +17,7 @@
 (declare-fun v0 () (_ BitVec q))
 
 ; Preconditions:
+(assert (> q 0))
 (assert (= (bvand symconst_1 (bvsub symconst_1 (int_to_pbv q 1))) (int_to_pbv q 0)))
 (assert (= symconst_1 (bvshl (int_to_pbv q 1) logb_symconst_1)))
 (assert (distinct symconst_1 (int_to_pbv q 0)))

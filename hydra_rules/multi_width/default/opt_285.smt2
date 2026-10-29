@@ -26,6 +26,7 @@
 
 ; Preconditions:
 (assert (< q r))
+(assert (> q 0))
 (assert (> r q))
 (assert (> r q))
 (assert (= symconst_1 (pzero_extend (- r q) symconst_2)))

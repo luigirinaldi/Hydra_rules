@@ -21,6 +21,9 @@
 (declare-fun symconst_2 () (_ BitVec r))
 (declare-fun symconst_3 () (_ BitVec r))
 
+; Preconditions:
+(assert (> r 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (bvor symconst_3 (ite newvar1 symconst_1 symconst_2))

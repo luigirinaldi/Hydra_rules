@@ -14,6 +14,9 @@
 (declare-fun newvar0 () (_ BitVec q))
 (declare-fun symconst_1 () (_ BitVec q))
 
+; Preconditions:
+(assert (> q 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (bvand symconst_1 (bvor symconst_1 newvar0))

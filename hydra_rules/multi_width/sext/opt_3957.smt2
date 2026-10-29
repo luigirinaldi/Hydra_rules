@@ -36,6 +36,7 @@
 (assert (< q s))
 (assert (< q s))
 (assert (< q s))
+(assert (> q 0))
 (assert (= (bvand symconst_1 symDF_K1) symDF_K1))
 (assert (= symDF_DB (pzero_extend (- s q) symDF_K1)))
 

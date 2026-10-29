@@ -23,6 +23,9 @@
 (declare-fun symconst_5 () (_ BitVec q))
 (declare-fun v0 () (_ BitVec q))
 
+; Preconditions:
+(assert (> q 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (bvand (bvand symconst_5 (bvand symconst_4 v0)) symDF_DB)

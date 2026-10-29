@@ -18,6 +18,9 @@
 (declare-fun symconst_2 () (_ BitVec q))
 (declare-fun v0 () (_ BitVec q))
 
+; Preconditions:
+(assert (> q 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (bvor symconst_1 (bvor symconst_2 v0))

@@ -21,6 +21,7 @@
 ; Preconditions:
 (assert (< 1 x))
 (assert (> s x))
+(assert (> u 0))
 
 ; assert lhs != rhs:
 (assert (distinct 

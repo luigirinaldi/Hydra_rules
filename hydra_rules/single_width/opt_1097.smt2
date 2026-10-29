@@ -11,6 +11,9 @@
 (declare-const q Int)
 (declare-fun newvar0 () (_ BitVec q))
 
+; Preconditions:
+(assert (> q 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (bvor (int_to_pbv q 0) newvar0)

@@ -31,6 +31,7 @@
 (assert (> s x))
 (assert (> s x))
 (assert (> s x))
+(assert (> x 0))
 
 ; assert lhs != rhs:
 (assert (distinct 

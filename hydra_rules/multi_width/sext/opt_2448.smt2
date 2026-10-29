@@ -22,6 +22,7 @@
 (assert (< q r))
 (assert (< q t))
 (assert (< r t))
+(assert (> q 0))
 (assert (bvsle (int_to_pbv q 0) symconst_1))
 
 ; assert lhs != rhs:

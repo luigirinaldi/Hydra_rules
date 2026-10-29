@@ -33,6 +33,7 @@
 (declare-fun v0 () (_ BitVec p))
 
 ; Preconditions:
+(assert (> p 0))
 (assert (= (bvand symDF_K1 symDF_DB) symDF_DB))
 (assert (= (bvand symconst_1 symDF_K1) symDF_K1))
 

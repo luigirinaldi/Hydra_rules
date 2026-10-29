@@ -1,6 +1,7 @@
 {
   "preconditions": [
-    "(> r u)"
+    "(> r u)",
+    "(> u 0)"
   ],
   "lhs": "(bw u (bw r (sel (bw 1 newvar2) (bw r symconst_1) (bw r symconst_2))))",
   "rhs": "(bw u (sel (bw 1 newvar2) (bw u (bw r symconst_1)) (bw u (bw r symconst_2))))",

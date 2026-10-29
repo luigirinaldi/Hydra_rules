@@ -22,6 +22,7 @@
 (assert (< t r))
 (assert (> r t))
 (assert (> r t))
+(assert (> t 0))
 
 ; assert lhs != rhs:
 (assert (distinct 

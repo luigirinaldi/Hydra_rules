@@ -20,6 +20,7 @@
 ; Preconditions:
 (assert (< q s))
 (assert (< q s))
+(assert (> q 0))
 (assert (bvsle (int_to_pbv q 0) (bvand (bvxor (bvadd symconst_1 newvar0) symconst_1) (bvxor (bvadd symconst_1 newvar0) (bvsub (bvadd symconst_1 newvar0) symconst_1)))))
 
 ; assert lhs != rhs:

@@ -22,6 +22,7 @@
 (declare-fun v1 () (_ BitVec t))
 
 ; Preconditions:
+(assert (> t 0))
 (assert (= (bvand symconst_2 (bvsub symconst_2 (int_to_pbv t 1))) (int_to_pbv t 0)))
 (assert (distinct symconst_2 (int_to_pbv t 0)))
 

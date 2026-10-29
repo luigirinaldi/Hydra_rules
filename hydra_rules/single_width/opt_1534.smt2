@@ -28,6 +28,8 @@
 (declare-fun symconst_9 () (_ BitVec q))
 
 ; Preconditions:
+(assert (> q 0))
+(assert (> t 0))
 (assert (bvult symconst_9 symconst_8))
 
 ; assert lhs != rhs:

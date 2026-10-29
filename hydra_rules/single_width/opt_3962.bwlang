@@ -1,5 +1,7 @@
 {
-  "preconditions": [],
+  "preconditions": [
+    "(> q 0)"
+  ],
   "lhs": "(bw q (and (bw q (and (bw q symconst_5) (bw q (and (bw q symconst_4) (bw q v0))))) (bw q symDF_DB)))",
   "rhs": "(bw q (and (bw q (and (bw q v0) (bw q (and (bw q symconst_4) (bw q (and (bw q symconst_5) (bw q symDF_DB))))))) (bw q symDF_DB)))",
   "name": "hydra_opt_3962"

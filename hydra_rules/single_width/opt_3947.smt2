@@ -23,6 +23,7 @@
 (declare-fun symconst_3 () (_ BitVec q))
 
 ; Preconditions:
+(assert (> q 0))
 (assert (= symconst_3 (bvxor (bvnot (int_to_pbv q 0)) symDF_DB)))
 
 ; assert lhs != rhs:

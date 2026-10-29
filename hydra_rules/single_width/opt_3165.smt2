@@ -15,6 +15,9 @@
 (declare-fun newvar0 () (_ BitVec r))
 (declare-fun newvar5 () (_ BitVec r))
 
+; Preconditions:
+(assert (> r 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (= (int_to_pbv r 0) (bvsub newvar0 newvar5))

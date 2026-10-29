@@ -13,6 +13,10 @@
 (declare-const r Int)
 (declare-fun newvar1 () (_ BitVec p))
 
+; Preconditions:
+(assert (> p 0))
+(assert (> r 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (= newvar1 newvar1)

@@ -16,6 +16,7 @@
 (declare-fun v1 () (_ BitVec r))
 
 ; Preconditions:
+(assert (> r 0))
 (assert (bvsle (int_to_pbv r 0) (bvand (bvxor v0 v1) (bvxor v0 (bvsub v0 v1)))))
 
 ; assert lhs != rhs:

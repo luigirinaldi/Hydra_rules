@@ -20,6 +20,7 @@
 ; Preconditions:
 (assert (< u r))
 (assert (> t u))
+(assert (> u 0))
 
 ; assert lhs != rhs:
 (assert (distinct 

@@ -15,6 +15,9 @@
 (declare-fun newvar0 () (_ BitVec q))
 (declare-fun v4 () (_ BitVec q))
 
+; Preconditions:
+(assert (> q 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (not (bvult newvar0 v4))

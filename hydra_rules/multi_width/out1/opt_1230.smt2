@@ -30,7 +30,9 @@
 ; Preconditions:
 (assert (< s t))
 (assert (< x t))
+(assert (> s 0))
 (assert (> t x))
+(assert (> x 0))
 (assert (bvule symconst_1 (bvsub (bvshl (int_to_pbv t 1) (pzero_extend (- t x) (int_to_pbv x x))) (int_to_pbv t 1))))
 
 ; assert lhs != rhs:

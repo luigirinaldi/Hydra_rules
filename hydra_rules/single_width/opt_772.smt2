@@ -22,6 +22,7 @@
 (declare-fun symconst_3 () (_ BitVec r))
 
 ; Preconditions:
+(assert (> r 0))
 (assert (= (bvand newvar0 symDF_K0) (int_to_pbv r 0)))
 (assert (= (bvand symDF_K0 symconst_3) symconst_3))
 

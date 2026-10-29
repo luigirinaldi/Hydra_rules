@@ -34,6 +34,7 @@
 (declare-fun symconst_1 () (_ BitVec s))
 
 ; Preconditions:
+(assert (> s 0))
 (assert (= (bvand newvar0 symDF_K0) (int_to_pbv s 0)))
 (assert (= (bvand symconst_1 symDF_K1) symDF_K1))
 (assert (= (bvnot (int_to_pbv s 0)) (bvor (bvor symDF_K0 symDF_K1) (bvxor (bvnot (int_to_pbv s 0)) symDF_DB))))

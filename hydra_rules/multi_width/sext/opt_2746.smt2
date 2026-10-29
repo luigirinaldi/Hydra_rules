@@ -15,6 +15,7 @@
 
 ; Preconditions:
 (assert (< p q))
+(assert (> p 0))
 (assert (> q p))
 
 ; assert lhs != rhs:

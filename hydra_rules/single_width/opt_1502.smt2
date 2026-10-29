@@ -13,6 +13,9 @@
 (declare-fun newvar0 () Bool)
 (declare-fun symconst_1 () (_ BitVec q))
 
+; Preconditions:
+(assert (> q 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (ite newvar0 symconst_1 symconst_1)

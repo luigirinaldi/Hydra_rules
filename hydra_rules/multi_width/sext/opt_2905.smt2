@@ -26,6 +26,7 @@
 (assert (< u r))
 (assert (> r u))
 (assert (> r u))
+(assert (> u 0))
 (assert (bvsle (int_to_pbv r 0) (bvand (bvxor (bvadd symconst_1 (psign_extend (- r u) v0)) symconst_2) (bvxor (bvadd symconst_1 (psign_extend (- r u) v0)) (bvsub (bvadd symconst_1 (psign_extend (- r u) v0)) symconst_2)))))
 
 ; assert lhs != rhs:

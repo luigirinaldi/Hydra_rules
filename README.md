@@ -11,6 +11,10 @@ Translation from the `gen.cpp` file to testcases occurs as follows:
       widths are all `i1` is then not parametric, and is skipped
     - For every operation that changes the width (ext and trunc) introduce symbolic constraints on the widths
         - a zext can only happen if the result width is strictly (not sure if the condition is strict?) larger than the original width
+    - Every width is at least 1 (Souper has no `i0`): a width that no other condition bounds from
+      below gets `w > 0`. At width 0 the only value is 0, so the constant `1` is `0` and a `trunc` to
+      it drops every bit: rules such as opt_2318, opt_2482, opt_2593, opt_3272 and opt_3315 are false
+      there
     - For every binary operand introduce an equality constraint between the two width operators
     - For `select` conditions enforce the resulting bitwidth to be `1`
     - Apply symbolic constraints
@@ -63,11 +67,15 @@ are skipped as non-parametric.
 
 ## Manual fixes
 
-The generalisation does not know which widths must stay equal to each other, or concrete, so a few
-rules come out false at most widths: their counterexamples are genuine. `MANUAL_FIXES` in
-`extract_rules.py` patches their generated SMT-LIB (each patch must apply exactly once, so a change
-to the extraction that moves them fails loudly). With the patches, each holds at every width and is
-still parametric:
+`MANUAL_FIXES` in `extract_rules.py` patches the generated SMT-LIB of a few rules that come out
+false (each patch must apply exactly once, so a change to the extraction that moves them fails
+loudly). With the patches, each holds at every width and is still parametric. They are of two kinds.
+
+### Quirks of this translation
+
+The generalisation does not know which widths must stay equal to each other, or concrete, so these
+rules come out false at most widths. The rules themselves are fine: the translation picks the wrong
+widths for them. (Width 0 is the same kind of quirk, handled for every rule by `w > 0`, above.)
 
 - opt_2784, `trunc((v3 & 0xFFFFFFFF)) => trunc(v3)`: the constant 0xFFFFFFFF ((2^32)-1) is stored
   in a 64-bit variable because it masks the bits the trunc to i32 keeps. Kept as a constant, it only
@@ -75,6 +83,20 @@ still parametric:
   `(pzero_extend (- q s) (bvnot (int_to_pbv s 0)))`.
 - opt_3998: its `trunc` goes back to `newvar0`'s width (i8 to i8), but gets a fresh width `v` that
   only has to be smaller than the `zext`'s; it is `newvar0`'s: `(assert (= v q))`.
+
+### Bugs in Hydra
+
+These rules are false as Hydra generalises them, at a width LLVM has: applied there, they would
+miscompile. Souper's rule is correct at its own width; the bug is Hydra's claim that it holds at
+the other widths, not a quirk of this translation, whose query states the rule faithfully.
+
+- opt_3682, `(newvar0 -nsw 1) <s v3 => newvar0 <=s v3` (Souper: i32): false at width 1 (`i1`),
+  where the constant 1 is -1 as a signed value, so `newvar0 -nsw 1` is `newvar0 + 1`. The `nsw`
+  precondition does not exclude it: `newvar0 = -1`, `v3 = 0` satisfy it (`-1 - (-1) = 0`), and then
+  `0 <s 0` is false but `-1 <=s 0` is true. The constant 1 keeps its value from width 2:
+  `(assert (>= q 2))` replaces `(assert (> q 0))`, with the explanation as `; Note:` comments in
+  the query. `unsound/opt_3682.lean` checks the counterexample at width 1 with `bv_decide`
+  (`lean unsound/opt_3682.lean`, with Lean v4.35.0-rc1).
 
 ## Type-check errors
 

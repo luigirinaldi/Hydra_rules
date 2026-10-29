@@ -1,6 +1,7 @@
 {
   "preconditions": [
-    "(> q s)"
+    "(> q s)",
+    "(> s 0)"
   ],
   "lhs": "(bw s (bw q (and (bw q 4294967295) (bw q v3))))",
   "rhs": "(bw s (bw q v3))",

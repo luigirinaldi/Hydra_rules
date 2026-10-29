@@ -23,6 +23,7 @@
 (declare-fun v0 () (_ BitVec q))
 
 ; Preconditions:
+(assert (> q 0))
 (assert (= (bvand v0 symDF_K0) (int_to_pbv q 0)))
 (assert (= symconst_2 (bvxor (bvnot (int_to_pbv q 0)) symDF_K0)))
 

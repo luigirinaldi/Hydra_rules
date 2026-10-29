@@ -23,6 +23,7 @@
 (declare-fun v1 () (_ BitVec q))
 
 ; Preconditions:
+(assert (> q 0))
 (assert (= symconst_2 (bvmul (int_to_pbv q 2) symconst_1)))
 
 ; assert lhs != rhs:

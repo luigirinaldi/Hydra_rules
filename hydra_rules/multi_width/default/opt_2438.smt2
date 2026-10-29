@@ -21,6 +21,7 @@
 ; Preconditions:
 (assert (< r t))
 (assert (< r t))
+(assert (> r 0))
 (assert (> t r))
 
 ; assert lhs != rhs:

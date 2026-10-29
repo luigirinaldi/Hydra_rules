@@ -16,6 +16,9 @@
 (declare-fun newvar0 () (_ BitVec t))
 (declare-fun symconst_3 () (_ BitVec t))
 
+; Preconditions:
+(assert (> t 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (ite (distinct (int_to_pbv t 0) (bvand (int_to_pbv t 1) newvar0)) symconst_3 (int_to_pbv t 0))

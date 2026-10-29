@@ -32,6 +32,7 @@
 (assert (< 1 r))
 (assert (> r v))
 (assert (> r v))
+(assert (> v 0))
 (assert (= symconst_1 (bvxor symconst_2 (psign_extend (- r 1) (ite true (_ bv1 1) (_ bv0 1))))))
 
 ; assert lhs != rhs:

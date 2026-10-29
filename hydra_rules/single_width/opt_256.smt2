@@ -14,6 +14,9 @@
 (declare-fun v0 () (_ BitVec q))
 (declare-fun v1 () (_ BitVec q))
 
+; Preconditions:
+(assert (> q 0))
+
 ; assert lhs != rhs:
 (assert (distinct 
     (bvsub v1 (bvsub v1 v0))
